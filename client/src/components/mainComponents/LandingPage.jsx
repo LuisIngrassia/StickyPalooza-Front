@@ -1,10 +1,13 @@
 import React from "react";
+import NavBar from "./NavBar";
 
-
-export default function Landing() {
+export default function LandingPAge() {
     return (
         <div>
-            <h1 className="text-red-500">Hola</h1>
+            <NavBar />
+            <main>
+                
+            </main>
         </div>
     )
 }
