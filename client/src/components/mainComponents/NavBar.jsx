@@ -15,7 +15,7 @@ export default function NavBar() {
   }
 
   return (
-    <header className="bg-white">
+    <header className="bg-slate-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
@@ -52,7 +52,7 @@ export default function NavBar() {
                       </Link>
                     </div>
                   </div>
-                  <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-slate-100">
                     <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                       <svgs.SeriesIcon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"/>
                     </div>
@@ -102,10 +102,10 @@ export default function NavBar() {
           </div>
           <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Tamaños</Link>
           <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Promos</Link>
-          <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Contactos</Link>
+          <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Contacto</Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></Link>
+          <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></Link>
         </div>
       </nav>
       {/* Menú móvil */}
