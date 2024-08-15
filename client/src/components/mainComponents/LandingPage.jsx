@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./NavBar";
-
+import Footer from "./Footer";
 export default function LandingPAge() {
     return (
         <div>
@@ -8,6 +8,7 @@ export default function LandingPAge() {
             <main>
                 
             </main>
+            <Footer/>
         </div>
     )
 }
