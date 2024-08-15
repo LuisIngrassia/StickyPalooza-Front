@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 export default function LandingPAge() {
     return (
         <div>
-            <NavBar />
+            <NavBar/>
             <main>
                 
             </main>
