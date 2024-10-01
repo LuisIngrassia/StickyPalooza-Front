@@ -1,13 +1,10 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 
-//import "./App.css";
 import "./index.css";
 
-import LandingPage from "./assets/mainComponents/LandingPage";
-import LandingPage from "./assets/userComponents/Login";
-import LandingPage from "./assets/userComponents/Register";
+import LandingPage from "./views/landingPage/LandingPage";
+import LandingPage from "./views/user/Login";
+import LandingPage from "./views/user/Register";
 
 function App() {
   const [count, setCount] = useState(0);
