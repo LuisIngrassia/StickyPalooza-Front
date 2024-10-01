@@ -21,7 +21,9 @@ const Signup = () => {
         role: 'USER',
       });
 
-      console.log(response.data); 
+      const { accessToken } = response.data;
+
+      localStorage.setItem("token", accessToken);
 
       navigate("/main");
     } catch (err) {

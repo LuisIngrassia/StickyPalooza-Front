@@ -18,7 +18,6 @@ const Login = () => {
 
       const { accessToken } = response.data;
 
-      // Save the access token (e.g., to localStorage or cookies)
       localStorage.setItem("token", accessToken);
 
       // Navigate to a protected route after login
