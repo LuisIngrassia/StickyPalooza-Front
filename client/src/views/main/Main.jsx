@@ -1,33 +1,13 @@
 import React from "react";
+import NavBar from '../../components/NavBar'
+import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
+
 
 const MainPage = () => {
   return (
     <div className="flex flex-col min-h-[100dvh] bg-gray-100">
-      <header className="bg-black text-white py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-3xl font-bold">E-Shop</h1>
-          <nav>
-            <ul className="flex space-x-4">
-              <li>
-                {/* <Link to="/products" className="hover:underline">
-                  Productos
-                </Link> */}
-              </li>
-              <li>
-                {/* <Link to="/cart" className="hover:underline">
-                  Carrito
-                </Link> */}
-              </li>
-              <li>
-                {/* <Link to="/profile" className="hover:underline">
-                  Perfil
-                </Link> */}
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <NavBar />
 
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
@@ -55,12 +35,9 @@ const MainPage = () => {
           </div> */}
         </div>
       </main>
-
-      <footer className="bg-black text-white py-4">
-        <div className="container mx-auto px-4 text-center">
-          <p>&copy; placeholder footer</p>
-        </div>
-      </footer>
+    
+      <Footer/>
+      
     </div>
   );
 };
