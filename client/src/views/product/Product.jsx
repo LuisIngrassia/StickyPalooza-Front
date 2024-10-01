@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api'; // The Axios instance
+import api from '../api';
 import ProductForm from './ProductForm';
 
 const Product = () => {
