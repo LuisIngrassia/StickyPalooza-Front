@@ -2,12 +2,12 @@ import { useState } from "react";
 
 import "./index.css";
 
-import LandingPage from "./views/landingPage/LandingPage";
+import LandingPage from "./views/main/LandingPage";
 import LandingPage from "./views/user/Login";
 import LandingPage from "./views/user/Register";
+import MainPage from "./views/main/Main";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <Route>
@@ -16,6 +16,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path='/main' element={<MainPage />} />
         </Routes>
       </div>
     </Route>
