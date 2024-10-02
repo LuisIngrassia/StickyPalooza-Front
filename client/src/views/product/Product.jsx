@@ -27,7 +27,7 @@ const Product = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await api.get(`/products/search`, {
+      const response = await api.get('/products/search', {
         params: { name: searchTerm },
       });
       setProducts(response.data);

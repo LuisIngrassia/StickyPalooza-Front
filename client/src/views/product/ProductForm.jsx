@@ -8,7 +8,7 @@ const ProductForm = ({ product, onSave }) => {
     price: '',
     stockQuantity: '',
     categoryId: '',
-    image: '',
+    image: null, // Change to null initially
   });
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ProductForm = ({ product, onSave }) => {
         price: product.price || '',
         stockQuantity: product.stockQuantity || '',
         categoryId: product.categoryId || '',
-        image: product.image || '',
+        image: null, // Reset image on edit
       });
     }
   }, [product]);
@@ -41,15 +41,25 @@ const ProductForm = ({ product, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const productData = new FormData(); // Use FormData for the request
+
+    // Append each field to FormData
+    Object.keys(formData).forEach((key) => {
+      productData.append(key, formData[key]);
+    });
 
     try {
       let response;
       if (product) {
-        response = await api.put(`/products/update/${product.id}`, formData);
+        // Use PUT for updating
+        response = await api.put(`/products/update/${product.id}`, productData);
       } else {
-        response = await api.post('/products', formData);
+        // Use POST for creating new product
+        response = await api.post('/products', productData);
       }
 
+      // Handle image upload separately if necessary
       if (formData.image) {
         const imageData = new FormData();
         imageData.append('image', formData.image);
@@ -60,7 +70,7 @@ const ProductForm = ({ product, onSave }) => {
         });
       }
 
-      onSave(); 
+      onSave();
     } catch (error) {
       console.error('Error saving product:', error);
     }
