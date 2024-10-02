@@ -13,7 +13,7 @@ const MainPage = () => {
         <div className="container mx-auto px-4 py-12 text-center">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">sticky </h2>
           <p className="text-gray-600 mb-8">kys</p>
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             <Link
               to="/products"
               className="block bg-blue-500 hover:bg-blue-600 text-white py-4 px-8 rounded-md"
@@ -32,7 +32,7 @@ const MainPage = () => {
             >
               Tu Perfil
             </Link>
-          </div> */}
+          </div>
         </div>
       </main>
     
