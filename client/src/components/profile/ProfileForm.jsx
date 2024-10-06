@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/Api.js';
+import { useProfileLogic } from './ProfileLogic.jsx';
 
 const ProfileForm = ({ user, onSave }) => {
   const [formData, setFormData] = useState({
@@ -8,6 +8,7 @@ const ProfileForm = ({ user, onSave }) => {
     bio: '',
     profilePic: null,
   });
+  const { updateUserProfile } = useProfileLogic();
 
   useEffect(() => {
     if (user) {
@@ -37,29 +38,7 @@ const ProfileForm = ({ user, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Update user data
-      await api.put('/user/profile', {
-        name: formData.name,
-        email: formData.email,
-        bio: formData.bio,
-      });
-
-      // If a new profile picture is provided, upload it
-      if (formData.profilePic) {
-        const imageData = new FormData();
-        imageData.append('profilePic', formData.profilePic);
-        await api.post('/user/profile/picture', imageData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-      }
-
-      onSave(); // Call to refresh user data in parent component
-    } catch (error) {
-      console.error('Error updating user profile:', error);
-    }
+    await updateUserProfile(formData, formData.profilePic, onSave);
   };
 
   return (

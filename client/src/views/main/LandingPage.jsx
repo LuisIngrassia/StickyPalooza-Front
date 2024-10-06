@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link for navigation
-import NavBar from "../../components/NavBar";
-import Footer from "../../components/Footer";
 
-export default function LandingPage() {
+const LandingPage = ()  => {
   return (
     <div>
       <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -25,3 +23,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+export default LandingPage;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as svgs from "../assets/icons/exports";
+import * as svgs from "../../assets/icons/exports";
 import { Link } from "react-router-dom";
 
 export default function NavBar() {

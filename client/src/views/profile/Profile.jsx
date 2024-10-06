@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import api from '../../api/Api.js';
-import ProfileForm from './ProfileForm.jsx';
+import React, { useState } from 'react';
+import { useProfileLogic } from '../../components/profile/ProfileLogic.jsx';
+import ProfileForm from '../../components/profile/ProfileForm.jsx';
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const { user, fetchUserProfile } = useProfileLogic();
   const placeholderImage = "https://via.placeholder.com/150"; // Placeholder image URL
-  const [editing, setEditing] = useState(false); // State to toggle edit mode
-
-  const fetchUserProfile = async () => {
-    try {
-      const response = await api.get('/user/profile'); // Adjust endpoint if needed
-      setUser(response.data);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  };
+  const [editing, setEditing] = useState(false);
 
   const handleSave = () => {
     fetchUserProfile(); // Refresh user profile after saving
     setEditing(false); // Exit editing mode
   };
-
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
 
   return (
     <div style={{ textAlign: 'center', margin: '20px' }}>
@@ -31,7 +18,7 @@ const Profile = () => {
       {user ? (
         <div>
           <img
-            src={user.profilePic || placeholderImage} // Use placeholder if no profile pic
+            src={user.profilePic || placeholderImage}
             alt="Profile"
             style={{ width: '150px', height: '150px', borderRadius: '50%' }}
           />
@@ -51,4 +38,3 @@ const Profile = () => {
 };
 
 export default Profile;
- 

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/Api.js';
+import { useOrderLogic } from '../components/OrderLogic';
 
 const OrderForm = ({ order, onSave }) => {
   const [formData, setFormData] = useState({
     cartId: '',
     totalAmount: '',
   });
+  const { saveOrder } = useOrderLogic();
 
   useEffect(() => {
     if (order) {
@@ -26,20 +27,8 @@ const OrderForm = ({ order, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try {
-      let response;
-      if (order) {
-        // PUT request to update order
-        response = await api.put(`/orders/${order.id}`, formData);
-      } else {
-        // POST request to create new order
-        response = await api.post('/orders', formData);
-      }
-      onSave();
-    } catch (error) {
-      console.error('Error saving order:', error);
-    }
+    await saveOrder(order, formData);
+    onSave();
   };
 
   return (

@@ -1,53 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import api from '../../api/Api.js';
-import ProductForm from './ProductForm';
+import React from 'react';
+import { useProductLogic } from '../../components/product/ProductLogic';
+import ProductForm from '../../components/product/ProductForm';
 
 const Product = () => {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [editingProduct, setEditingProduct] = useState(null);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await api.get('/products');
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(`/products/${id}`);
-      fetchProducts(); 
-    } catch (error) {
-      console.error('Error deleting product:', error);
-    }
-  };
-
-  const handleSearch = async () => {
-    try {
-      const response = await api.get('/products/search', {
-        params: { name: searchTerm },
-      });
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error searching products:', error);
-    }
-  };
-
-  const handleEdit = (product) => {
-    setEditingProduct(product);
-  };
-
-  const handleSave = () => {
-    setEditingProduct(null);
-    fetchProducts();
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const {
+    products,
+    searchTerm,
+    setSearchTerm,
+    editingProduct,
+    handleDelete,
+    handleSearch,
+    handleEdit,
+    handleSave
+  } = useProductLogic();
 
   return (
     <div>

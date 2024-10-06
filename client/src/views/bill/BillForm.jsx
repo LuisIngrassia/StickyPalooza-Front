@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/Api.js';
+import { useBillLogic } from '../../components/bill/BillLogic.jsx';
 
 const BillForm = ({ bill, onSave }) => {
   const [formData, setFormData] = useState({
@@ -7,6 +7,7 @@ const BillForm = ({ bill, onSave }) => {
     totalAmount: '',
     paymentMethod: '',
   });
+  const { saveBill } = useBillLogic();
 
   useEffect(() => {
     if (bill) {
@@ -28,20 +29,8 @@ const BillForm = ({ bill, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try {
-      let response;
-      if (bill) {
-        // PUT request to update bill
-        response = await api.put(`/bills/${bill.id}`, formData);
-      } else {
-        // POST request to create new bill
-        response = await api.post('/bills', formData);
-      }
-      onSave();
-    } catch (error) {
-      console.error('Error saving bill:', error);
-    }
+    await saveBill(bill, formData);
+    onSave();
   };
 
   return (

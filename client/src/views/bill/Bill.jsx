@@ -1,34 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import api from '../../api/Api.js';
+import React from 'react';
+import { useBillLogic } from '../../components/bill/BillLogic';
 
 const Bill = () => {
-  const [bills, setBills] = useState([]);
-  const [orderId, setOrderId] = useState(''); // Will link to an order to generate a bill
-  const [paymentMethod, setPaymentMethod] = useState('');
-
-  const fetchBills = async () => {
-    try {
-      const response = await api.get('/bills');
-      setBills(response.data);
-    } catch (error) {
-      console.error('Error fetching bills:', error);
-    }
-  };
-
-  const convertOrderToBill = async () => {
-    try {
-      const response = await api.post(`/bills/convertOrderToBill/${orderId}`, {
-        paymentMethod,
-      });
-      setBills((prevBills) => [...prevBills, response.data]);
-    } catch (error) {
-      console.error('Error creating bill:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBills();
-  }, []);
+  const {
+    bills,
+    orderId,
+    paymentMethod,
+    setOrderId,
+    setPaymentMethod,
+    convertOrderToBill,
+  } = useBillLogic();
 
   return (
     <div>
