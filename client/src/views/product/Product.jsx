@@ -34,8 +34,12 @@ const Product = () => {
           <li key={product.id}>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
-            <p>Precio: ${product.price}</p>
+            <p>Price: ${product.price}</p>
             <p>Stock: {product.stockQuantity}</p>
+            <p>Category ID: {product.categoryId}</p>
+            {product.image && (
+              <img src={product.image} alt={product.name} width="100" />
+            )}
             <button onClick={() => handleEdit(product)}>Edit</button>
             <button onClick={() => handleDelete(product.id)}>Delete</button>
           </li>

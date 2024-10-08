@@ -1,4 +1,3 @@
-// components/ProductFormLogic.jsx
 import { useState, useEffect } from 'react';
 import api from '../../api/Api';
 
@@ -12,7 +11,6 @@ export const useProductFormLogic = (product, onSave) => {
     image: null,
   });
 
-  // Fetch the token from localStorage
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -57,14 +55,14 @@ export const useProductFormLogic = (product, onSave) => {
         // Update existing product
         response = await api.put(`/products/update/${product.id}`, productData, {
           headers: {
-            Authorization: `Bearer ${token}`, // Include token in headers
+            Authorization: `Bearer ${token}`,
           },
         });
       } else {
         // Create a new product
         response = await api.post('/products', productData, {
           headers: {
-            Authorization: `Bearer ${token}`, // Include token in headers
+            Authorization: `Bearer ${token}`,
           },
         });
       }
@@ -75,7 +73,7 @@ export const useProductFormLogic = (product, onSave) => {
         imageData.append('image', formData.image);
         await api.post(`/products/${response.data.id}/image`, imageData, {
           headers: {
-            Authorization: `Bearer ${token}`, // Include token for image upload
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         });

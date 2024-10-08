@@ -7,7 +7,7 @@ const ProductForm = ({ product, onSave }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Nombre:</label>
+        <label>Name:</label>
         <input
           type="text"
           name="name"
@@ -17,7 +17,7 @@ const ProductForm = ({ product, onSave }) => {
         />
       </div>
       <div>
-        <label>Descripcion:</label>
+        <label>Description:</label>
         <textarea
           name="description"
           value={formData.description}
@@ -35,7 +35,7 @@ const ProductForm = ({ product, onSave }) => {
         />
       </div>
       <div>
-        <label>Cantidad Stock:</label>
+        <label>Stock Quantity:</label>
         <input
           type="number"
           name="stockQuantity"
@@ -45,7 +45,7 @@ const ProductForm = ({ product, onSave }) => {
         />
       </div>
       <div>
-        <label>ID Categoria:</label>
+        <label>Category ID:</label>
         <input
           type="text"
           name="categoryId"
@@ -55,7 +55,7 @@ const ProductForm = ({ product, onSave }) => {
         />
       </div>
       <div>
-        <label>Imagen:</label>
+        <label>Image:</label>
         <input type="file" name="image" onChange={handleFileChange} />
       </div>
       <button type="submit">{product ? 'Update' : 'Create'} Product</button>

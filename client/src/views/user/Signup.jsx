@@ -20,17 +20,26 @@ const Signup = () => {
         password,
         role: 'USER',
       });
+  
+      console.log("Response:", response);  // Debug the response
+  
+      const { access_token } = response.data;
 
-      const { accessToken } = response.data;
-
-      localStorage.setItem("token", accessToken);
-
+  
+      if (!access_token) {
+        throw new Error("No access token returned from the server.");
+      }
+  
+      localStorage.setItem("token", access_token);
+  
       navigate("/main");
     } catch (err) {
-      console.error(err);
+      console.error("Signup error:", err);  // Debug the error
       setError("Failed to register. Please try again.");
     }
   };
+  
+  
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-black">
