@@ -46,44 +46,41 @@ export const useProductFormLogic = (product, onSave) => {
     
     const productData = new FormData();
     Object.keys(formData).forEach((key) => {
-      productData.append(key, formData[key]);
+        productData.append(key, formData[key]);
     });
 
     try {
-      let response;
-      if (product) {
-        // Update existing product
-        response = await api.put(`/products/update/${product.id}`, productData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      } else {
-        // Create a new product
-        response = await api.post('/products', productData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      }
+        let response;
+        if (product) {
+            response = await api.put(`/products/update/${product.id}`, productData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        } else {
+            response = await api.post('/products', productData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        }
 
-      // If there's an image, upload it separately
-      if (formData.image) {
-        const imageData = new FormData();
-        imageData.append('image', formData.image);
-        await api.post(`/products/${response.data.id}/image`, imageData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-      }
+        if (formData.image) {
+            const imageData = new FormData();
+            imageData.append('image', formData.image);
+            await api.post(`/products/${response.data.id}/image`, imageData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        }
 
-      onSave();
+        onSave();
     } catch (error) {
-      console.error('Error saving product:', error);
+        console.error('Error saving product:', error);
     }
-  };
+};
+
 
   return {
     formData,
