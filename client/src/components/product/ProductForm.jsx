@@ -2,10 +2,10 @@ import React from 'react';
 import { useProductFormLogic } from './ProductFormLogic';
 
 const ProductForm = ({ product, onSave }) => {
-  const { formData, handleChange, handleFileChange, handleSubmit } = useProductFormLogic(product, onSave);
+  const { formData, handleChange, handleFileChange, handleSubmit, imagePreview } = useProductFormLogic(product, onSave);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div>
         <label>Name:</label>
         <input
@@ -47,7 +47,7 @@ const ProductForm = ({ product, onSave }) => {
       <div>
         <label>Category ID:</label>
         <input
-          type="text"
+          type="number"  // Changed to number to ensure valid input
           name="categoryId"
           value={formData.categoryId}
           onChange={handleChange}
@@ -57,8 +57,13 @@ const ProductForm = ({ product, onSave }) => {
       <div>
         <label>Image:</label>
         <input type="file" name="image" onChange={handleFileChange} />
+        {imagePreview && (
+          <div>
+            <img src={imagePreview} alt="Image Preview" className="w-24 h-24 object-cover rounded-md shadow-md mt-4" />
+          </div>
+        )}
       </div>
-      <button type="submit">{product ? 'Update' : 'Create'} Product</button>
+      <button type="submit">{product && product.id ? 'Update' : 'Create'} Product</button>
     </form>
   );
 };

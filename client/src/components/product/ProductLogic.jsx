@@ -52,6 +52,10 @@ export const useProductLogic = () => {
     setEditingProduct(product);
   };
 
+  const handleCreate = () => {
+    setEditingProduct(null); // Reset for creating a new product
+  };
+
   const handleSave = () => {
     setEditingProduct(null);
     fetchProducts();
@@ -66,9 +70,11 @@ export const useProductLogic = () => {
     searchTerm,
     setSearchTerm,
     editingProduct,
+    setEditingProduct,
     handleDelete,
     handleSearch,
     handleEdit,
+    handleCreate, // Return handleCreate
     handleSave
   };
 };

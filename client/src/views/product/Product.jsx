@@ -11,7 +11,8 @@ const Product = () => {
     handleDelete,
     handleSearch,
     handleEdit,
-    handleSave
+    handleSave,
+    handleCreate, // Add this line
   } = useProductLogic();
 
   return (
@@ -35,6 +36,14 @@ const Product = () => {
             Search
           </button>
         </div>
+
+        {/* Create Product Button */}
+        <button
+          onClick={handleCreate} // Call handleCreate on button click
+          className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
+        >
+          Create Product
+        </button>
 
         {/* Product Form */}
         {editingProduct && (
