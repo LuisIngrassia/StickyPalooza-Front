@@ -1,31 +1,61 @@
-import React, { useState } from 'react';
-import { useCartLogic } from '../../components/cart/CartLogic';
+import React, { useEffect } from 'react';
+import { useCartLogic } from '../../components/cart/CartLogic'; 
 
 const Cart = () => {
-  const userId = 1; // Assuming logged-in user's ID is 1 for demo purposes
-  const { cart, setCartId, handleDeleteCart } = useCartLogic(userId);
+  const {
+    cart,
+    loading,
+    error,
+    fetchCart,
+    addToCart,
+    handleDeleteCart,
+    setCartId,
+  } = useCartLogic();
+
+  useEffect(() => {
+    const storedCartId = localStorage.getItem('cartId');
+    if (storedCartId) {
+      setCartId(storedCartId);
+    } else {
+      fetchCart(); 
+    }
+  }, [setCartId, fetchCart]);
+
+  const handleAddToCart = (productId, quantity) => {
+    addToCart(productId, quantity);
+  };
+
+  const handleDeleteCartClick = () => {
+    handleDeleteCart();
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <div>
-      <h1>Shopping Cart</h1>
-      <input
-        type="text"
-        placeholder="Enter Cart ID"
-        onChange={(e) => setCartId(e.target.value)}
-      />
+    <div className="cart">
+      <h2>Your Cart</h2>
       {cart ? (
         <div>
           <ul>
-            {Object.keys(cart.productQuantities).map((productId) => (
-              <li key={productId}>
-                Product ID: {productId} - Quantity: {cart.productQuantities[productId]}
+            {cart.products.map((product) => (
+              <li key={product.id}>
+                <span>{product.name}</span>
+                <span>Quantity: {product.quantity}</span>
               </li>
             ))}
           </ul>
-          <button onClick={handleDeleteCart}>Delete Cart</button>
+          <button onClick={handleDeleteCartClick} className="delete-cart-btn">
+            Delete Cart
+          </button>
         </div>
       ) : (
-        <p>No cart available.</p>
+        <div>No items in your cart.</div>
       )}
     </div>
   );

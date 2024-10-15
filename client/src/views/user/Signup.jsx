@@ -20,44 +20,42 @@ const Signup = () => {
         password,
         role: 'USER',
       });
-  
-      console.log("Response:", response);  // Debug the response
-  
-      const { access_token } = response.data;
 
-  
-      if (!access_token) {
-        throw new Error("No access token returned from the server.");
+      console.log("Response:", response.data);
+
+      const { userId, access_token} = response.data;
+
+      if (!access_token || !userId) {
+        throw new Error("Missing access token or userid.");
       }
-  
+
       localStorage.setItem("token", access_token);
-  
+      localStorage.setItem("userId", userId);
+
       navigate("/main");
     } catch (err) {
-      console.error("Signup error:", err);  // Debug the error
+      console.error("Signup error:", err);
       setError("Failed to register. Please try again.");
     }
   };
-  
-  
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-black">
       <div className="mx-auto max-w-[400px] space-y-6 mt-12">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold text-white">Registrarse</h1>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500">
             Crea tu cuenta para empezar
           </p>
         </div>
         <div>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <label className="text-sm font-medium leading-none text-white" htmlFor="email">
+              <label className="text-sm font-medium text-white" htmlFor="email">
                 Email
               </label>
               <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
                 type="email"
                 name="email"
                 placeholder="usuario@gmail.com"
@@ -68,11 +66,9 @@ const Signup = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium leading-none text-white">
-                Contraseña
-              </label>
+              <label className="text-sm font-medium text-white">Contraseña</label>
               <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
                 type="password"
                 name="password"
                 placeholder="********"
@@ -83,11 +79,9 @@ const Signup = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium leading-none text-white">
-                Nombre
-              </label>
+              <label className="text-sm font-medium text-white">Nombre</label>
               <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
                 type="text"
                 name="firstname"
                 placeholder="Martin"
@@ -98,11 +92,9 @@ const Signup = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium leading-none text-white">
-                Apellido
-              </label>
+              <label className="text-sm font-medium text-white">Apellido</label>
               <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
                 type="text"
                 name="lastname"
                 placeholder="Rodriguez"
@@ -114,14 +106,12 @@ const Signup = () => {
 
             {error && <p className="text-red-500">{error}</p>}
 
-            <div className="space-y-2">
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center text-white bg-primary rounded-md h-10 px-4 py-2 w-full hover:bg-violet-700 transition-colors"
-              >
-                Registrarse
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="flex items-center justify-center rounded-md bg-primary text-white h-10 w-full"
+            >
+              Registrarse
+            </button>
           </form>
           <div className="mt-4 text-center text-white text-sm">
             ¿Ya tienes una cuenta?{" "}

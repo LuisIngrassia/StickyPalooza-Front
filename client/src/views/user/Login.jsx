@@ -6,7 +6,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,24 +15,24 @@ const Login = () => {
         email,
         password,
       });
-  
-      console.log("Response:", response);  // Debug the response
-  
-      const { access_token } = response.data;
-  
-      if (!access_token) {
-        throw new Error("No access token returned from the server.");
+
+      console.log("Response:", response);
+
+      const { userId, access_token  } = response.data;
+
+      if (!access_token || !userid) {
+        throw new Error("Missing access token or userid.");
       }
-  
+
       localStorage.setItem("token", access_token);
-  
+      localStorage.setItem("userId", userId);
+
       navigate("/main");
     } catch (err) {
-      console.error("Login error:", err);  // Debug the error
+      console.error("Login error:", err);
       setError("Failed to log in. Please check your credentials.");
     }
   };
-  
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-black">
@@ -44,14 +44,11 @@ const Login = () => {
         <div>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <label
-                className="text-sm font-medium leading-none text-white peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                htmlFor="email"
-              >
+              <label className="text-sm font-medium text-white" htmlFor="email">
                 Email
               </label>
               <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
                 type="email"
                 name="email"
                 placeholder="usuario@gmail.com"
@@ -61,11 +58,9 @@ const Login = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium leading-none text-white peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Contraseña
-              </label>
+              <label className="text-sm font-medium text-white">Contraseña</label>
               <input
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
                 type="password"
                 name="password"
                 placeholder="********"
@@ -78,7 +73,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="flex items-center justify-center whitespace-nowrap rounded-md text-sm text-white font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-violet-700 h-10 px-4 py-2 w-full"
+              className="flex items-center justify-center rounded-md bg-primary text-white h-10 w-full"
             >
               Iniciar Sesión
             </button>
