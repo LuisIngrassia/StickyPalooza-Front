@@ -20,7 +20,7 @@ const Login = () => {
 
       const { userId, access_token  } = response.data;
 
-      if (!access_token || !userid) {
+      if (!access_token || !userId) {
         throw new Error("Missing access token or userid.");
       }
 

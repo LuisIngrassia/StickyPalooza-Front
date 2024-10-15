@@ -4,8 +4,8 @@ import Footer from "../../components/general/Footer";
 import { Link } from "react-router-dom";
 
 import rockImage from 'client/src/assets/images/musica/Redondos.jpg'; 
-import footballImage from 'client/src//assets/images/scaloneta/Messi.jpg'; 
-import seriesImage from 'client/src//assets/images/series/BrBd.jpg'; 
+import footballImage from 'client/src/assets/images/scaloneta/Messi.jpg'; 
+import seriesImage from 'client/src/assets/images/series/BrBd.jpg'; 
 
 const MainPage = () => {
   return (
@@ -15,7 +15,7 @@ const MainPage = () => {
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
           <h2 className="text-4xl font-bold text-gray-text-5xl font-bold text-sticker-yellow bg-white border-4 border-sticker-yellow shadow-lg p-2 rounded-lg inline-block transform rotate-[-5] hover:rotate-[5] hover:scale-105 transition-transform duration-300 animate-sticky mb-4">Sticky Palooza </h2>
-          <p className="text-gray-600 mb-8">¡Tu tienda favorita de stickers personalizados!</p>
+          <p className="text-gray-600 mb-8">¡Tu tienda favorita de stickers de mierda!</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             <Link
               to="/products"
