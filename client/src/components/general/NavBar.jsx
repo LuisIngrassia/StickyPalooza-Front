@@ -16,21 +16,25 @@ export default function NavBar() {
 
   return (
     <header className="bg-slate-50">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">StickyPalooza</span> 
-          </Link>
-        </div>
+      <nav className="flex justify-between items-center p-6 lg:px-8" aria-label="Global"> 
+      <div className="flex lg:basis-1/4 w-auto">
+          <Link to="/" className="-m-1.5 p-1"> 
+          <span className="text-5xl font-bold text-sticker-yellow bg-white border-4 border-sticker-yellow shadow-lg rounded-lg inline-block transform rotate-[-5] hover:rotate-[5] hover:scale-105 transition-transform duration-300 animate-sticky">
+          Sticky Palooza
+        </span> 
+      </Link>
+    </div>
+
+
         <div className="flex lg:hidden">
-          <button onClick={toggleMenu} type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <button onClick={toggleMenu} type="button" className="-m-2.5 inline-flex items-center justify-start rounded-md p-2.5 text-gray-700">
             <span className="sr-only">Abrir menu</span>
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-start lg:gap-x-12">
           <div className="relative">
             <button onClick={toggleMenu} type="button" className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded={isMenuOpen}>
               Stickers
@@ -104,16 +108,23 @@ export default function NavBar() {
           <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Promos</Link>
           <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Contacto</Link>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></Link>
+
+        <div className="hidden lg:flex lg:flex-none lg:items-center space-x-4">
+          <Link to="/login">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Login</button>
+          </Link>
+          <Link to="/signup">
+            <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Regístrate</button>
+          </Link>
         </div>
       </nav>
+      
       {/* Menú móvil */}
       {isMenuOpen && (
         <div className="lg:hidden" role="dialog" aria-modal="true">
           <div className="fixed inset-0 z-10"></div>
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               <Link to="" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
               </Link>
@@ -145,11 +156,10 @@ export default function NavBar() {
                     )}
                   </div>
                   <Link to="" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Tamaños</Link>
-                  <Link to="" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Promos</Link>
-                  <Link to="" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contacto</Link>
-                </div>
-                <div className="py-6">
+                  <div className="py-6">
                   <Link to="" className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</Link>
+                </div><Link to="" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Promos</Link>
+                  <Link to="" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contacto</Link>
                 </div>
               </div>
             </div>
