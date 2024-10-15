@@ -8,16 +8,33 @@ export const useProductLogic = () => {
 
   const token = localStorage.getItem('token');
 
-  const fetchProducts = async () => {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get('/products', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error?.response?.data || error.message);
+      }
+    };
+
+    fetchProducts();
+  }, [token]);
+
+  const handleSearch = async () => {
     try {
-      const response = await api.get('/products', {
+      const response = await api.get(`/products?search=${encodeURIComponent(searchTerm)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setProducts(response.data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error searching products:', error?.response?.data || error.message);
     }
   };
 
@@ -28,53 +45,43 @@ export const useProductLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchProducts(); 
+      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
     } catch (error) {
-      console.error('Error deleting product:', error);
-    }
-  };
-
-  const handleSearch = async () => {
-    try {
-      const response = await api.get('/products/search', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: { name: searchTerm },
-      });
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error searching products:', error);
+      console.error('Error deleting product:', error?.response?.data || error.message);
     }
   };
 
   const handleEdit = (product) => {
-    setEditingProduct(product);
+    setEditingProduct(product); // Set product for editing
   };
 
   const handleCreate = () => {
-    setEditingProduct(null); // Reset for creating a new product
+    setEditingProduct({}); // Set empty product for new creation
   };
 
-  const handleSave = () => {
-    setEditingProduct(null);
-    fetchProducts();
+  const handleSave = async () => {
+    try {
+      const response = await api.get('/products', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProducts(response.data);
+      setEditingProduct(null); // Close the form after saving
+    } catch (error) {
+      console.error('Error reloading products:', error?.response?.data || error.message);
+    }
   };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return {
     products,
     searchTerm,
     setSearchTerm,
     editingProduct,
-    setEditingProduct,
     handleDelete,
     handleSearch,
     handleEdit,
-    handleCreate, // Return handleCreate
-    handleSave
+    handleSave,
+    handleCreate,
   };
 };

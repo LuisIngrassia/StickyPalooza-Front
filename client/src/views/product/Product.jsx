@@ -1,6 +1,7 @@
 import React from 'react';
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
+import api from '../../api/Api';  // Import your Axios instance to get the baseURL
 
 const Product = () => {
   const {
@@ -12,7 +13,7 @@ const Product = () => {
     handleSearch,
     handleEdit,
     handleSave,
-    handleCreate, // Add this line
+    handleCreate, // Function for creating a new product
   } = useProductLogic();
 
   return (
@@ -39,13 +40,13 @@ const Product = () => {
 
         {/* Create Product Button */}
         <button
-          onClick={handleCreate} // Call handleCreate on button click
+          onClick={handleCreate} // This should trigger form reset and open it for new product
           className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
         >
           Create Product
         </button>
 
-        {/* Product Form */}
+        {/* Product Form (for both create and edit) */}
         {editingProduct && (
           <div className="mb-8 p-4 bg-white shadow-lg rounded-md">
             <ProductForm product={editingProduct} onSave={handleSave} />
@@ -62,8 +63,14 @@ const Product = () => {
                 <p className="text-gray-700 font-semibold">Price: ${product.price}</p>
                 <p className="text-gray-700">Stock: {product.stockQuantity}</p>
                 <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
+
                 {product.image && (
-                  <img src={product.image} alt={product.name} className="w-24 h-24 object-cover rounded-md shadow-md mt-4" />
+                  <img
+                    src={`${api.defaults.baseURL}${product.image}`} 
+                    alt={product.name}
+                    className="w-24 h-24 object-cover rounded-md shadow-md mt-4"
+                  />
+
                 )}
               </div>
 

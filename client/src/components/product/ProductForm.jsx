@@ -2,7 +2,7 @@ import React from 'react';
 import { useProductFormLogic } from './ProductFormLogic';
 
 const ProductForm = ({ product, onSave }) => {
-  const { formData, handleChange, handleFileChange, handleSubmit, imagePreview } = useProductFormLogic(product, onSave);
+  const { formData, handleChange, handleFileChange, handleSubmit, imagePreview, isSubmitting } = useProductFormLogic(product, onSave);
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -47,7 +47,7 @@ const ProductForm = ({ product, onSave }) => {
       <div>
         <label>Category ID:</label>
         <input
-          type="number"  // Changed to number to ensure valid input
+          type="number"
           name="categoryId"
           value={formData.categoryId}
           onChange={handleChange}
@@ -63,7 +63,11 @@ const ProductForm = ({ product, onSave }) => {
           </div>
         )}
       </div>
-      <button type="submit">{product && product.id ? 'Update' : 'Create'} Product</button>
+      <div>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : 'Save Product'}
+        </button>
+      </div>
     </form>
   );
 };
