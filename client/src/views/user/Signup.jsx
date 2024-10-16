@@ -13,12 +13,12 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/api/v1/auth/register/user", {
+      const response = await api.post("/api/v1/auth/register/admin", {
         firstname,
         lastname,
         email,
         password,
-        role: 'USER',
+        role: 'ADMIN',
       });
 
       console.log("Response:", response.data);
