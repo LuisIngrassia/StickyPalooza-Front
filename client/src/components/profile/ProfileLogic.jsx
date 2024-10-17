@@ -1,51 +1,63 @@
 import { useState, useEffect } from 'react';
-import api from '../../api/Api';
+import api from '../../api/Api'; 
 
 export const useProfileLogic = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [editing, setEditing] = useState(false);
+  
+  const userId = localStorage.getItem('userId');  
+  const token = localStorage.getItem('token');    
 
   const fetchUserProfile = async () => {
+    if (!userId) return;
+
+    setLoading(true);
+    setError(null);
+
     try {
-      const response = await api.get('/user/profile');
-      setUser(response.data);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
+      const response = await api.get(`/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data); // Use ShowUserDTO structure
+    } catch (err) {
+      console.error('Error fetching user profile:', err);
+      setError('Failed to fetch profile');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const updateUserProfile = async (formData, profilePic, onSave) => {
+  const updateUserProfile = async (updatedData) => {
+    if (!userId) return;
+
     try {
-      // Update basic user data
-      await api.put('/user/profile', {
-        name: formData.name,
-        email: formData.email,
-        bio: formData.bio,
+      await api.put(`/users/${userId}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json', 
+        },
       });
-
-      // If a new profile picture is provided, upload it
-      if (profilePic) {
-        const imageData = new FormData();
-        imageData.append('profilePic', profilePic);
-        await api.post('/user/profile/picture', imageData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-      }
-
-      // Refresh user profile
-      onSave();
-    } catch (error) {
-      console.error('Error updating user profile:', error);
+      fetchUserProfile();  
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      setError('Failed to update profile');
     }
   };
 
   useEffect(() => {
     fetchUserProfile();
-  }, []);
+  }, [userId]);
 
   return {
     user,
+    loading,
+    error,
+    editing,
+    setEditing,
     fetchUserProfile,
     updateUserProfile,
   };
