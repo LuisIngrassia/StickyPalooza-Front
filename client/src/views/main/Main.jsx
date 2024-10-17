@@ -2,11 +2,7 @@ import React from "react";
 import NavBar from '../../components/general/NavBar'
 import Footer from "../../components/general/Footer";
 import { Link } from "react-router-dom";
-
-import rockImage from 'client/src/assets/images/musica/Redondos.jpg'; 
-import footballImage from 'client/src/assets/images/scaloneta/Messi.jpg'; 
-import seriesImage from 'client/src/assets/images/series/BrBd.jpg'; 
-
+ 
 const MainPage = () => {
   return (
     <div className="flex flex-col min-h-[100dvh] bg-gray-100">
@@ -41,17 +37,14 @@ const MainPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 container mx-auto text-center">
         <div className="bg-white shadow-lg p-14q
          rounded-lg">
-          <img src={rockImage} alt="Stickers de Rock" className="w-full h-80 object-cover mb-2 rounded-lg" />
           <h3 className="text-xl font-semibold mb-2">Stickers de Música</h3>
           <p className="text-gray-500">Encuentra diseños inspirados en tus bandas favoritas.</p>
         </div>
         <div className="bg-white shadow-lg p-12 rounded-lg">
-          <img src={footballImage} alt="Stickers de Fútbol" className="w-full h-80 object-cover mb-2 rounded-lg" />
           <h3 className="text-xl font-semibold mb-2">Stickers de Fútbol</h3>
            <p className="text-gray-500">Personaliza tu espacio con stickers de tus equipos preferidos.</p>
          </div>
          <div className="bg-white shadow-lg p-12 rounded-lg">
-           <img src={seriesImage} alt="Stickers de Series y Películas" className="w-full h-80 object-cover mb-2 rounded-lg" />
           <h3 className="text-xl font-semibold mb-2">Series y Películas</h3>
           <p className="text-gray-500">Stickers de tus personajes y películas más queridas.</p>
         </div>
