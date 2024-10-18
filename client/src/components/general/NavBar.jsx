@@ -1,65 +1,32 @@
 import React, { useState } from "react";
-import * as svgs from "../../assets/icons/exports";
 import { Link } from "react-router-dom";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProductsMenuOpen, setIsProductsMenuOpen] = useState(false);
+  const isLoggedIn = !!localStorage.getItem('token'); // Comprobar si el usuario está conectado
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Limpiar el token
+    window.location.reload(); // Recargar la página para reflejar cambios
   };
-
-  const toggleProductsMenu = () => {
-    setIsProductsMenuOpen(!isProductsMenuOpen);
-  };
-
-  const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
 
   return (
-    <header className="bg-slate-50">
+    <header className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-lg">
       <nav className="flex justify-between items-center p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:hidden">
-          <button onClick={toggleMenu} type="button" className="-m-2.5 inline-flex items-center justify-start rounded-md p-2.5 text-gray-700">
-            <span className="sr-only">Abrir menu</span>
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-          </button>
-        </div>
         
-        <div className="hidden lg:flex lg:flex-1 lg:justify-start lg:gap-x-12">
-          <div className="relative">
-            <button onClick={toggleMenu} type="button" className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded={isMenuOpen}>
-              Stickers
-              <svg className={`h-5 w-5 flex-none text-gray-400 transform ${isMenuOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-              </svg>
-            </button>
-            {isMenuOpen && (
-              <div className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                <div className="p-4">
-                  {/* Your submenu items go here */}
-                </div>
-              </div>
-            )}
-          </div>
-          <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Tamaños</Link>
-          <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Promos</Link>
-          <Link to="" className="text-sm font-semibold leading-6 text-gray-900">Contacto</Link>
-        </div>
+        {/* Botón de perfil en la esquina superior izquierda */}
+        {isLoggedIn && (
+          <Link to="/profile" className="flex-none">
+            <button className="bg-black text-blue-500 px-4 py-2 rounded hover:bg-gray-100 transition">Profile</button>
+          </Link>
+        )}
 
-        {/* Conditional Buttons Based on Authentication State */}
-        <div className="hidden lg:flex lg:flex-none lg:items-center space-x-4">
+        {/* Centro de la Navbar */}
+        <div className="flex-1 flex justify-center space-x-4">
           {isLoggedIn ? (
-            <>
-              <Link to="/profile">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Profile</button>
-              </Link>
-              <Link to="/cart">
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
-              </Link>
-            </>
+            <Link to="/cart">
+              <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
+            </Link>
           ) : (
             <>
               <Link to="/login">
@@ -71,18 +38,25 @@ export default function NavBar() {
             </>
           )}
         </div>
+
+        {/* Botón de logout en la esquina superior derecha */}
+        {isLoggedIn && (
+          <div className="hidden lg:flex lg:flex-none">
+            <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
+          </div>
+        )}
       </nav>
       
-      {/* Mobile Menu */}
+      {/* Menú móvil */}
       {isMenuOpen && (
         <div className="lg:hidden" role="dialog" aria-modal="true">
           <div className="fixed inset-0 z-10"></div>
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-start justify-between">
               <Link to="" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
+                <span className="sr-only">Tu Empresa</span>
               </Link>
-              <button onClick={toggleMenu} type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700">
+              <button onClick={() => setIsMenuOpen(false)} type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700">
                 <span className="sr-only">Cerrar menú</span>
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -92,31 +66,16 @@ export default function NavBar() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  <div className="-mx-3">
-                    <button onClick={toggleProductsMenu} type="button" className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
-                      Stickers
-                      <svg className="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                    {isProductsMenuOpen && (
-                      <div className="mt-2 space-y-2" id="disclosure-1">
-                        {/* Your submenu items go here */}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Conditional Mobile Buttons */}
                   {isLoggedIn ? (
-                    <>
-                      <Link to="/profile" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Profile</Link>
-                      <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cart</Link>
-                    </>
+                    <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cart</Link>
                   ) : (
                     <>
                       <Link to="/login" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Login</Link>
                       <Link to="/signup" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Regístrate</Link>
                     </>
+                  )}
+                  {isLoggedIn && (
+                    <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Logout</button>
                   )}
                 </div>
               </div>
