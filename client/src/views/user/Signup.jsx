@@ -7,23 +7,24 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [firstname, setName] = useState("");
   const [lastname, setSurname] = useState("");
+  const [role, setRole] = useState("USER"); 
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/api/v1/auth/register/admin", {
+      const response = await api.post("/api/v1/auth/register", {
         firstname,
         lastname,
         email,
         password,
-        role: 'ADMIN',
+        role, 
       });
 
       console.log("Response:", response.data);
 
-      const { userId, access_token} = response.data;
+      const { userId, access_token } = response.data;
 
       if (!access_token || !userId) {
         throw new Error("Missing access token or userid.");
@@ -31,6 +32,7 @@ const Signup = () => {
 
       localStorage.setItem("token", access_token);
       localStorage.setItem("userId", userId);
+      localStorage.setItem('role', role);
 
       navigate("/");
     } catch (err) {
@@ -102,6 +104,20 @@ const Signup = () => {
                 onChange={(e) => setSurname(e.target.value)}
                 required
               />
+            </div>
+
+            {/* Role Selector */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white">Rol</label>
+              <select
+                className="flex h-10 w-full rounded-md border px-3 py-2 text-sm"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              >
+                <option value="USER">Usuario</option>
+                <option value="ADMIN">Administrador</option>
+              </select>
             </div>
 
             {error && <p className="text-red-500">{error}</p>}
