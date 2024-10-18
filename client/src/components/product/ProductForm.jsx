@@ -4,6 +4,8 @@ import { useProductFormLogic } from './ProductFormLogic';
 const ProductForm = ({ product, onSave }) => {
   const { formData, handleChange, handleFileChange, handleSubmit, imagePreview, isSubmitting } = useProductFormLogic(product, onSave);
 
+  const placeholderImage = '/assets/images/placeholder.png'; 
+
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div>
@@ -57,11 +59,13 @@ const ProductForm = ({ product, onSave }) => {
       <div>
         <label>Image:</label>
         <input type="file" name="image" onChange={handleFileChange} />
-        {imagePreview && (
-          <div>
-            <img src={imagePreview} alt="Image Preview" className="w-24 h-24 object-cover rounded-md shadow-md mt-4" />
-          </div>
-        )}
+        <div className="mt-4">
+          <img
+            src={imagePreview || placeholderImage} // Use placeholder if no image is uploaded
+            alt="Image Preview"
+            className="w-24 h-24 object-cover rounded-md shadow-md"
+          />
+        </div>
       </div>
       <div>
         <button type="submit" disabled={isSubmitting}>

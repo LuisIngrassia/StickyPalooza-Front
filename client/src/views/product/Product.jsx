@@ -1,7 +1,7 @@
 import React from 'react';
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
-import api from '../../api/Api';  // Import your Axios instance to get the baseURL
+import api from '../../api/Api'; // Import your Axios instance to get the baseURL
 
 const Product = () => {
   const {
@@ -13,8 +13,10 @@ const Product = () => {
     handleSearch,
     handleEdit,
     handleSave,
-    handleCreate, 
+    handleCreate,
   } = useProductLogic();
+
+  const placeholderImage = '/assets/images/placeholder.png'; // Define the placeholder image path
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -40,7 +42,7 @@ const Product = () => {
 
         {/* Create Product Button */}
         <button
-          onClick={handleCreate} 
+          onClick={handleCreate}
           className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
         >
           Create Product
@@ -64,14 +66,11 @@ const Product = () => {
                 <p className="text-gray-700">Stock: {product.stockQuantity}</p>
                 <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
 
-                {product.image && (
-                  <img
-                    src={`${api.defaults.baseURL}${product.image}`} 
-                    alt={product.name}
-                    className="w-24 h-24 object-cover rounded-md shadow-md mt-4"
-                  />
-
-                )}
+                <img
+                  src={product.image ? `${api.defaults.baseURL}${product.image}` : placeholderImage} // Use placeholder if no product image
+                  alt={product.name}
+                  className="w-24 h-24 object-cover rounded-md shadow-md mt-4"
+                />
               </div>
 
               <div className="mt-4 md:mt-0 space-x-4 flex">

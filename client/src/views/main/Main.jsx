@@ -70,6 +70,11 @@ const MainPage = () => {
     navigate('/login');  // Redirect to login page
   };
 
+  // Temporary function to navigate to products
+  const handleGoToProducts = () => {
+    navigate('/products');
+  };
+
   return (
     <div className="flex flex-col min-h-[100dvh] bg-gray-50">
       {/* Render NavBar only if the user role is "USER" or not logged in */}
@@ -143,6 +148,16 @@ const MainPage = () => {
               {!loading && !error && products.length === 0 && <p>No products available.</p>}
             </div>
           )}
+
+          {/* Temporary button to go to products */}
+          <div className="mb-8">
+            <button
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              onClick={handleGoToProducts} // Navigate to products page
+            >
+              View All Products
+            </button>
+          </div>
 
           {/* Logout Button (only for ADMIN) */}
           {role === 'ADMIN' && (
