@@ -22,7 +22,7 @@ export const useProfileLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(response.data); // Use ShowUserDTO structure
+      setUser(response.data); 
     } catch (err) {
       console.error('Error fetching user profile:', err);
       setError('Failed to fetch profile');
@@ -33,12 +33,12 @@ export const useProfileLogic = () => {
 
   const updateUserProfile = async (updatedData) => {
     if (!userId) return;
-
+  
     try {
       await api.put(`/users/${userId}`, updatedData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json', 
+          'Content-Type': 'application/json',
         },
       });
       fetchUserProfile();  
@@ -46,7 +46,7 @@ export const useProfileLogic = () => {
       console.error('Error updating profile:', err);
       setError('Failed to update profile');
     }
-  };
+  };  
 
   useEffect(() => {
     fetchUserProfile();

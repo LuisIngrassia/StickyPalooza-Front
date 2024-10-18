@@ -12,10 +12,12 @@ const Profile = () => {
     updateUserProfile,
   } = useProfileLogic();
 
+  // Set initial form data
   const [formData, setFormData] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
+    email: user?.email || '',
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    password: '', // Optional: Only include if user wants to update password
   });
 
   const navigate = useNavigate(); // For navigation
@@ -30,9 +32,16 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateUserProfile(formData);
+  
+    const updatedData = { ...formData };
+    if (!formData.password) {
+      delete updatedData.password; 
+    }
+  
+    updateUserProfile(updatedData); 
     setEditing(false); 
   };
+  
 
   const handleCancel = () => {
     setEditing(false);
@@ -40,6 +49,7 @@ const Profile = () => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      password: '', 
     }); 
   };
 
@@ -48,7 +58,6 @@ const Profile = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg relative">
-      {/* Return Arrow to Main Page */}
       <button
         onClick={() => navigate('/')}
         className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 transition-colors"
@@ -125,6 +134,18 @@ const Profile = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              {/* Optional Password Field */}
+              <div>
+                <label className="block text-lg text-gray-700 font-semibold mb-2">New Password (Optional):</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Leave blank to keep current password"
                   className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>

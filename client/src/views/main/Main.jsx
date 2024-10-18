@@ -30,8 +30,13 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    fetchProducts();  // Fetch products on component mount
-  }, []);
+    if (token) {
+      fetchProducts();  // Fetch products only if logged in (token exists)
+    } else {
+      setLoading(false); // If not logged in, stop loading
+      setError('You are not logged in. Please log in to view products.'); // Optionally, set an error message
+    }
+  }, [token]); // Added token to the dependency array
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-gray-50">
