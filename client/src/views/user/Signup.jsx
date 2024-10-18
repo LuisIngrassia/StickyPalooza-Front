@@ -32,7 +32,7 @@ const Signup = () => {
       localStorage.setItem("token", access_token);
       localStorage.setItem("userId", userId);
 
-      navigate("/main");
+      navigate("/");
     } catch (err) {
       console.error("Signup error:", err);
       setError("Failed to register. Please try again.");

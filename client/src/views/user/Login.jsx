@@ -27,7 +27,7 @@ const Login = () => {
       localStorage.setItem("token", access_token);
       localStorage.setItem("userId", userId);
 
-      navigate("/main");
+      navigate("/");
     } catch (err) {
       console.error("Login error:", err);
       setError("Failed to log in. Please check your credentials.");

@@ -13,7 +13,7 @@ const Product = () => {
     handleSearch,
     handleEdit,
     handleSave,
-    handleCreate, // Function for creating a new product
+    handleCreate, 
   } = useProductLogic();
 
   return (
@@ -40,7 +40,7 @@ const Product = () => {
 
         {/* Create Product Button */}
         <button
-          onClick={handleCreate} // This should trigger form reset and open it for new product
+          onClick={handleCreate} 
           className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
         >
           Create Product

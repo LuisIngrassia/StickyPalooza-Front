@@ -9,15 +9,13 @@ import Profile from './views/profile/Profile';
 import Login from './views/user/Login';
 import Signup from './views/user/Signup';
 import Main from './views/main/Main';
-import LandingPage from './views/main/LandingPage';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/" element={<LandingPage />} />  
-          <Route path="/main" element={<Main />} />  
+          <Route path="/" element={<Main />} />  
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/bill" element={<Bill />} />
