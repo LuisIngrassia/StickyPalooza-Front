@@ -2,45 +2,50 @@ import React, { useEffect, useState } from 'react';
 import NavBar from '../../components/general/NavBar';
 import Footer from "../../components/general/Footer";
 import api from '../../api/Api';  // Import your Axios instance
+import { useNavigate } from 'react-router-dom';  // For navigation between pages
 
 const MainPage = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [role, setRole] = useState(null);  // State to store user role
+
   const token = localStorage.getItem('token');  // Get token from localStorage
+  const userRole = localStorage.getItem('role');  // Get role from localStorage (you need to store this at login)
 
-  // Fetch products
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);  // Reset error state
-
-    try {
-      const response = await api.get('/products', {
-        headers: {
-          Authorization: `Bearer ${token}`,  // Pass the token in the Authorization header
-        },
-      });
-      setProducts(response.data);  // Assuming the response has a products array
-      setLoading(false);
-    } catch (error) {
-      setError('Failed to fetch products');
-      setLoading(false);
-      console.error('Error fetching products:', error);
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
-      fetchProducts();  // Fetch products only if logged in (token exists)
-    } else {
-      setLoading(false); // If not logged in, stop loading
-      setError('You are not logged in. Please log in to view products.'); // Optionally, set an error message
+      setRole(userRole);  // Set the role based on the fetched or saved user data
     }
-  }, [token]); // Added token to the dependency array
+  }, [token, userRole]); // Added token and userRole to the dependency array
+
+  // Admin actions
+  const handleCreateProduct = () => {
+    navigate('/admin/create-product');
+  };
+
+  const handleViewAllUsers = () => {
+    navigate('/admin/view-users');
+  };
+
+  const handleViewBills = () => {
+    navigate('/admin/view-bills');
+  };
+
+  const handleViewOrders = () => {
+    navigate('/admin/view-orders');
+  };
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem('token');  // Clear the token
+    localStorage.removeItem('role');   // Clear the role
+    navigate('/login');  // Redirect to login page
+  };
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-gray-50">
-      <NavBar />
+      {/* Render NavBar only if the user role is "USER" or not logged in */}
+      {(role === 'USER' || role === null) && <NavBar />}
 
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
@@ -52,25 +57,45 @@ const MainPage = () => {
             ¡Tu tienda favorita de stickers!
           </p>
 
-          {/* Products Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {loading && <p>Loading products...</p>}
-            {error && <p className="text-red-500">{error}</p>}
-            {!loading && !error && products.length > 0 && products.map((product) => (
-              <div key={product.id} className="bg-white shadow-lg p-6 rounded-lg">
-                {product.image && (
-                  <img
-                    src={`${api.defaults.baseURL}${product.image}`}  // Assuming API provides an image field
-                    alt={product.name}
-                    className="w-full h-48 object-cover mb-4 rounded-md"
-                  />
-                )}
-                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-                <p className="text-gray-500">{product.description}</p>
-                <p className="text-gray-700 font-bold">Price: ${product.price}</p>
-              </div>
-            ))}
-            {!loading && !error && products.length === 0 && <p>No products available.</p>}
+          {/* Role-based Actions */}
+          {role === 'ADMIN' && (
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold mb-4">Admin Options</h3>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2"
+                onClick={handleCreateProduct}
+              >
+                Create Product
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2"
+                onClick={handleViewAllUsers}
+              >
+                View All Users
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2"
+                onClick={handleViewBills}
+              >
+                View Bills
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2"
+                onClick={handleViewOrders}
+              >
+                View Orders
+              </button>
+            </div>
+          )}
+
+          {/* Logout Button */}
+          <div className="mt-12">
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </main>

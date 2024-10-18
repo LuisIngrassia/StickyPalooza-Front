@@ -18,7 +18,7 @@ const Login = () => {
 
       console.log("Response:", response);
 
-      const { userId, access_token  } = response.data;
+      const { userId, access_token, role  } = response.data;
 
       if (!access_token || !userId) {
         throw new Error("Missing access token or userid.");
@@ -26,7 +26,8 @@ const Login = () => {
 
       localStorage.setItem("token", access_token);
       localStorage.setItem("userId", userId);
-
+      localStorage.setItem('role', role); 
+      
       navigate("/");
     } catch (err) {
       console.error("Login error:", err);
