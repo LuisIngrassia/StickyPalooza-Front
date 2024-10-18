@@ -9,13 +9,13 @@ const MainPage = () => {
 
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
-          
+
             <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-800 bg-white border border-gray-200 shadow-md p-6 rounded-md inline-block hover:shadow-lg transition-transform duration-300 transform hover:scale-105 mb-6">
               Sticky Palooza
             </h2>
 
           <p className="text-lg text-gray-700 mb-12">
-            ¡Tu tienda favorita de stickers de mierda!
+            ¡Tu tienda favorita de stickers!
           </p>
           
           <div className="flex justify-center gap-6 mb-12">
