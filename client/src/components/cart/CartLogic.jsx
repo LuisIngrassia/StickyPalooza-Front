@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../api/Api'; // Make sure you import your axios instance properly
+import api from '../../api/Api';
 
 export const useCartLogic = () => {
   const [cart, setCart] = useState(null);
@@ -9,7 +9,7 @@ export const useCartLogic = () => {
   const userId = localStorage.getItem('userId');
 
   const fetchCart = async () => {
-    if (!userId) return; // Ensure userId is available before fetching the cart
+    if (!userId) return;
 
     setLoading(true);
     setError(null);
@@ -31,7 +31,6 @@ export const useCartLogic = () => {
   };
 
   const addProductToCart = async (productId, quantity) => {
-
     const cartId = cart.id;
 
     console.log({
@@ -47,19 +46,17 @@ export const useCartLogic = () => {
         quantity: quantity,
       }, {
         headers: {
-          Authorization: `Bearer ${token}`, // Add the token to the request
+          Authorization: `Bearer ${token}`,
         },
       });
 
-      await fetchCart(); // Fetch the updated cart after adding the product
+      await fetchCart();
 
     } catch (err) {
-
       console.error('Error adding product:', err);
-      setError('Error adding product: ' + (err.response?.data || err.message)); // Show specific error if available
-      
+      setError('Error adding product: ' + (err.response?.data || err.message));
     } finally {
-      setLoading(false); // Reset loading state after operation
+      setLoading(false);
     }
   };
 
@@ -71,7 +68,7 @@ export const useCartLogic = () => {
       return;
     }
 
-    setLoading(true); // Start loading state when deleting a cart
+    setLoading(true);
     setError(null);
 
     try {
@@ -81,17 +78,24 @@ export const useCartLogic = () => {
         },
       });
       setCart(null);
-
     } catch (err) {
       console.error('Error deleting cart:', err);
-      setError('Failed to delete cart: ' + (err.response?.data || err.message)); // Show specific error if available
+      setError('Failed to delete cart: ' + (err.response?.data || err.message));
     } finally {
-      setLoading(false); // Reset loading state after operation
+      setLoading(false);
     }
   };
 
+  const calculateTotalCost = () => {
+    if (!cart || !cart.cartProducts) return 0;
+
+    return cart.cartProducts.reduce((total, product) => {
+      return total + product.productPrice * product.quantity;
+    }, 0);
+  };
+
   useEffect(() => {
-    fetchCart(); // Fetch the cart whenever userId changes
+    fetchCart();
   }, [userId]);
 
   return {
@@ -100,5 +104,6 @@ export const useCartLogic = () => {
     error,
     addProductToCart,
     handleDeleteCart,
+    calculateTotalCost,
   };
 };

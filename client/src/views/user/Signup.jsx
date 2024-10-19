@@ -49,7 +49,7 @@ const Signup = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="email">Email</label>
             <input
-              className="w-full h-10 rounded-md border px-3 py-2 text-sm"
+              className="w-full h-10 rounded-md border px-3 py-2 text-sm text-black"
               type="email"
               placeholder="usuario@gmail.com"
               value={email}
@@ -61,7 +61,7 @@ const Signup = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="password">Contraseña</label>
             <input
-              className="w-full h-10 rounded-md border px-3 py-2 text-sm"
+              className="w-full h-10 rounded-md border px-3 py-2 text-sm text-black"
               type="password"
               placeholder="********"
               value={password}
@@ -73,7 +73,7 @@ const Signup = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="firstname">Nombre</label>
             <input
-              className="w-full h-10 rounded-md border px-3 py-2 text-sm"
+              className="w-full h-10 rounded-md border px-3 py-2 text-sm text-black"
               type="text"
               placeholder="Martin"
               value={firstname}
@@ -85,7 +85,7 @@ const Signup = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="lastname">Apellido</label>
             <input
-              className="w-full h-10 rounded-md border px-3 py-2 text-sm"
+              className="w-full h-10 rounded-md border px-3 py-2 text-sm text-black"
               type="text"
               placeholder="Rodriguez"
               value={lastname}
@@ -97,7 +97,7 @@ const Signup = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="role">Rol</label>
             <select
-              className="w-full h-10 rounded-md border px-3 py-2 text-sm"
+              className="w-full h-10 rounded-md border px-3 py-2 text-sm text-black"
               value={role}
               onChange={(e) => setRole(e.target.value)}
               required
