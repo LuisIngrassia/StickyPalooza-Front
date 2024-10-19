@@ -108,22 +108,24 @@ const MainPage = () => {
               </button>
             </div>
           )}
-          
-          {/* Render products for USERS and non-registered users */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
-            {loading && <p className="text-green-300">Loading products...</p>}
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <div key={product.id} className="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition duration-200">
-                  <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
-                  <p className="text-green-300">{product.description}</p>
-                  <p className="font-bold text-purple-400">${product.price}</p>
-                </div>
-              ))}
+
+          {/* Render products for USERS and non-registered users only if not ADMIN */}
+          {role !== 'ADMIN' && (
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
+              {loading && <p className="text-green-300">Loading products...</p>}
+              {error && <p className="text-red-500">{error}</p>}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <div key={product.id} className="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition duration-200">
+                    <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
+                    <p className="text-green-300">{product.description}</p>
+                    <p className="font-bold text-purple-400">${product.price}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
       <Footer />
