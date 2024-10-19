@@ -4,7 +4,7 @@ import { useProductFormLogic } from './ProductFormLogic';
 const ProductForm = ({ product, onSave }) => {
   const { formData, handleChange, handleFileChange, handleSubmit, imagePreview, isSubmitting } = useProductFormLogic(product, onSave);
 
-  const placeholderImage = '/images/placeholder.png'; // Update placeholder image path
+  const placeholderImage = '/images/placeholder.png';
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">

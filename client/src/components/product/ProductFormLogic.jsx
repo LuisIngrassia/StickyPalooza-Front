@@ -27,7 +27,7 @@ export const useProductFormLogic = (product, onSave) => {
       });
 
       if (product.image) {
-        setImagePreview(`/images/${product.image}`); // Ensure this points to your public/images directory
+        setImagePreview(`/images/${product.image}`);
       }
     } else {
       setFormData({

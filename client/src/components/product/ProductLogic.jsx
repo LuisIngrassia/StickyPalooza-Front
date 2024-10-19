@@ -75,6 +75,28 @@ export const useProductLogic = () => {
     }
   };
 
+  const addProductToCart = async (productId, quantity) => {
+    const cartId = cart?.id;
+
+    try {
+      await api.post('/carts/addProduct', {
+        cartId,
+        productId,
+        quantity,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      await fetchCart();
+    } catch (err) {
+      console.error('Error adding product:', err);
+      setError('Error adding product: ' + (err.response?.data || err.message));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     products,
     searchTerm,
@@ -85,5 +107,6 @@ export const useProductLogic = () => {
     handleEdit,
     handleSave,
     handleCreate,
+    addProductToCart,
   };
 };

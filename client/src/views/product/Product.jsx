@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
 
@@ -13,9 +13,16 @@ const Product = () => {
     handleEdit,
     handleSave,
     handleCreate,
+    addProductToCart, // Destructure the addProductToCart function
   } = useProductLogic();
 
-  const placeholderImage = '/public/images/placeholder.png'; // Update placeholder image path
+  const [selectedQuantity, setSelectedQuantity] = useState(1); // State to store the selected quantity
+  const userRole = localStorage.getItem('role'); // Assuming the user role is stored in localStorage
+  const placeholderImage = '/public/images/placeholder.png';
+
+  const handleAddToCart = (productId) => {
+    addProductToCart(productId, selectedQuantity);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -39,13 +46,15 @@ const Product = () => {
           </button>
         </div>
 
-        {/* Create Product Button */}
-        <button
-          onClick={handleCreate}
-          className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
-        >
-          Create Product
-        </button>
+        {/* Conditionally render Create Product button for ADMIN role */}
+        {userRole === 'ADMIN' && (
+          <button
+            onClick={handleCreate}
+            className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
+          >
+            Create Product
+          </button>
+        )}
 
         {/* Product Form (for both create and edit) */}
         {editingProduct && (
@@ -66,26 +75,50 @@ const Product = () => {
                 <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
 
                 <img
-                  src={product.image ? `/images/${product.image}` : placeholderImage} // Update image source
+                  src={product.image ? `/images/${product.image}` : placeholderImage}
                   alt={product.name}
                   className="w-24 h-24 object-cover rounded-md shadow-md mt-4"
                 />
+
+                {/* Conditionally render Add to Cart for USER role */}
+                {userRole === 'USER' && (
+                  <div className="mt-4 flex items-center space-x-2">
+                    <label htmlFor={`quantity-${product.id}`} className="text-gray-700">Qty:</label>
+                    <input
+                      id={`quantity-${product.id}`}
+                      type="number"
+                      value={selectedQuantity}
+                      onChange={(e) => setSelectedQuantity(parseInt(e.target.value))}
+                      min="1"
+                      className="w-16 px-2 py-1 border rounded-md"
+                    />
+                    <button
+                      onClick={() => handleAddToCart(product.id)}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                )}
               </div>
 
-              <div className="mt-4 md:mt-0 space-x-4 flex">
-                <button
-                  onClick={() => handleEdit(product)}
-                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-400 transition"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(product.id)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
-                >
-                  Delete
-                </button>
-              </div>
+              {/* Conditionally render Edit/Delete buttons for ADMIN role */}
+              {userRole === 'ADMIN' && (
+                <div className="mt-4 md:mt-0 space-x-4 flex">
+                  <button
+                    onClick={() => handleEdit(product)}
+                    className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-400 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product.id)}
+                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>
