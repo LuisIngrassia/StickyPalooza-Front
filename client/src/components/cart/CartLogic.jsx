@@ -1,79 +1,78 @@
 import { useState, useEffect } from 'react';
-import api from '../../api/Api';
+import api from '../../api/Api'; // Make sure you import your axios instance properly
 
 export const useCartLogic = () => {
   const [cart, setCart] = useState(null);
-  const [cartId, setCartId] = useState(localStorage.getItem('cartId'));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token'); 
   const userId = localStorage.getItem('userId');
 
   const fetchCart = async () => {
-    if (!cartId || !userId) return;
+    if (!userId) return; // Ensure userId is available before fetching the cart
 
     setLoading(true);
     setError(null);
 
     try {
-      const response = await api.get(`/carts/${cartId}/${userId}`, {
+      const response = await api.get(`/carts/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
       });
       setCart(response.data);
+
     } catch (err) {
       console.error('Error fetching cart:', err);
-      if (err.response?.status === 404) {
-        createCart();
-      } else {
-        setError('Failed to fetch cart');
-      }
+      setError('Failed to fetch cart');
     } finally {
       setLoading(false);
     }
   };
 
-  const createCart = async () => {
-    try {
-      const response = await api.post('/carts', { userId }, {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-      setCart(response.data);
-      setCartId(response.data.id); 
-      localStorage.setItem('cartId', response.data.id); 
-    } catch (err) {
-      console.error('Error creating cart:', err);
-      setError('Failed to create cart');
-    }
-  };
+  const addProductToCart = async (productId, quantity) => {
 
-  const addToCart = async (productId, quantity) => {
-    if (!cartId) {
-      setError('No cart available to add products to');
-      return;
-    }
+    const cartId = cart.id;
+
+    console.log({
+      cartId: cartId,
+      productId: productId,
+      quantity: quantity,
+    });
 
     try {
-      await api.post('/carts/addProduct', { cartId, productId, quantity }, {
+      await api.post('/carts/addProduct', {
+        cartId: cartId,
+        productId: productId,
+        quantity: quantity,
+      }, {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`, // Add the token to the request
         },
       });
-      fetchCart();
+
+      await fetchCart(); // Fetch the updated cart after adding the product
+
     } catch (err) {
-      console.error('Error adding product to cart:', err);
-      setError('Failed to add product');
+
+      console.error('Error adding product:', err);
+      setError('Error adding product: ' + (err.response?.data || err.message)); // Show specific error if available
+      
+    } finally {
+      setLoading(false); // Reset loading state after operation
     }
   };
 
   const handleDeleteCart = async () => {
+    const cartId = cart.id;
+
     if (!cartId) {
       setError('No cart to delete');
       return;
     }
+
+    setLoading(true); // Start loading state when deleting a cart
+    setError(null);
 
     try {
       await api.delete(`/carts/${cartId}`, {
@@ -82,27 +81,24 @@ export const useCartLogic = () => {
         },
       });
       setCart(null);
-      setCartId(null);
-      localStorage.removeItem('cartId'); 
+
     } catch (err) {
       console.error('Error deleting cart:', err);
-      setError('Failed to delete cart');
+      setError('Failed to delete cart: ' + (err.response?.data || err.message)); // Show specific error if available
+    } finally {
+      setLoading(false); // Reset loading state after operation
     }
   };
 
   useEffect(() => {
-    if (cartId) fetchCart(); 
-  }, [cartId]);
+    fetchCart(); // Fetch the cart whenever userId changes
+  }, [userId]);
 
   return {
     cart,
-    cartId,
     loading,
     error,
-    setCartId,
-    fetchCart,
-    createCart,
-    addToCart,
+    addProductToCart,
     handleDeleteCart,
   };
 };
