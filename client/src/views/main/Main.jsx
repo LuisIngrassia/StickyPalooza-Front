@@ -41,8 +41,8 @@ const MainPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Render NavBar only if the user role is USER */}
-      {role === 'USER' && <NavBar />}
+      {/* Render NavBar regardless of the role */}
+      <NavBar />
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-800 bg-white border border-gray-200 shadow-md p-6 rounded-md inline-block hover:shadow-lg transition-transform duration-300 transform hover:scale-105 mb-6">
@@ -51,12 +51,11 @@ const MainPage = () => {
           <p className="text-lg text-gray-700 mb-12">
             ¡Tu tienda favorita de stickers!
           </p>
-          {/* Role-based Actions */}
+
           {role === 'ADMIN' && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4">Admin Options</h3>
 
-              {/* Updated Button to go to /products */}
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2"
                 onClick={() => navigate('/products')}
@@ -64,7 +63,6 @@ const MainPage = () => {
                 Products
               </button>
 
-              {/* Updated Button to go to /users */}
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded m-2"
                 onClick={() => navigate('/users')}
@@ -87,7 +85,6 @@ const MainPage = () => {
             </div>
           )}
 
-          {/* Fetch products and display for USER role */}
           {role === 'USER' && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4">Available Products</h3>
