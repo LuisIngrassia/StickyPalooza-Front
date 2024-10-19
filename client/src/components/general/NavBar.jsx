@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = !!localStorage.getItem('token');
+  const userRole = localStorage.getItem('role');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     window.location.reload();
   };
 
@@ -14,16 +16,21 @@ export default function NavBar() {
     <header className="bg-gray-900 shadow-lg">
       <nav className="flex justify-between items-center p-6 lg:px-8" aria-label="Global">
         <div className="flex-1 flex justify-between items-center">
-          <Link to="/" className="text-white text-xl font-bold">Sticky Palooza</Link>
+          <Link to="/">
+            <img src="/images/stickylogo.png" alt="Sticky Palooza Logo" className="h-10" />
+          </Link>
           <div className="hidden lg:flex space-x-4">
             {isLoggedIn && (
               <Link to="/profile">
                 <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Profile</button>
               </Link>
             )}
-            <Link to="/cart">
-              <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
-            </Link>
+            {/* Show Cart only for non-admin users */}
+            {isLoggedIn && userRole !== 'ADMIN' && (
+              <Link to="/cart">
+                <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
+              </Link>
+            )}
             {isLoggedIn ? (
               <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
             ) : (
@@ -32,7 +39,7 @@ export default function NavBar() {
                   <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">Login</button>
                 </Link>
                 <Link to="/signup">
-                  <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Regístrate</button>
+                  <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Register</button>
                 </Link>
               </>
             )}
@@ -64,7 +71,10 @@ export default function NavBar() {
                 <div className="space-y-2 py-6">
                   {isLoggedIn ? (
                     <>
-                      <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Cart</Link>
+                      {/* Show Cart only for non-admin users */}
+                      {userRole !== 'ADMIN' && (
+                        <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Cart</Link>
+                      )}
                       <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Logout</button>
                     </>
                   ) : (
