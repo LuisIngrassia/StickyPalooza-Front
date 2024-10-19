@@ -3,30 +3,32 @@ import { Link } from "react-router-dom";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoggedIn = !!localStorage.getItem('token'); // Comprobar si el usuario está conectado
+  const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Limpiar el token
-    window.location.reload(); // Recargar la página para reflejar cambios
+    localStorage.removeItem('token'); // Clear the token
+    window.location.reload(); // Reload the page to reflect changes
   };
 
   return (
     <header className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-lg">
       <nav className="flex justify-between items-center p-6 lg:px-8" aria-label="Global">
         
-        {/* Botón de perfil en la esquina superior izquierda */}
+        {/* Profile Button */}
         {isLoggedIn && (
           <Link to="/profile" className="flex-none">
             <button className="bg-black text-blue-500 px-4 py-2 rounded hover:bg-gray-100 transition">Profile</button>
           </Link>
         )}
 
-        {/* Centro de la Navbar */}
+        {/* Center Navbar */}
         <div className="flex-1 flex justify-center space-x-4">
           {isLoggedIn ? (
-            <Link to="/cart">
-              <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
-            </Link>
+            <>
+              <Link to="/cart">
+                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login">
@@ -39,21 +41,28 @@ export default function NavBar() {
           )}
         </div>
 
-        {/* Botón de logout en la esquina superior derecha */}
+        {/* Logout Button for USER Role */}
         {isLoggedIn && (
           <div className="hidden lg:flex lg:flex-none">
             <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
           </div>
         )}
+        
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
+            {isMenuOpen ? "Close" : "Menu"}
+          </button>
+        </div>
       </nav>
       
-      {/* Menú móvil */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden" role="dialog" aria-modal="true">
           <div className="fixed inset-0 z-10"></div>
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-start justify-between">
-              <Link to="" className="-m-1.5 p-1.5">
+              <Link to="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Tu Empresa</span>
               </Link>
               <button onClick={() => setIsMenuOpen(false)} type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700">
@@ -67,15 +76,15 @@ export default function NavBar() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {isLoggedIn ? (
-                    <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cart</Link>
+                    <>
+                      <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cart</Link>
+                      <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Logout</button>
+                    </>
                   ) : (
                     <>
                       <Link to="/login" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Login</Link>
                       <Link to="/signup" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Regístrate</Link>
                     </>
-                  )}
-                  {isLoggedIn && (
-                    <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Logout</button>
                   )}
                 </div>
               </div>

@@ -16,18 +16,20 @@ export const useProductLogic = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(response.data); 
         setProducts(response.data);
       } catch (error) {
-        console.error('Error fetching products:', error?.response?.data || error.message);
+        console.error('Error fetching products:', error);
       }
     };
+    
 
     fetchProducts();
   }, [token]);
 
   const handleSearch = async () => {
     try {
-      const response = await api.get(`/products?search=${encodeURIComponent(searchTerm)}`, {
+      const response = await api.get(`/products/search?name=${encodeURIComponent(searchTerm)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

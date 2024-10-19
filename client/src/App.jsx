@@ -9,6 +9,8 @@ import Profile from './views/profile/Profile';
 import Login from './views/user/Login';
 import Signup from './views/user/Signup';
 import Main from './views/main/Main';
+import Users from './views/user/Users';
+
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/order" element={<Order />} />
           <Route path="/products" element={<Product />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/users" element={<Users />} />
+
         </Routes>
       </div>
     </BrowserRouter>

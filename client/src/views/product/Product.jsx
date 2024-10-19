@@ -1,7 +1,6 @@
 import React from 'react';
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
-import api from '../../api/Api'; // Import your Axios instance to get the baseURL
 
 const Product = () => {
   const {
@@ -16,7 +15,7 @@ const Product = () => {
     handleCreate,
   } = useProductLogic();
 
-  const placeholderImage = '/assets/images/placeholder.png'; // Define the placeholder image path
+  const placeholderImage = '/public/images/placeholder.png'; // Update placeholder image path
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -67,7 +66,7 @@ const Product = () => {
                 <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
 
                 <img
-                  src={product.image ? `${api.defaults.baseURL}${product.image}` : placeholderImage} // Use placeholder if no product image
+                  src={product.image ? `/images/${product.image}` : placeholderImage} // Update image source
                   alt={product.name}
                   className="w-24 h-24 object-cover rounded-md shadow-md mt-4"
                 />
