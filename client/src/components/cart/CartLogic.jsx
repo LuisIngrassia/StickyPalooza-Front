@@ -33,12 +33,6 @@ export const useCartLogic = () => {
   const addProductToCart = async (productId, quantity) => {
     const cartId = cart.id;
 
-    console.log({
-      cartId: cartId,
-      productId: productId,
-      quantity: quantity,
-    });
-
     try {
       await api.post('/carts/addProduct', {
         cartId: cartId,
