@@ -96,6 +96,18 @@ const MainPage = () => {
               </button>
             </div>
           )}
+
+          {/* Render User button to navigate to products if not an admin */}
+          {role !== 'ADMIN' && (
+            <div className="mb-8">
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                onClick={() => navigate('/products')}
+              >
+                View Products
+              </button>
+            </div>
+          )}
           
           {/* Render products for USERS and non-registered users */}
           <div className="mb-8">
