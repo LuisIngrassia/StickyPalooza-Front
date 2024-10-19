@@ -39,10 +39,16 @@ const MainPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    navigate('/login'); // Redirect to login page after logout
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Render NavBar regardless of the role */}
-      <NavBar />
+      {/* Render NavBar only if the role is not ADMIN */}
+      {role !== 'ADMIN' && <NavBar />}
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-800 bg-white border border-gray-200 shadow-md p-6 rounded-md inline-block hover:shadow-lg transition-transform duration-300 transform hover:scale-105 mb-6">
@@ -52,6 +58,7 @@ const MainPage = () => {
             ¡Tu tienda favorita de stickers!
           </p>
 
+          {/* Admin-specific view */}
           {role === 'ADMIN' && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4">Admin Options</h3>
@@ -82,9 +89,18 @@ const MainPage = () => {
               >
                 View Orders
               </button>
+
+              {/* Exclusive Logout button for Admin */}
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded m-2"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             </div>
           )}
 
+          {/* User-specific view */}
           {role === 'USER' && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4">Available Products</h3>
