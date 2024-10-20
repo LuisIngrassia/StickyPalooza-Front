@@ -46,7 +46,6 @@ export const loginUser = (email, password) => async (dispatch) => {
       throw new Error("Missing access token, userId, or cartId.");
     }
 
-    // Save token, userId, and role to localStorage
     localStorage.setItem("token", access_token);
     localStorage.setItem("userId", userId);
     localStorage.setItem("role", role);

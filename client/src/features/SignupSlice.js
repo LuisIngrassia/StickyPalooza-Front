@@ -38,7 +38,7 @@ export const signupUser = (firstname, lastname, email, password, role) => async 
       role,
     });
 
-    const { userId, access_token } = response.data;
+    const { userId, access_token, role } = response.data;
 
     if (!access_token || !userId) {
       throw new Error("Missing access token or userId.");
