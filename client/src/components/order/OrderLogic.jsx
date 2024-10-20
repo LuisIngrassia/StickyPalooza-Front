@@ -10,7 +10,6 @@ export const useOrderLogic = () => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('role');
 
-    // Function to fetch orders (for Admins and Users)
     const fetchOrders = async () => {
         setLoading(true);
         setError(null);
@@ -34,7 +33,6 @@ export const useOrderLogic = () => {
         }
     };
 
-    // Function to fetch orders for a specific user by ID (Admin)
     const fetchOrdersByUserId = async (id) => {
         setLoading(true);
         setError(null);
@@ -51,7 +49,6 @@ export const useOrderLogic = () => {
         }
     };
 
-    // Function to create an order from a cart (User)
     const createOrderFromCart = async (cartId) => {
         setLoading(true);
         setError(null);
@@ -68,12 +65,10 @@ export const useOrderLogic = () => {
         }
     };
 
-    // Effect to automatically fetch orders on load based on role
     useEffect(() => {
         fetchOrders();
     }, [userId, userRole]);
 
-    // Function to delete an order
     const deleteOrder = async (orderId) => {
         setLoading(true);
         setError(null);
@@ -90,12 +85,10 @@ export const useOrderLogic = () => {
         }
     };
 
-    // Handle input change for search bar
     const handleSearchChange = (e) => {
         setSearchUserId(e.target.value);
     };
 
-    // Trigger search for a specific user's orders (Admin)
     const handleSearch = () => {
         if (searchUserId) {
             fetchOrdersByUserId(searchUserId);
@@ -107,7 +100,7 @@ export const useOrderLogic = () => {
         loading,
         error,
         deleteOrder,
-        createOrderFromCart, // Added new method
+        createOrderFromCart,
         searchUserId,
         handleSearchChange,
         handleSearch,
