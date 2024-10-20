@@ -30,11 +30,36 @@ const Bill = () => {
             {/* Bill List */}
             <div className="flex flex-col items-center space-y-4">
                 {bills.map(bill => (
-                    <div key={bill.orderId} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
-                        <h2 className="font-bold text-purple-300 mb-2">Bill ID: {bill.id} | Date: {new Date(bill.billDate).toLocaleDateString()}</h2>
+                    <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
+                        <h2 className="font-bold text-purple-300 mb-2">
+                            Bill ID: {bill.id} | Order ID: {bill.orderId} | Date: {new Date(bill.billDate).toLocaleDateString()}
+                        </h2>
                         <p className="text-green-300 mb-2">Total Amount: ${bill.totalAmount.toFixed(2)}</p>
                         <p className="text-green-300 mb-2">Payment Method: {bill.paymentMethod}</p>
                         <p className={`font-bold ${bill.paid ? 'text-green-400' : 'text-red-400'}`}>Status: {bill.paid ? 'Paid' : 'Pending'}</p>
+
+                        {/* Products Table */}
+                        <h3 className="font-semibold text-green-300 mt-4 mb-2">Products:</h3>
+                        <table className="table-auto w-full text-gray-400 mb-4">
+                            <thead>
+                                <tr className="border-b border-gray-600">
+                                    <th className="px-4 py-2 text-left">Product Name</th>
+                                    <th className="px-4 py-2 text-left">Quantity</th>
+                                    <th className="px-4 py-2 text-left">Unit Price</th>
+                                    <th className="px-4 py-2 text-left">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bill.cartProducts.map(product => (
+                                    <tr key={product.id} className="border-b border-gray-600">
+                                        <td className="px-4 py-2">{product.productName}</td>
+                                        <td className="px-4 py-2">{product.quantity}</td>
+                                        <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
+                                        <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
                         {/* Mark as Paid Button */}
                         {!bill.paid && (

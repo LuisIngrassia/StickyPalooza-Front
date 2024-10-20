@@ -3,12 +3,12 @@ import api from '../../api/Api';
 
 const ConvertToBill = ({ orderId, onConvert }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
-    const token  = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const handleConvert = async () => {
-
-        console.log('Payment Method:', paymentMethod);
         
+        console.log(orderId)
+
         try {
             const response = await api.post(`/bills/convertOrderToBill/${orderId}?paymentMethod=${paymentMethod}`, {}, {
                 headers: {
@@ -16,9 +16,7 @@ const ConvertToBill = ({ orderId, onConvert }) => {
                 },
             });
             onConvert(response.data);
-
             console.log(response.data);
-
             window.location.reload();
         } catch (err) {
             console.error('Error converting order to bill:', err);
@@ -27,6 +25,7 @@ const ConvertToBill = ({ orderId, onConvert }) => {
 
     return (
         <div>
+            <h3 className="text-green-300 mb-2">Converting Order ID: {orderId}</h3> {/* Display the Order ID */}
             <select 
                 value={paymentMethod} 
                 onChange={(e) => setPaymentMethod(e.target.value)} 
@@ -48,5 +47,6 @@ const ConvertToBill = ({ orderId, onConvert }) => {
         </div>
     );
 };
+
 
 export default ConvertToBill;

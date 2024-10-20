@@ -10,21 +10,29 @@ export const useOrderLogic = () => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('role');
 
+    const processOrders = (orders) => {
+        return orders.map(order => ({
+            ...order,
+            // Keep isConvertedToBill as is (ensure it's consistent with your API)
+        }));
+    };
+
     const fetchOrders = async () => {
         setLoading(true);
         setError(null);
         try {
+            let response;
             if (userRole === 'ADMIN') {
-                const response = await api.get('/orders', {
+                response = await api.get('/orders', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setOrders(response.data);
             } else if (userId) {
-                const response = await api.get(`/orders/ordersFromUser/${userId}`, {
+                response = await api.get(`/orders/ordersFromUser/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setOrders(response.data);
             }
+
+            setOrders(processOrders(response.data));
         } catch (err) {
             console.error('Error fetching orders:', err);
             setError('Failed to fetch orders');
@@ -40,7 +48,8 @@ export const useOrderLogic = () => {
             const response = await api.get(`/orders/ordersFromUser/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setOrders(response.data);
+
+            setOrders(processOrders(response.data));
         } catch (err) {
             console.error('Error fetching orders by user ID:', err);
             setError('Failed to fetch orders');
@@ -56,7 +65,7 @@ export const useOrderLogic = () => {
             const response = await api.post(`/orders/fromCart/${cartId}`, {}, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setOrders((prevOrders) => [...prevOrders, response.data]);
+            setOrders((prevOrders) => [...prevOrders, { ...response.data }]); // Add the new order directly
         } catch (err) {
             console.error('Error creating order from cart:', err);
             setError('Failed to create order');

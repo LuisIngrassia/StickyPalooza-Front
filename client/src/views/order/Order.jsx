@@ -3,25 +3,20 @@ import { useOrderLogic } from '../../components/order/OrderLogic';
 import ConvertToBill from '../../components/bill/ConvertToBill';
 
 const Order = () => {
-    const { orders: initialOrders, loading, error, deleteOrder, searchUserId, handleSearchChange, handleSearch } = useOrderLogic();
-    const [orders, setOrders] = useState(initialOrders);
-    const [convertingOrderId, setConvertingOrderId] = useState(null);
+    const { orders, loading, error, deleteOrder, searchUserId, handleSearchChange, handleSearch } = useOrderLogic();
+    const [convertingOrderId, setConvertingOrderId] = useState(null); // Manage converting order state
 
     useEffect(() => {
-        setOrders(initialOrders); // Update orders state when initialOrders changes
-    }, [initialOrders]);
+        if (error) {
+            console.error('Error fetching orders:', error);
+        }
+    }, [error]);
 
     if (loading) return <div className="text-green-300">Loading...</div>;
-    if (error) return <div className="text-red-500">{error}</div>;
 
     const handleConversion = (updatedOrder) => {
-        // Update your orders state to reflect the converted order
-        setOrders(prevOrders => 
-            prevOrders.map(order => 
-                order.id === updatedOrder.id ? updatedOrder : order
-            )
-        );
         setConvertingOrderId(null); // Reset the converting order state
+        // Logic to update orders state if needed
     };
 
     return (
@@ -46,68 +41,76 @@ const Order = () => {
 
             {/* Order List */}
             <div className="flex flex-col items-center space-y-4">
-                {orders.map(order => (
-                    <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
-                        <h2 className="font-bold text-purple-300 mb-2">Order ID: {order.id} | Date: {new Date(order.orderDate).toLocaleDateString()}</h2>
-                        
-                        <div className="mt-2">
-                            <h3 className="font-semibold text-green-300 mb-2">Products:</h3>
-                            <table className="table-auto w-full text-gray-400">
-                                <thead>
-                                    <tr className="border-b border-gray-600">
-                                        <th className="px-4 py-2 text-left">Product Name</th>
-                                        <th className="px-4 py-2 text-left">Quantity</th>
-                                        <th className="px-4 py-2 text-left">Unit Price</th>
-                                        <th className="px-4 py-2 text-left">Total Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {order.orderProducts.map(product => (
-                                        <tr key={product.productId} className="border-b border-gray-600">
-                                            <td className="px-4 py-2">{product.productName}</td>
-                                            <td className="px-4 py-2">{product.quantity}</td>
-                                            <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
-                                            <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
+                {orders.map(order => {
+                    return (
+                        <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
+                            <h2 className="font-bold text-purple-300 mb-2">Order ID: {order.id} | Date: {new Date(order.orderDate).toLocaleDateString()}</h2>
+                            
+                            <p className="text-gray-400">Converted to Bill: {order.convertedToBill ? 'Yes' : 'No'}</p>
+
+                            <div className="mt-2">
+                                <h3 className="font-semibold text-green-300 mb-2">Products:</h3>
+                                <table className="table-auto w-full text-gray-400">
+                                    <thead>
+                                        <tr className="border-b border-gray-600">
+                                            <th className="px-4 py-2 text-left">Product Name</th>
+                                            <th className="px-4 py-2 text-left">Quantity</th>
+                                            <th className="px-4 py-2 text-left">Unit Price</th>
+                                            <th className="px-4 py-2 text-left">Total Price</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="flex justify-center mt-4">
-                            <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
-                        </div>
-
-                        {/* Convert to Bill component */}
-                        {convertingOrderId === order.id ? (
-                            <ConvertToBill orderId={order.id} onConvert={handleConversion} />
-                        ) : (
-                            <div className="flex justify-center mt-4">
-                                <button
-                                    onClick={() => setConvertingOrderId(order.id)} // Set the order to convert
-                                    className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
-                                    disabled={order.isConvertedToBill} // Disable if converted to bill
-                                >
-                                    Convert to Bill
-                                </button>
+                                    </thead>
+                                    <tbody>
+                                        {order.orderProducts && order.orderProducts.map(product => (
+                                            <tr key={product.productId} className="border-b border-gray-600">
+                                                <td className="px-4 py-2">{product.productName}</td>
+                                                <td className="px-4 py-2">{product.quantity}</td>
+                                                <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
+                                                <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-                        )}
 
-                        {/* Conditional rendering for delete button */}
-                        <div className="flex justify-center mt-4">
-                            {order.isConvertedToBill ? (
-                                <p className="text-red-500">Sealed</p> // Show "sealed" text if converted
+                            <div className="flex justify-center mt-4">
+                                <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
+                            </div>
+
+                            {order.convertedToBill ? (
+                                <div className="flex justify-center mt-4">
+                                    <p className="text-red-500 font-bold">Sealed</p>
+                                </div>
                             ) : (
-                                <button
-                                    onClick={() => deleteOrder(order.id)}
-                                    className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
-                                >
-                                    Delete Order
-                                </button>
+                                <div>
+                                    {convertingOrderId === order.id ? (
+                                        <ConvertToBill orderId={order.id} onConvert={handleConversion} />
+                                    ) : (
+                                        <div className="flex justify-center mt-4">
+                                            <button
+                                                onClick={() => setConvertingOrderId(order.id)}
+                                                className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
+                                                disabled={order.convertedToBill}
+                                            >
+                                                Convert to Bill
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {!order.convertedToBill && (
+                                <div className="flex justify-center mt-4">
+                                    <button
+                                        onClick={() => deleteOrder(order.id)}
+                                        className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
+                                    >
+                                        Delete Order
+                                    </button>
+                                </div>
                             )}
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
