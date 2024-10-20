@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import api from '../../api/Api';
 
-const ConvertToBill = ({ cartId, onConvert }) => {
+const ConvertToBill = ({ orderId, onConvert }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
+    const token  = localStorage.getItem('token');
 
     const handleConvert = async () => {
+
+        console.log('Payment Method:', paymentMethod);
+        
         try {
-            const response = await api.post(`/bills/fromCart/${cartId}`, { paymentMethod }, {
+            const response = await api.post(`/bills/convertOrderToBill/${orderId}?paymentMethod=${paymentMethod}`, {}, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
             onConvert(response.data);
+
+            console.log(response.data);
+
             window.location.reload();
         } catch (err) {
-            console.error('Error converting cart to bill:', err);
+            console.error('Error converting order to bill:', err);
         }
     };
 
@@ -34,8 +41,9 @@ const ConvertToBill = ({ cartId, onConvert }) => {
             <button 
                 onClick={handleConvert} 
                 className="w-full h-10 bg-purple-800 rounded-md hover:bg-purple-900 transition duration-200"
+                disabled={!paymentMethod}
             >
-                Convert Cart to Bill
+                Convert Order to Bill
             </button>
         </div>
     );

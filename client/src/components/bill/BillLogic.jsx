@@ -10,19 +10,25 @@ export const useBillLogic = () => {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('role');
 
-    const fetchBills = async () => {
+    const fetchBills = async (userIdToSearch = null) => {
         setLoading(true);
         setError(null);
         try {
-            if (userRole === 'ADMIN') {
-                const response = await api.get('/bills', {
+            let response;
+            if (userRole === 'ADMIN' && !userIdToSearch) {
+                response = await api.get('/bills', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setBills(response.data);
+            } else if (userIdToSearch) {
+                response = await api.get(`/bills/billsFromUser/${userIdToSearch}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
             } else if (userId) {
-                const response = await api.get(`/bills/billsFromUser/${userId}`, {
+                response = await api.get(`/bills/billsFromUser/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
+            }
+            if (response) {
                 setBills(response.data);
             }
         } catch (err) {
@@ -57,12 +63,12 @@ export const useBillLogic = () => {
 
     const handleSearch = () => {
         if (searchUserId) {
-            fetchBillsByUserId(searchUserId);
+            fetchBills(searchUserId);
         }
     };
 
     useEffect(() => {
-        fetchBills();
+        fetchBills(); // Initial fetch when userId or userRole changes
     }, [userId, userRole]);
 
     return {

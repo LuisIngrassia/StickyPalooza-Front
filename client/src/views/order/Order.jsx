@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOrderLogic } from '../../components/order/OrderLogic';
+import ConvertToBill from '../../components/bill/ConvertToBill';
 
 const Order = () => {
-    const { orders, loading, error, deleteOrder, searchUserId, handleSearchChange, handleSearch } = useOrderLogic();
+    const { orders: initialOrders, loading, error, deleteOrder, searchUserId, handleSearchChange, handleSearch } = useOrderLogic();
+    const [orders, setOrders] = useState(initialOrders);
+    const [convertingOrderId, setConvertingOrderId] = useState(null);
+
+    useEffect(() => {
+        setOrders(initialOrders); // Update orders state when initialOrders changes
+    }, [initialOrders]);
 
     if (loading) return <div className="text-green-300">Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
+
+    const handleConversion = (updatedOrder) => {
+        // Update your orders state to reflect the converted order
+        setOrders(prevOrders => 
+            prevOrders.map(order => 
+                order.id === updatedOrder.id ? updatedOrder : order
+            )
+        );
+        setConvertingOrderId(null); // Reset the converting order state
+    };
 
     return (
         <div className="min-h-screen bg-gray-900 p-6">
@@ -32,7 +49,6 @@ const Order = () => {
                 {orders.map(order => (
                     <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
                         <h2 className="font-bold text-purple-300 mb-2">Order ID: {order.id} | Date: {new Date(order.orderDate).toLocaleDateString()}</h2>
-                        <p className="text-green-300 mb-2"></p>
                         
                         <div className="mt-2">
                             <h3 className="font-semibold text-green-300 mb-2">Products:</h3>
@@ -59,14 +75,36 @@ const Order = () => {
                         </div>
 
                         <div className="flex justify-center mt-4">
-                            <p className="font-bold  text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
+                            <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
                         </div>
 
-                        {/* Delete button centered and aligned to the right */}
+                        {/* Convert to Bill component */}
+                        {convertingOrderId === order.id ? (
+                            <ConvertToBill orderId={order.id} onConvert={handleConversion} />
+                        ) : (
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    onClick={() => setConvertingOrderId(order.id)} // Set the order to convert
+                                    className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
+                                    disabled={order.isConvertedToBill} // Disable if converted to bill
+                                >
+                                    Convert to Bill
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Conditional rendering for delete button */}
                         <div className="flex justify-center mt-4">
-                            <button onClick={() => deleteOrder(order.id)} className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500">
-                                Delete Order
-                            </button>
+                            {order.isConvertedToBill ? (
+                                <p className="text-red-500">Sealed</p> // Show "sealed" text if converted
+                            ) : (
+                                <button
+                                    onClick={() => deleteOrder(order.id)}
+                                    className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
+                                >
+                                    Delete Order
+                                </button>
+                            )}
                         </div>
                     </div>
                 ))}

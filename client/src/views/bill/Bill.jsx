@@ -30,7 +30,7 @@ const Bill = () => {
             {/* Bill List */}
             <div className="flex flex-col items-center space-y-4">
                 {bills.map(bill => (
-                    <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
+                    <div key={bill.orderId} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
                         <h2 className="font-bold text-purple-300 mb-2">Bill ID: {bill.id} | Date: {new Date(bill.billDate).toLocaleDateString()}</h2>
                         <p className="text-green-300 mb-2">Total Amount: ${bill.totalAmount.toFixed(2)}</p>
                         <p className="text-green-300 mb-2">Payment Method: {bill.paymentMethod}</p>
@@ -40,7 +40,7 @@ const Bill = () => {
                         {!bill.paid && (
                             <div className="flex justify-center mt-4">
                                 <button 
-                                    onClick={() => markBillAsPaid(bill.id)} 
+                                    onClick={() => markBillAsPaid(bill.orderId)} 
                                     className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
                                 >
                                     Mark as Paid
