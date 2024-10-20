@@ -8,7 +8,7 @@ const Order = () => {
     if (error) return <div className="text-red-500">{error}</div>;
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="min-h-screen bg-gray-900 p-6">
             <h1 className="text-3xl font-bold mb-6 text-green-400">Your Orders</h1>
 
             {/* Search Bar for Admins */}
@@ -19,7 +19,7 @@ const Order = () => {
                         value={searchUserId}
                         onChange={handleSearchChange}
                         placeholder="Enter User ID"
-                        className="border rounded-md p-2 border-purple-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
+                        className="border rounded-md p-2 border-purple-600 bg-gray-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
                     />
                     <button onClick={handleSearch} className="bg-purple-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
                         Search Orders
