@@ -10,6 +10,7 @@ import Login from './views/user/Login';
 import Signup from './views/user/Signup';
 import Main from './views/main/Main';
 import Users from './views/user/Users';
+import Category from './views/category/Category';
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
           <Route path="/products" element={<Product />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/categories" element={<Category />} />
+
 
         </Routes>
       </div>

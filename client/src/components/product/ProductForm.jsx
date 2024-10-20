@@ -1,96 +1,150 @@
-import React from 'react';
-import { useProductFormLogic } from './ProductFormLogic';
+import { useState, useEffect } from 'react';
+import api from '../../api/Api';
 
-const ProductForm = ({ product, onSave }) => {
-  const { formData, handleChange, handleFileChange, handleSubmit, imagePreview, isSubmitting } = useProductFormLogic(product, onSave);
+export const useProductFormLogic = (product, onSave) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    stockQuantity: '',
+    categoryId: '',
+    image: null,
+  });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const placeholderImage = '/images/placeholder.png';
+  const token = localStorage.getItem('token');
 
-  return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data" className="bg-gray-800 p-6 rounded-lg shadow-md">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="text-green-300 font-semibold">Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
-        
-        <div>
-          <label className="text-green-300 font-semibold">Description:</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        name: product.name || '',
+        description: product.description || '',
+        price: product.price || '',
+        stockQuantity: product.stockQuantity || '',
+        categoryId: product.categoryId || '',
+        image: null,
+      });
 
-        <div>
-          <label className="text-green-300 font-semibold">Price:</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+      if (product.image) {
+        setImagePreview(`/images/${product.image}`);
+      }
+    } else {
+      setFormData({
+        name: '',
+        description: '',
+        price: '',
+        stockQuantity: '',
+        categoryId: '',
+        image: null,
+      });
+      setImagePreview(null);
+    }
+  }, [product]);
 
-        <div>
-          <label className="text-green-300 font-semibold">Stock Quantity:</label>
-          <input
-            type="number"
-            name="stockQuantity"
-            value={formData.stockQuantity}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-        <div>
-          <label className="text-green-300 font-semibold">Category ID:</label>
-          <input
-            type="number"
-            name="categoryId"
-            value={formData.categoryId}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      image: file,
+    }));
 
-        <div>
-          <label className="text-green-300 font-semibold">Image:</label>
-          <input type="file" name="image" onChange={handleFileChange} className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md" />
-          <div className="mt-4">
-            <img
-              src={imagePreview || placeholderImage}
-              alt="Image Preview"
-              className="w-40 h-40 object-cover rounded-md shadow-md"
-            />
-          </div>
-        </div>
-      </div>
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-      <div className="flex justify-end mt-6">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md ${isSubmitting ? 'opacity-50' : ''}`}
-        >
-          {isSubmitting ? 'Saving...' : 'Save Product'}
-        </button>
-      </div>
-    </form>
-  );
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    setIsSubmitting(true);
+
+    // Basic validation
+    if (!formData.name || !formData.price || !formData.stockQuantity || !formData.categoryId) {
+      alert('Please fill all the required fields.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const productFormData = new FormData();
+      productFormData.append('name', formData.name);
+      productFormData.append('description', formData.description || '');
+      productFormData.append('price', parseFloat(formData.price));
+      productFormData.append('stockQuantity', parseInt(formData.stockQuantity, 10));
+      productFormData.append('categoryId', Number(formData.categoryId));
+
+      if (formData.image) {
+        const filename = await uploadImageToFrontend(formData.image); // Upload the image to the frontend storage
+        productFormData.append('image', filename); // Use the filename returned from the upload
+      }
+
+      let response;
+      if (product && product.id) {
+        // Update existing product
+        response = await api.put(`/products/update/${product.id}`, productFormData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        // Create new product
+        response = await api.post('/products', productFormData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
+
+      console.log('Product saved successfully:', response.data);
+      onSave(); 
+    } catch (error) {
+      console.error('Error saving product:', error?.response?.data || error.message);
+      alert(`Error saving product: ${error?.response?.data?.message || error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const uploadImageToFrontend = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Make a POST request to your server to get the filename
+    try {
+      const response = await api.post('/products/uploadImage', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return response.data; // Assuming the backend returns the filename
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+  };
+
+  return {
+    formData,
+    handleChange,
+    handleFileChange,
+    handleSubmit,
+    imagePreview,
+    isSubmitting,
+  };
 };
-
-export default ProductForm;

@@ -89,9 +89,16 @@ const MainPage = () => {
               </button>
               <button
                 className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/order')} // Updated to the Order view URL
+                onClick={() => navigate('/order')}
               >
                 View Orders
+              </button>
+              {/* New button for managing categories */}
+              <button
+                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
+                onClick={() => navigate('/categories')}
+              >
+                Manage Categories
               </button>
             </div>
           )}
