@@ -33,7 +33,7 @@ const Login = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <div className="mx-auto max-w-md space-y-6 mt-12">
-        <h1 className="text-3xl font-bold text-center">Iniciar Sesión</h1>
+        <h1 className="text-3xl font-bold text-center text-green-400">Iniciar Sesión</h1>
         <p className="text-center text-gray-400">Inicia sesión para empezar</p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
