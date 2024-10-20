@@ -1,68 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import api from '../../api/Api';
 
-export const useProductFormLogic = (product, onSave) => {
+const ProductFormLogic = ({ product, onSave }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
-    stockQuantity: '',
-    categoryId: '',
+    name: product?.name || '',
+    description: product?.description || '',
+    price: product?.price || '',
+    stockQuantity: product?.stockQuantity || '',
+    categoryId: product?.categoryId || '',
     image: null,
   });
-  const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        name: product.name || '',
-        description: product.description || '',
-        price: product.price || '',
-        stockQuantity: product.stockQuantity || '',
-        categoryId: product.categoryId || '',
-        image: null,
-      });
-
-      if (product.image) {
-        setImagePreview(`/images/${product.image}`);
-      }
-    } else {
-      setFormData({
-        name: '',
-        description: '',
-        price: '',
-        stockQuantity: '',
-        categoryId: '',
-        image: null,
-      });
-      setImagePreview(null);
-    }
-  }, [product]);
-
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      image: file,
-    }));
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+    const { name, value, files } = e.target;
+    if (name === 'image') {
+      setFormData((prevData) => ({ ...prevData, image: files[0] })); // Update image file
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
@@ -86,8 +42,7 @@ export const useProductFormLogic = (product, onSave) => {
       productFormData.append('categoryId', Number(formData.categoryId));
 
       if (formData.image) {
-        const filename = await uploadImageToFrontend(formData.image); // Upload the image to the frontend storage
-        productFormData.append('image', filename); // Use the filename returned from the upload
+        productFormData.append('image', formData.image); // Append the image file directly
       }
 
       let response;
@@ -119,32 +74,7 @@ export const useProductFormLogic = (product, onSave) => {
     }
   };
 
-  const uploadImageToFrontend = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    // Make a POST request to your server to get the filename
-    try {
-      const response = await api.post('/products/uploadImage', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      return response.data; // Assuming the backend returns the filename
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      throw error;
-    }
-  };
-
-  return {
-    formData,
-    handleChange,
-    handleFileChange,
-    handleSubmit,
-    imagePreview,
-    isSubmitting,
-  };
+  return { formData, handleChange, handleSubmit, isSubmitting };
 };
+
+export default ProductFormLogic;

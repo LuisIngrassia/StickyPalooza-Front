@@ -1,94 +1,75 @@
 import React from 'react';
-import { useProductFormLogic } from './ProductFormLogic';
+import ProductFormLogic from './ProductFormLogic'; // Adjust the import according to your file structure
 
 const ProductForm = ({ product, onSave }) => {
-  const { formData, handleChange, handleFileChange, handleSubmit, imagePreview, isSubmitting } = useProductFormLogic(product, onSave);
-
-  const placeholderImage = '/images/placeholder.png';
+  const { formData, handleChange, handleSubmit, isSubmitting } = ProductFormLogic({ product, onSave });
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data" className="bg-gray-800 p-6 rounded-lg shadow-md">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="text-green-300 font-semibold">Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
-        
-        <div>
-          <label className="text-green-300 font-semibold">Description:</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+      <h2 className="text-2xl font-bold text-green-400 mb-4">{product ? 'Edit Product' : 'Create Product'}</h2>
+      
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="Product Name"
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
+        required
+      />
+      
+      <textarea
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        placeholder="Description"
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
+      />
+      
+      <input
+        type="number"
+        name="price"
+        value={formData.price}
+        onChange={handleChange}
+        placeholder="Price"
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
+        required
+      />
+      
+      <input
+        type="number"
+        name="stockQuantity"
+        value={formData.stockQuantity}
+        onChange={handleChange}
+        placeholder="Stock Quantity"
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
+        required
+      />
 
-        <div>
-          <label className="text-green-300 font-semibold">Price:</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+      <input
+        type="number"
+        name="categoryId"
+        value={formData.categoryId}
+        onChange={handleChange}
+        placeholder="Category ID"
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
+        required
+      />
 
-        <div>
-          <label className="text-green-300 font-semibold">Stock Quantity:</label>
-          <input
-            type="number"
-            name="stockQuantity"
-            value={formData.stockQuantity}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
+      <input
+        type="file"
+        name="image"
+        onChange={handleChange}
+        className="mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
+      />
 
-        <div>
-          <label className="text-green-300 font-semibold">Category ID:</label>
-          <input
-            type="number"
-            name="categoryId"
-            value={formData.categoryId}
-            onChange={handleChange}
-            required
-            className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="text-green-300 font-semibold">Image:</label>
-          <input type="file" name="image" onChange={handleFileChange} className="w-full mt-2 px-4 py-2 bg-gray-700 text-green-300 rounded-md" />
-          <div className="mt-4">
-            <img
-              src={imagePreview || placeholderImage}
-              alt="Image Preview"
-              className="w-40 h-40 object-cover rounded-md shadow-md"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-end mt-6">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md ${isSubmitting ? 'opacity-50' : ''}`}
-        >
-          {isSubmitting ? 'Saving...' : 'Save Product'}
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className={`w-full p-2 rounded-md ${isSubmitting ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-500'} text-white`}
+      >
+        {isSubmitting ? 'Saving...' : 'Save Product'}
+      </button>
     </form>
   );
 };

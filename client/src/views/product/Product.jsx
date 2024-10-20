@@ -16,12 +16,10 @@ const Product = () => {
     addProductToCart,
   } = useProductLogic();
 
-  // State to track selected quantities for each product by productId
   const [quantities, setQuantities] = useState({});
   const userRole = localStorage.getItem('role');
   const placeholderImage = '/public/images/placeholder.png';
 
-  // Handle quantity change for a specific product
   const handleQuantityChange = (productId, value) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -29,7 +27,6 @@ const Product = () => {
     }));
   };
 
-  // Handle adding product to the cart with the selected quantity
   const handleAddToCart = (productId) => {
     const selectedQuantity = quantities[productId] || 1; // Default to 1 if not set
     addProductToCart(productId, selectedQuantity);
@@ -74,66 +71,55 @@ const Product = () => {
           </div>
         )}
 
-        {/* Products List */}
-        <ul className="space-y-6">
+        {/* Product List */}
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => {
-            // Conditionally render product for USER and ADMIN
-            const isOutOfStock = product.stockQuantity === 0;
-
+            const productImage = product.image || placeholderImage;
             return (
-              (userRole === 'ADMIN' || !isOutOfStock) && ( // Render if ADMIN or if stock is available for USER
-                <li key={product.id} className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                  <img
-                    src={product.image ? `/images/${product.image}` : placeholderImage}
-                    alt={product.name}
-                    className="w-32 h-32 object-cover rounded-md shadow-md"
-                  />
-                  <div className="flex-grow md:ml-6 space-y-2">
-                    <h3 className="text-3xl font-bold text-green-400">{product.name}</h3>
-                    <p className="text-gray-300">{product.description}</p>
-                    <p className="text-green-400 font-semibold">Price: ${product.price}</p>
-                    <p className="text-gray-400">Stock: {product.stockQuantity}</p>
-                    <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
+              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md p-4">
+                <img src={productImage} alt={product.name} className="w-full h-40 object-cover mb-4 rounded-md" />
+                <h2 className="text-lg font-bold text-green-400">{product.name}</h2>
+                <p className="text-gray-300 mb-2">{product.description}</p>
+                <p className="text-green-400 font-semibold">${product.price.toFixed(2)}</p>
+                <p className="text-gray-300 mb-2">In stock: {product.stockQuantity}</p>
+
+                {/* Admin Actions */}
+                {userRole === 'ADMIN' && (
+                  <div className="flex justify-between mt-4">
+                    <button
+                      onClick={() => handleEdit(product)}
+                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(product.id)}
+                      className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
+                    >
+                      Delete
+                    </button>
                   </div>
+                )}
 
-                  {/* Add to Cart for USER role */}
-                  {userRole === 'USER' && !isOutOfStock && (
-                    <div className="flex items-center space-x-4 mt-4 md:mt-0">
-                      <input
-                        type="number"
-                        value={quantities[product.id] || 1} // Default to 1 if not set
-                        onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-                        min="1"
-                        className="w-16 px-2 py-1 bg-gray-700 text-green-300 border border-gray-600 rounded-md"
-                      />
-                      <button
-                        onClick={() => handleAddToCart(product.id)}
-                        className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-green-500 transition"
-                      >
-                        Add to Cart
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Edit/Delete for ADMIN role */}
-                  {userRole === 'ADMIN' && (
-                    <div className="flex space-x-4 mt-4 md:mt-0">
-                      <button
-                        onClick={() => handleEdit(product)}
-                        className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-500 transition"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </li>
-              )
+                {/* User Actions */}
+                {userRole !== 'ADMIN' && (
+                  <div className="flex justify-between mt-4">
+                    <input
+                      type="number"
+                      min="1"
+                      value={quantities[product.id] || 1}
+                      onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                      className="w-1/4 p-1 border rounded-md text-gray-300 bg-gray-700"
+                    />
+                    <button
+                      onClick={() => handleAddToCart(product.id)}
+                      className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-500 transition"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                )}
+              </li>
             );
           })}
         </ul>
