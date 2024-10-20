@@ -26,7 +26,6 @@ export const useProductLogic = () => {
       }
     };
     
-
     fetchProducts();
   }, [token]);
 
@@ -57,11 +56,11 @@ export const useProductLogic = () => {
   };
 
   const handleEdit = (product) => {
-    setEditingProduct(product); // Set product for editing
+    setEditingProduct(product);
   };
 
   const handleCreate = () => {
-    setEditingProduct({}); // Set empty product for new creation
+    setEditingProduct({});
   };
 
   const handleSave = async () => {
@@ -72,7 +71,7 @@ export const useProductLogic = () => {
         },
       });
       setProducts(response.data);
-      setEditingProduct(null); // Close the form after saving
+      setEditingProduct(null);
     } catch (error) {
       console.error('Error reloading products:', error?.response?.data || error.message);
     }

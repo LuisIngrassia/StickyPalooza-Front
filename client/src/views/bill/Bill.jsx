@@ -7,12 +7,16 @@ const Bill = () => {
     if (loading) return <div className="text-green-300">Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
 
+    const userRole = localStorage.getItem('role'); // Get the user's role
+
     return (
         <div className="min-h-screen bg-gray-900 p-6">
-            <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">Your Bills</h1>
+            <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">
+                {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'} {/* Conditional heading */}
+            </h1>
 
             {/* Search Bar for Admins */}
-            {localStorage.getItem('role') === 'ADMIN' && (
+            {userRole === 'ADMIN' && (
                 <div className="mb-6 text-center">
                     <input
                         type="text"

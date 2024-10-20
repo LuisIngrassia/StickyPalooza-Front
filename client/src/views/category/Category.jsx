@@ -26,7 +26,7 @@ const Category = () => {
         <div className="flex items-center mb-8 space-x-4">
           <input
             type="text"
-            placeholder="Search categories by description"
+            placeholder="Search categories by name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border border-gray-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
