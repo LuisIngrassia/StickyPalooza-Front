@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import api from '../../api/Api';
 
 export const useProductLogic = () => {
+
+  const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
 
   const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -75,8 +78,34 @@ export const useProductLogic = () => {
     }
   };
 
+  const fetchCart = async () => {
+
+    try {
+      const response = await api.get(`/carts/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      const cartId = response.data.id;
+
+      return cartId;
+
+    } catch (err) {
+      console.error('Error fetching cart:', err);
+    }
+
+
+
+  };
+
   const addProductToCart = async (productId, quantity) => {
-    const cartId = cart?.id;
+
+    console.log(userId)
+    
+    const cartId = await fetchCart();
+
+    console.log('cartId = ' + cartId);
 
     try {
       await api.post('/carts/addProduct', {
@@ -88,13 +117,10 @@ export const useProductLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      await fetchCart();
+      
     } catch (err) {
       console.error('Error adding product:', err);
-      setError('Error adding product: ' + (err.response?.data || err.message));
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return {

@@ -13,21 +13,32 @@ const Product = () => {
     handleEdit,
     handleSave,
     handleCreate,
-    addProductToCart, // Destructure the addProductToCart function
+    addProductToCart,
   } = useProductLogic();
 
-  const [selectedQuantity, setSelectedQuantity] = useState(1); // State to store the selected quantity
-  const userRole = localStorage.getItem('role'); // Assuming the user role is stored in localStorage
+  // State to track selected quantities for each product by productId
+  const [quantities, setQuantities] = useState({});
+  const userRole = localStorage.getItem('role');
   const placeholderImage = '/public/images/placeholder.png';
 
+  // Handle quantity change for a specific product
+  const handleQuantityChange = (productId, value) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: value,
+    }));
+  };
+
+  // Handle adding product to the cart with the selected quantity
   const handleAddToCart = (productId) => {
+    const selectedQuantity = quantities[productId] || 1; // Default to 1 if not set
     addProductToCart(productId, selectedQuantity);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Products</h1>
+        <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Products</h1>
 
         {/* Search Bar */}
         <div className="flex items-center mb-8 space-x-4">
@@ -36,11 +47,11 @@ const Product = () => {
             placeholder="Search products by name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+            className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border border-gray-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
           />
           <button
             onClick={handleSearch}
-            className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-500 transition"
+            className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
           >
             Search
           </button>
@@ -50,77 +61,81 @@ const Product = () => {
         {userRole === 'ADMIN' && (
           <button
             onClick={handleCreate}
-            className="mb-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
+            className="mb-6 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-500 transition"
           >
             Create Product
           </button>
         )}
 
-        {/* Product Form (for both create and edit) */}
+        {/* Product Form */}
         {editingProduct && (
-          <div className="mb-8 p-4 bg-white shadow-lg rounded-md">
+          <div className="mb-8 p-6 bg-gray-800 rounded-lg shadow-lg">
             <ProductForm product={editingProduct} onSave={handleSave} />
           </div>
         )}
 
         {/* Products List */}
         <ul className="space-y-6">
-          {products.map((product) => (
-            <li key={product.id} className="p-6 bg-white rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between">
-              <div className="flex flex-col space-y-2">
-                <h3 className="text-2xl font-bold text-gray-700">{product.name}</h3>
-                <p className="text-gray-500">{product.description}</p>
-                <p className="text-gray-700 font-semibold">Price: ${product.price}</p>
-                <p className="text-gray-700">Stock: {product.stockQuantity}</p>
-                <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
+          {products.map((product) => {
+            // Conditionally render product for USER and ADMIN
+            const isOutOfStock = product.stockQuantity === 0;
 
-                <img
-                  src={product.image ? `/images/${product.image}` : placeholderImage}
-                  alt={product.name}
-                  className="w-24 h-24 object-cover rounded-md shadow-md mt-4"
-                />
-
-                {/* Conditionally render Add to Cart for USER role */}
-                {userRole === 'USER' && (
-                  <div className="mt-4 flex items-center space-x-2">
-                    <label htmlFor={`quantity-${product.id}`} className="text-gray-700">Qty:</label>
-                    <input
-                      id={`quantity-${product.id}`}
-                      type="number"
-                      value={selectedQuantity}
-                      onChange={(e) => setSelectedQuantity(parseInt(e.target.value))}
-                      min="1"
-                      className="w-16 px-2 py-1 border rounded-md"
-                    />
-                    <button
-                      onClick={() => handleAddToCart(product.id)}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition"
-                    >
-                      Add to Cart
-                    </button>
+            return (
+              (userRole === 'ADMIN' || !isOutOfStock) && ( // Render if ADMIN or if stock is available for USER
+                <li key={product.id} className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                  <img
+                    src={product.image ? `/images/${product.image}` : placeholderImage}
+                    alt={product.name}
+                    className="w-32 h-32 object-cover rounded-md shadow-md"
+                  />
+                  <div className="flex-grow md:ml-6 space-y-2">
+                    <h3 className="text-3xl font-bold text-green-400">{product.name}</h3>
+                    <p className="text-gray-300">{product.description}</p>
+                    <p className="text-green-400 font-semibold">Price: ${product.price}</p>
+                    <p className="text-gray-400">Stock: {product.stockQuantity}</p>
+                    <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
                   </div>
-                )}
-              </div>
 
-              {/* Conditionally render Edit/Delete buttons for ADMIN role */}
-              {userRole === 'ADMIN' && (
-                <div className="mt-4 md:mt-0 space-x-4 flex">
-                  <button
-                    onClick={() => handleEdit(product)}
-                    className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-400 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(product.id)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
-            </li>
-          ))}
+                  {/* Add to Cart for USER role */}
+                  {userRole === 'USER' && !isOutOfStock && (
+                    <div className="flex items-center space-x-4 mt-4 md:mt-0">
+                      <input
+                        type="number"
+                        value={quantities[product.id] || 1} // Default to 1 if not set
+                        onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
+                        min="1"
+                        className="w-16 px-2 py-1 bg-gray-700 text-green-300 border border-gray-600 rounded-md"
+                      />
+                      <button
+                        onClick={() => handleAddToCart(product.id)}
+                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-500 transition"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Edit/Delete for ADMIN role */}
+                  {userRole === 'ADMIN' && (
+                    <div className="flex space-x-4 mt-4 md:mt-0">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-500 transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product.id)}
+                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </li>
+              )
+            );
+          })}
         </ul>
       </div>
     </div>
