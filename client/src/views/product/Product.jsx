@@ -39,7 +39,7 @@ const Product = () => {
         <div className="flex items-center mb-4">
           <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
             <ArrowLeftIcon className="h-6 w-6 mr-2" /> {/* Arrow icon with some margin */}
-            Back
+            Back to home
           </Link>
         </div>
 
