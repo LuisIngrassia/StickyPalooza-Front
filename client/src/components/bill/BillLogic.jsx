@@ -15,16 +15,26 @@ export const useBillLogic = () => {
     }
   };
 
-  const convertOrderToBill = async () => {
-    try {
-      const response = await api.post(`/bills/convertOrderToBill/${orderId}`, {
-        paymentMethod,
-      });
-      setBills((prevBills) => [...prevBills, response.data]);
-    } catch (error) {
-      console.error('Error creating bill:', error);
-    }
-  };
+    const markBillAsPaid = async (billId) => {
+        
+        const id = billId;
+        
+        setLoading(true);
+        setError(null);
+        try {
+            await api.post(`/bills/markAsPaid/${id}`, {}, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setBills((prevBills) => prevBills.map(bill => 
+                bill.id === billId ? { ...bill, isPaid: true } : bill // Change 'paid' to 'isPaid'
+            ));
+        } catch (err) {
+            console.error('Error marking bill as paid:', err);
+            setError('Failed to mark bill as paid');
+        } finally {
+            setLoading(false);
+        }
+    };
 
   const saveBill = async (bill, formData) => {
     try {
