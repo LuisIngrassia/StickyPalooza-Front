@@ -1,7 +1,9 @@
-// src/views/cart/Cart.jsx
 import React from 'react';
 import { useCartLogic } from '../../components/cart/CartLogic';
 import ConvertToOrder from '../../components/order/ConvertToOrder'; // Import ConvertToOrder component
+import { Link } from 'react-router-dom'; // Import Link for navigation
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'; // Import arrow icon
+import Footer from "../../components/general/Footer"; // Import Footer component
 
 const Cart = () => {
   const {
@@ -27,7 +29,14 @@ const Cart = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-      <div className="mx-auto max-w-xl space-y-6 mt-12 p-6 bg-gray-800 rounded-lg shadow-lg">
+        <div className="mt-8 ml-10 flex items-center mb-4">
+          <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
+            <ArrowLeftIcon className="h-6 w-6 mr-2" />
+            Back to Home
+          </Link>
+        </div>
+      <div className="flex-grow mx-auto max-w-xl space-y-6 mt-12 p-6 bg-gray-800 rounded-lg shadow-lg">
+
         <h2 className="text-3xl font-bold text-center text-green-400">Your Cart</h2>
         {error && <div className="text-red-500 text-center">{error}</div>}
         {cart && cart.cartProducts && cart.cartProducts.length > 0 ? (
@@ -84,6 +93,13 @@ const Cart = () => {
           <div className="text-center">No items in your cart.</div>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-900">
+        <div className="flex justify-center items-center p-4">
+          <Footer />
+        </div>
+      </footer>
     </div>
   );
 };

@@ -59,30 +59,28 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col">
-        <button
-          className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
-          onClick={() => navigate('/')}
-        >
-          <ArrowLeftIcon className="h-6 w-6 mr-2" />
-          Back to Home
-        </button>
+      <button
+        className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
+        onClick={() => navigate('/')}
+      >
+        <ArrowLeftIcon className="h-6 w-6 mr-2" />
+        Back to Home
+      </button>
       <div className="max-w-3xl mx-auto flex-grow p-6 relative">
-
-
         <h1 className="text-3xl font-bold text-green-400 mb-6 text-center">User Profile</h1>
 
         {user ? (
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full">
+          <div className=" bg-gray-800 p-8 rounded-lg shadow-lg w-30 mx-auto"> 
             {!editing ? (
               <>
                 <div className="mb-4">
                   <p className="text-lg text-green-300">
-                    <strong className="font-semibold text-green-400">Nombre:</strong> {user.firstName}
+                    <strong className="font-semibold text-green-400">First Name:</strong> {user.firstName}
                   </p>
                 </div>
                 <div className="mb-4">
                   <p className="text-lg text-green-300">
-                    <strong className="font-semibold text-green-400">Apellido:</strong> {user.lastName}
+                    <strong className="font-semibold text-green-400">Last Name:</strong> {user.lastName}
                   </p>
                 </div>
                 <div className="mb-6">

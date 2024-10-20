@@ -45,16 +45,17 @@ const Users = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col">
-      <div className="max-w-4xl mx-auto flex-grow p-6">
         <div className="flex items-center mb-4">
           <button
-            className="flex items-center text-green-400 hover:text-green-300 transition"
+            className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
             onClick={() => navigate('/')}
           >
             <ArrowLeftIcon className="h-6 w-6 mr-2" />
             Back to Home
           </button>
         </div>
+      <div className="max-w-4xl mx-auto flex-grow p-6">
+
         
         <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Users</h1>
 
