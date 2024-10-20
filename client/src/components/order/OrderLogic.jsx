@@ -6,27 +6,23 @@ export const useOrderLogic = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [searchUserId, setSearchUserId] = useState('');
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('role');
 
+    // Function to fetch orders (for Admins and Users)
     const fetchOrders = async () => {
         setLoading(true);
         setError(null);
-
         try {
             if (userRole === 'ADMIN') {
                 const response = await api.get('/orders', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setOrders(response.data);
             } else if (userId) {
                 const response = await api.get(`/orders/ordersFromUser/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setOrders(response.data);
             }
@@ -38,16 +34,13 @@ export const useOrderLogic = () => {
         }
     };
 
-    // New function to fetch orders for a specific user
+    // Function to fetch orders for a specific user by ID (Admin)
     const fetchOrdersByUserId = async (id) => {
         setLoading(true);
         setError(null);
-
         try {
             const response = await api.get(`/orders/ordersFromUser/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
             setOrders(response.data);
         } catch (err) {
@@ -58,19 +51,35 @@ export const useOrderLogic = () => {
         }
     };
 
+    // Function to create an order from a cart (User)
+    const createOrderFromCart = async (cartId) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await api.post(`/orders/fromCart/${cartId}`, {}, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setOrders((prevOrders) => [...prevOrders, response.data]);
+        } catch (err) {
+            console.error('Error creating order from cart:', err);
+            setError('Failed to create order');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Effect to automatically fetch orders on load based on role
     useEffect(() => {
         fetchOrders();
     }, [userId, userRole]);
 
+    // Function to delete an order
     const deleteOrder = async (orderId) => {
         setLoading(true);
         setError(null);
-
         try {
             await api.delete(`/orders/${orderId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
             setOrders((prevOrders) => prevOrders.filter(order => order.id !== orderId));
         } catch (err) {
@@ -81,41 +90,12 @@ export const useOrderLogic = () => {
         }
     };
 
-    const saveOrder = async (order, orderData) => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const response = order 
-                ? await api.put(`/orders/${order.id}`, orderData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                : await api.post('/orders', orderData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-            setOrders((prevOrders) => {
-                const updatedOrders = prevOrders.filter(o => o.id !== response.data.id);
-                return [...updatedOrders, response.data];
-            });
-        } catch (err) {
-            console.error('Error saving order:', err);
-            setError('Failed to save order');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // New function to handle search input change
+    // Handle input change for search bar
     const handleSearchChange = (e) => {
         setSearchUserId(e.target.value);
     };
 
-    // New function to handle search
+    // Trigger search for a specific user's orders (Admin)
     const handleSearch = () => {
         if (searchUserId) {
             fetchOrdersByUserId(searchUserId);
@@ -127,7 +107,7 @@ export const useOrderLogic = () => {
         loading,
         error,
         deleteOrder,
-        saveOrder,
+        createOrderFromCart, // Added new method
         searchUserId,
         handleSearchChange,
         handleSearch,
