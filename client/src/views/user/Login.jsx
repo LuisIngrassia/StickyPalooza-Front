@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../api/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../features/UserSlice"; // Corrected import path
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const { loading, error, isLoggedIn } = useSelector((state) => state.user); // Access Redux state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post("/api/v1/auth/authenticate", { email, password });
-
-      const { userId, access_token, role } = response.data;
-
-      if (!access_token || !userId) {
-        throw new Error("Missing access token, userId, or cartId.");
-      }
-
-      localStorage.setItem("token", access_token);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("role", role);
-
+    dispatch(loginUser(email, password)); // Dispatch login action
+    
+    // Redirect if logged in successfully
+    if (isLoggedIn) {
       navigate("/");
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Failed to log in. Please check your credentials.");
     }
   };
 
@@ -66,8 +58,9 @@ const Login = () => {
           <button 
             type="submit" 
             className="w-full h-10 bg-purple-600 hover:bg-purple-500 text-white rounded-md transition duration-200"
+            disabled={loading}
           >
-            Iniciar Sesión
+            {loading ? "Iniciando..." : "Iniciar Sesión"}
           </button>
 
           <p className="text-center text-sm mt-4 text-gray-400">
