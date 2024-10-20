@@ -19,7 +19,6 @@ const MainPage = () => {
       setRole(userRole);
       fetchProducts();
     } else {
-      // Fetch products for non-registered users
       fetchProductsWithoutToken();
     }
   }, [token, userRole]);
@@ -29,7 +28,7 @@ const MainPage = () => {
     setError(null);
     try {
       const response = await api.get('/products', {
-        headers: { Authorization: `Bearer ${token}` }, // Use the token here
+        headers: { Authorization: `Bearer ${token}` },
       });
       setProducts(response.data);
     } catch (error) {
@@ -44,7 +43,7 @@ const MainPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get('/products'); // No token needed here
+      const response = await api.get('/products'); 
       setProducts(response.data);
     } catch (error) {
       setError('Failed to fetch products');
@@ -55,7 +54,7 @@ const MainPage = () => {
   };
   
   return (
-    <div className="flex flex-col min-h-screen bg-black">
+    <div className="flex flex-col min-h-screen bg-gray-900">
       <NavBar />
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-12 text-center">
@@ -71,25 +70,25 @@ const MainPage = () => {
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4 text-green-400">Admin Options</h3>
               <button
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2"
+                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate('/products')}
               >
                 Products
               </button>
               <button
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2"
+                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate('/users')}
               >
                 View All Users
               </button>
               <button
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2"
+                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate('/admin/view-bills')}
               >
                 View Bills
               </button>
               <button
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2"
+                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate('/admin/view-orders')}
               >
                 View Orders
@@ -101,7 +100,7 @@ const MainPage = () => {
           {role !== 'ADMIN' && (
             <div className="mb-8">
               <button
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate('/products')}
               >
                 View Products
@@ -117,7 +116,7 @@ const MainPage = () => {
               {error && <p className="text-red-500">{error}</p>}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {products.map((product) => (
-                  <div key={product.id} className="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition duration-200">
+                  <div key={product.id} className="bg-gray-800 p-4 rounded shadow-md hover:shadow-lg transition duration-200">
                     <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
                     <p className="text-green-300">{product.description}</p>
                     <p className="font-bold text-purple-400">${product.price}</p>
