@@ -120,13 +120,13 @@ const Product = () => {
 
                   {/* User Actions */}
                   {userRole !== 'ADMIN' && (
-                    <div className="flex justify-between mt-4">
+                    <div className=" flex items-center justify-end mt-4">
                       <input
                         type="number"
                         min="1"
                         value={quantities[product.id] || 1}
                         onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                        className="w-1/4 p-1 border rounded-md text-gray-300 bg-gray-700"
+                        className="w-1/4 p-1 border rounded-md text-gray-300 bg-gray-700 mr-2" // Margin to the right for spacing
                       />
                       <button
                         onClick={() => handleAddToCart(product.id)}
