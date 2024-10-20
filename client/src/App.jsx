@@ -24,12 +24,11 @@ function App() {
           <Route path="/bill" element={<Bill />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/bill" element={<Bill />} />
           <Route path="/products" element={<Product />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/users" element={<Users />} />
           <Route path="/categories" element={<Category />} />
-
-
         </Routes>
       </div>
     </BrowserRouter>
