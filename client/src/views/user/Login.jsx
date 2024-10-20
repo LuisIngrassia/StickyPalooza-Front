@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../features/UserSlice"; // Corrected import path
+import { loginUser } from "../../features/UserSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,13 +10,12 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { loading, error, isLoggedIn } = useSelector((state) => state.user); // Access Redux state
+  const { loading, error, isLoggedIn } = useSelector((state) => state.user); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(email, password)); // Dispatch login action
+    dispatch(loginUser(email, password)); 
     
-    // Redirect if logged in successfully
     if (isLoggedIn) {
       navigate("/");
     }
