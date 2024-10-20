@@ -41,7 +41,6 @@ const Profile = () => {
     updateUserProfile(updatedData); 
     setEditing(false); 
   };
-  
 
   const handleCancel = () => {
     setEditing(false);
@@ -53,14 +52,14 @@ const Profile = () => {
     }); 
   };
 
-  if (loading) return <div className="text-center text-lg py-4">Loading...</div>;
+  if (loading) return <div className="text-center text-green-300 py-4">Loading...</div>;
   if (error) return <div className="text-center text-red-500 py-4">Error: {error}</div>;
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg relative">
+    <div className="min-h-screen bg-gray-900 p-6">
       <button
         onClick={() => navigate('/')}
-        className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 transition-colors"
+        className="absolute top-4 left-4 text-gray-600 hover:text-gray-300 transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,30 +73,30 @@ const Profile = () => {
         <span className="sr-only">Go back</span>
       </button>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">User Profile</h1>
+      <h1 className="text-3xl font-bold text-green-400 mb-6 text-center">User Profile</h1>
 
       {user ? (
-        <div>
+        <div className="max-w-3xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
           {!editing ? (
             <>
               <div className="mb-4">
-                <p className="text-lg text-gray-600">
-                  <strong className="font-semibold text-gray-800">First Name:</strong> {user.firstName}
+                <p className="text-lg text-green-300">
+                  <strong className="font-semibold text-green-400">First Name:</strong> {user.firstName}
                 </p>
               </div>
               <div className="mb-4">
-                <p className="text-lg text-gray-600">
-                  <strong className="font-semibold text-gray-800">Last Name:</strong> {user.lastName}
+                <p className="text-lg text-green-300">
+                  <strong className="font-semibold text-green-400">Last Name:</strong> {user.lastName}
                 </p>
               </div>
               <div className="mb-6">
-                <p className="text-lg text-gray-600">
-                  <strong className="font-semibold text-gray-800">Email:</strong> {user.email}
+                <p className="text-lg text-green-300">
+                  <strong className="font-semibold text-green-400">Email:</strong> {user.email}
                 </p>
               </div>
               <button
                 onClick={() => setEditing(true)}
-                className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition duration-300"
+                className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300"
               >
                 Edit Profile
               </button>
@@ -105,54 +104,54 @@ const Profile = () => {
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div>
-                <label className="block text-lg text-gray-700 font-semibold mb-2">First Name:</label>
+                <label className="block text-lg text-green-300 font-semibold mb-2">First Name:</label>
                 <input
                   type="text"
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-700 rounded-md bg-gray-700 text-green-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-lg text-gray-700 font-semibold mb-2">Last Name:</label>
+                <label className="block text-lg text-green-300 font-semibold mb-2">Last Name:</label>
                 <input
                   type="text"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-700 rounded-md bg-gray-700 text-green-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-lg text-gray-700 font-semibold mb-2">Email:</label>
+                <label className="block text-lg text-green-300 font-semibold mb-2">Email:</label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-700 rounded-md bg-gray-700 text-green-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
               {/* Optional Password Field */}
               <div>
-                <label className="block text-lg text-gray-700 font-semibold mb-2">New Password (Optional):</label>
+                <label className="block text-lg text-green-300 font-semibold mb-2">New Password (Optional):</label>
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Leave blank to keep current password"
-                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-700 rounded-md bg-gray-700 text-green-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
               <div className="flex justify-between">
                 <button
                   type="submit"
-                  className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition duration-300"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300"
                 >
                   Save Profile
                 </button>
@@ -168,7 +167,7 @@ const Profile = () => {
           )}
         </div>
       ) : (
-        <p className="text-center text-gray-500">No user data available</p>
+        <p className="text-center text-green-300">No user data available</p>
       )}
     </div>
   );
