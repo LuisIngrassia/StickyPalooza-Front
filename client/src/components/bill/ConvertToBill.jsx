@@ -25,7 +25,7 @@ const ConvertToBill = ({ orderId, onConvert }) => {
 
     return (
         <div>
-            <h3 className="text-green-300 mb-2">Converting Order ID: {orderId}</h3> {/* Display the Order ID */}
+            <h3 className="text-green-300 mb-2">Converting Order ID: {orderId}</h3>
             <select 
                 value={paymentMethod} 
                 onChange={(e) => setPaymentMethod(e.target.value)} 

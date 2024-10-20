@@ -1,32 +1,53 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../../api/Api';
 
 export const useBillLogic = () => {
-  const [bills, setBills] = useState([]);
-  const [orderId, setOrderId] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
+    const [bills, setBills] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [searchUserId, setSearchUserId] = useState('');
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('role');
 
-  const fetchBills = async () => {
-    try {
-      const response = await api.get('/bills');
-      setBills(response.data);
-    } catch (error) {
-      console.error('Error fetching bills:', error);
-    }
-  };
-
-    const markBillAsPaid = async (billId) => {
-        
-        const id = billId;
-        
+    const fetchBills = async (userIdToSearch = null) => {
         setLoading(true);
         setError(null);
         try {
-            await api.post(`/bills/markAsPaid/${id}`, {}, {
+            let response;
+            if (userRole === 'ADMIN' && !userIdToSearch) {
+                response = await api.get('/bills', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+            } else if (userIdToSearch) {
+                response = await api.get(`/bills/billsFromUser/${userIdToSearch}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+            } else if (userId) {
+                response = await api.get(`/bills/billsFromUser/${userId}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+            }
+            if (response) {
+                setBills(response.data);
+            }
+        } catch (err) {
+            console.error('Error fetching bills:', err);
+            setError('Failed to fetch bills');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const markBillAsPaid = async (billId) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await api.post(`/bills/markAsPaid/${billId}`, {}, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setBills((prevBills) => prevBills.map(bill => 
-                bill.id === billId ? { ...bill, isPaid: true } : bill // Change 'paid' to 'isPaid'
+                bill.id === billId ? { ...bill, paid: true } : bill // Update to use 'paid'
             ));
         } catch (err) {
             console.error('Error marking bill as paid:', err);
@@ -35,33 +56,29 @@ export const useBillLogic = () => {
             setLoading(false);
         }
     };
+    
 
-  const saveBill = async (bill, formData) => {
-    try {
-      if (bill) {
-        // PUT request to update the bill
-        await api.put(`/bills/${bill.id}`, formData);
-      } else {
-        // POST request to create a new bill
-        await api.post('/bills', formData);
-      }
-    } catch (error) {
-      console.error('Error saving bill:', error);
-    }
-  };
+    const handleSearchChange = (e) => {
+        setSearchUserId(e.target.value);
+    };
 
-  useEffect(() => {
-    fetchBills();
-  }, []);
+    const handleSearch = () => {
+        if (searchUserId) {
+            fetchBills(searchUserId);
+        }
+    };
 
-  return {
-    bills,
-    orderId,
-    paymentMethod,
-    setOrderId,
-    setPaymentMethod,
-    fetchBills,
-    convertOrderToBill,
-    saveBill,
-  };
+    useEffect(() => {
+        fetchBills(); // Initial fetch when userId or userRole changes
+    }, [userId, userRole]);
+
+    return {
+        bills,
+        loading,
+        error,
+        markBillAsPaid,
+        searchUserId,
+        handleSearchChange,
+        handleSearch,
+    };
 };

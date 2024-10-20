@@ -2,14 +2,7 @@ import React from 'react';
 import { useBillLogic } from '../../components/bill/BillLogic';
 
 const Bill = () => {
-  const {
-    bills,
-    orderId,
-    paymentMethod,
-    setOrderId,
-    setPaymentMethod,
-    convertOrderToBill,
-  } = useBillLogic();
+    const { bills, loading, error, markBillAsPaid, searchUserId, handleSearchChange, handleSearch } = useBillLogic();
 
     if (loading) return <div className="text-green-300">Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
@@ -43,7 +36,9 @@ const Bill = () => {
                         </h2>
                         <p className="text-green-300 mb-2">Total Amount: ${bill.totalAmount.toFixed(2)}</p>
                         <p className="text-green-300 mb-2">Payment Method: {bill.paymentMethod}</p>
-                        <p className={`font-bold ${bill.isPaid ? 'text-green-400' : 'text-red-400'}`}>Status: {bill.isPaid ? 'Paid' : 'Pending'}</p>
+                        <p className={`font-bold ${bill.paid ? 'text-green-400' : 'text-red-400'}`}>
+                            Status: {bill.paid ? 'Paid' : 'Pending'}
+                        </p>
 
                         {/* Products Table */}
                         <h3 className="font-semibold text-green-300 mt-4 mb-2">Products:</h3>
@@ -69,7 +64,7 @@ const Bill = () => {
                         </table>
 
                         {/* Mark as Paid Button */}
-                        {!bill.isPaid && (
+                        {!bill.paid && (
                             <div className="flex justify-center mt-4">
                                 <button 
                                     onClick={() => markBillAsPaid(bill.id)} // Use bill.id instead of bill.orderId
