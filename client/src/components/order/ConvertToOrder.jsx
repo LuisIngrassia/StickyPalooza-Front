@@ -10,6 +10,7 @@ const ConvertToOrder = ({ cartId, onConvert }) => {
                 },
             });
             onConvert(response.data);
+            window.location.reload(); // This refreshes the page
         } catch (err) {
             console.error('Error converting cart to order:', err);
         }
