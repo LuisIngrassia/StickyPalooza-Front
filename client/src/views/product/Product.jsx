@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; 
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'; 
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
 
@@ -18,7 +20,6 @@ const Product = () => {
 
   const [quantities, setQuantities] = useState({});
   const userRole = localStorage.getItem('role');
-  const placeholderImage = '/public/images/placeholder.png';
 
   const handleQuantityChange = (productId, value) => {
     setQuantities((prevQuantities) => ({
@@ -28,13 +29,20 @@ const Product = () => {
   };
 
   const handleAddToCart = (productId) => {
-    const selectedQuantity = quantities[productId] || 1; // Default to 1 if not set
+    const selectedQuantity = quantities[productId] || 1; 
     addProductToCart(productId, selectedQuantity);
   };
 
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-4xl mx-auto">
+        <div className="flex items-center mb-4">
+          <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
+            <ArrowLeftIcon className="h-6 w-6 mr-2" /> {/* Arrow icon with some margin */}
+            Back
+          </Link>
+        </div>
+
         <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Products</h1>
 
         {/* Search Bar */}
@@ -56,12 +64,14 @@ const Product = () => {
 
         {/* Conditionally render Create Product button for ADMIN role */}
         {userRole === 'ADMIN' && (
-          <button
-            onClick={handleCreate}
-            className="mb-6 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-500 transition"
-          >
-            Create Product
-          </button>
+          <div className="flex justify-center mb-6">
+            <button
+              onClick={handleCreate}
+              className="px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-500 transition"
+            >
+              Create Product
+            </button>
+          </div>
         )}
 
         {/* Product Form */}
@@ -72,53 +82,60 @@ const Product = () => {
         )}
 
         {/* Product List */}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="space-y-4">
           {products.map((product) => {
-            const productImage = product.image || placeholderImage;
+            // Construct the image URL
+            const productImage = product.image ? `http://localhost:5000${product.image}` : '/images/placeholder.png'; // Updated image URL
+
             return (
-              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md p-4">
-                <img src={productImage} alt={product.name} className="w-full h-40 object-cover mb-4 rounded-md" />
-                <h2 className="text-lg font-bold text-green-400">{product.name}</h2>
-                <p className="text-gray-300 mb-2">{product.description}</p>
-                <p className="text-green-400 font-semibold">${product.price.toFixed(2)}</p>
-                <p className="text-gray-300 mb-2">In stock: {product.stockQuantity}</p>
+              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex p-4 relative">
+                {/* Render image */}
+                <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md mr-4" />
+                
+                {/* Product Info */}
+                <div className="flex-1">
+                  <h2 className="text-lg font-bold text-green-400 mb-2">{product.name}</h2>
+                  <p className="text-gray-300 mb-2">{product.description}</p>
+                  <p className="text-green-400 font-semibold text-lg mb-2">${product.price.toFixed(2)}</p>
+                  <p className="text-gray-300 mb-2">In stock: {product.stockQuantity}</p>
 
-                {/* Admin Actions */}
-                {userRole === 'ADMIN' && (
-                  <div className="flex justify-between mt-4">
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(product.id)}
-                      className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+                  {/* Admin Actions */}
+                  {userRole === 'ADMIN' && (
+                    <div>
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="absolute top-2 right-2 bg-purple-700 text-white px-4 py-2 text-lg rounded-md hover:bg-purple-600 transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product.id)}
+                        className="absolute bottom-2 right-2 bg-red-600 text-white px-4 py-2 text-lg rounded-md hover:bg-red-500 transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
 
-                {/* User Actions */}
-                {userRole !== 'ADMIN' && (
-                  <div className="flex justify-between mt-4">
-                    <input
-                      type="number"
-                      min="1"
-                      value={quantities[product.id] || 1}
-                      onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                      className="w-1/4 p-1 border rounded-md text-gray-300 bg-gray-700"
-                    />
-                    <button
-                      onClick={() => handleAddToCart(product.id)}
-                      className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-500 transition"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                )}
+                  {/* User Actions */}
+                  {userRole !== 'ADMIN' && (
+                    <div className="flex justify-between mt-4">
+                      <input
+                        type="number"
+                        min="1"
+                        value={quantities[product.id] || 1}
+                        onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                        className="w-1/4 p-1 border rounded-md text-gray-300 bg-gray-700"
+                      />
+                      <button
+                        onClick={() => handleAddToCart(product.id)}
+                        className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-500 transition"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  )}
+                </div>
               </li>
             );
           })}
