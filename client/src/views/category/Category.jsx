@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; 
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useCategoryLogic } from '../../components/category/CategoryLogic';
 import CategoryForm from '../../components/category/CategoryForm';
 
@@ -20,6 +22,15 @@ const Category = () => {
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-4xl mx-auto">
+        
+        {/* Back to home arrow */}
+        <div className="flex items-center mb-4">
+          <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
+            <ArrowLeftIcon className="h-6 w-6 mr-2" /> {/* Arrow icon with margin */}
+            Back to home
+          </Link>
+        </div>
+
         <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Categories</h1>
 
         {/* Search Bar */}
@@ -39,7 +50,7 @@ const Category = () => {
           </button>
         </div>
 
-        {/* Conditionally render Create Category button for ADMIN role, centered below the search bar */}
+        {/* Conditionally render Create Category button for ADMIN role */}
         {userRole === 'ADMIN' && (
           <div className="flex justify-center mb-6">
             <button
@@ -64,6 +75,10 @@ const Category = () => {
             <li key={category.id} className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
               <div className="flex-grow md:ml-6 space-y-2">
                 <h3 className="text-3xl font-bold text-green-400">{category.description}</h3>
+                <h2 className="text-sm font-bold text-gray-400 mb-2">
+                  ID:{category.id}
+                </h2>
+
               </div>
 
               {/* Edit/Delete for ADMIN role */}
