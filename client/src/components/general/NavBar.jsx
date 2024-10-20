@@ -31,6 +31,12 @@ export default function NavBar() {
                 <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
               </Link>
             )}
+            {/* Render Orders button for USER role */}
+            {isLoggedIn && userRole === 'USER' && (
+              <Link to="/order">
+                <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Orders</button>
+              </Link>
+            )}
             {isLoggedIn ? (
               <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
             ) : (
@@ -74,6 +80,10 @@ export default function NavBar() {
                       {/* Show Cart only for non-admin users */}
                       {userRole !== 'ADMIN' && (
                         <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Cart</Link>
+                      )}
+                      {/* Render Orders link for USER role */}
+                      {userRole === 'USER' && (
+                        <Link to="/order" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Orders</Link>
                       )}
                       <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Logout</button>
                     </>
