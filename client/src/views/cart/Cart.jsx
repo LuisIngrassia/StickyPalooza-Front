@@ -1,9 +1,9 @@
 import React from 'react';
 import { useCartLogic } from '../../components/cart/CartLogic';
-import ConvertToOrder from '../../components/order/ConvertToOrder'; // Import ConvertToOrder component
-import { Link } from 'react-router-dom'; // Import Link for navigation
-import { ArrowLeftIcon } from '@heroicons/react/24/solid'; // Import arrow icon
-import Footer from "../../components/general/Footer"; // Import Footer component
+import ConvertToOrder from '../../components/order/ConvertToOrder';
+import { useNavigate } from 'react-router-dom'; 
+import { ArrowLeftIcon, PlusIcon, MinusIcon, TrashIcon } from '@heroicons/react/24/solid'; // Importing the icons
+import Footer from "../../components/general/Footer";
 
 const Cart = () => {
   const {
@@ -23,83 +23,103 @@ const Cart = () => {
     handleDeleteCart();
   };
 
+  const navigate = useNavigate();
+
   if (loading) {
     return <div className="text-center text-white">Loading...</div>;
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        <div className="mt-8 ml-10 flex items-center mb-4">
-          <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
-            <ArrowLeftIcon className="h-6 w-6 mr-2" />
-            Back to Home
-          </Link>
-        </div>
-      <div className="flex-grow mx-auto max-w-xl space-y-6 mt-12 p-6 bg-gray-800 rounded-lg shadow-lg">
+    <div className="min-h-screen bg-gray-900 p-6 text-white flex flex-col items-center justify-center"> 
 
-        <h2 className="text-3xl font-bold text-center text-green-400">Your Cart</h2>
-        {error && <div className="text-red-500 text-center">{error}</div>}
+      <button
+        className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
+        onClick={() => navigate('/')}
+      >
+        <ArrowLeftIcon className="h-6 w-6 mr-2" />
+        Back to Home
+      </button>
+      
+      <div className="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-6 mb-6"> 
+        <h2 className="text-3xl font-bold text-center text-green-400 mb-6">Your Cart</h2>
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+        
         {cart && cart.cartProducts && cart.cartProducts.length > 0 ? (
-          <div className="space-y-4">
-            <ul className="space-y-2">
-              {cart.cartProducts.map(product => (
-                <li key={product.id} className="flex items-center p-4 bg-gray-700 rounded-md shadow-md">
-                  <div className="flex-shrink-0">
-                    <img src={product.productImage} alt={product.productName} className="w-24 h-24 object-cover rounded-md mx-auto" />
-                  </div>
-                  <div className="flex-1 mx-4">
-                    <h3 className="font-bold text-center text-green-400">{product.productName}</h3>
-                    <p className="text-center">Price: ${product.productPrice.toFixed(2)}</p>
-                    <p className="text-center">Amount: {product.quantity}</p>
-                    <p className="text-center">Total: ${(product.productPrice * product.quantity).toFixed(2)}</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => handleAddToCart(product.productId, 1)}
-                      className="bg-green-600 text-white rounded-md px-3 py-1 hover:bg-green-500 transition duration-200"
-                    >
-                      Add
-                    </button>
-                    <button
-                      onClick={() => handleAddToCart(product.productId, -1)}
-                      className="bg-green-600 text-white rounded-md px-3 py-1 hover:bg-green-500 transition duration-200"
-                    >
-                      Subtract
-                    </button>
-                    <button
-                      onClick={() => handleDeleteCartClick(product.productId)}
-                      className="bg-purple-600 text-white rounded-md px-3 py-1 hover:bg-purple-500 transition duration-200"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <h3 className="text-xl font-bold text-center text-green-400">
+          <>
+            <table className="min-w-full divide-y divide-gray-600">
+              <thead className="bg-gray-700">
+                <tr>
+                  <th className="px-4 py-2 text-left">Product</th>
+                  <th className="px-4 py-2 text-left">Price</th>
+                  <th className="px-4 py-2 text-left">Quantity</th>
+                  <th className="px-4 py-2 text-left">Total</th>
+                  <th className="px-4 py-2 text-left">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="bg-gray-800 divide-y divide-gray-700">
+                {cart.cartProducts.map(product => (
+                  <tr key={product.productId}>
+                    <td className="px-4 py-2 flex items-center">
+                      <img src={product.productImage} alt={product.productName} className="w-16 h-16 object-cover rounded-md mr-2" />
+                      <span className="font-bold text-green-400">{product.productName}</span>
+                    </td>
+                    <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
+                    <td className="px-4 py-2">{product.quantity}</td>
+                    <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
+                    <td className="px-4 py-2 flex flex-col items-center">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleAddToCart(product.productId, 1)}
+                          className="bg-green-600 text-white rounded-md p-1 hover:bg-green-500 transition duration-200"
+                        >
+                          <PlusIcon className="h-6 w-6" />
+                        </button>
+                        <button
+                          onClick={() => handleAddToCart(product.productId, -1)}
+                          className="bg-orange-600 text-white rounded-md p-1 hover:bg-orange-500 transition duration-200"
+                        >
+                          <MinusIcon className="h-6 w-6" />
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteCartClick(product.productId)}
+                        className="mt-2 bg-purple-600 text-white rounded-md p-1 hover:bg-purple-500 transition duration-200"
+                      >
+                        <TrashIcon className="h-6 w-16" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <h3 className="text-xl font-bold text-center text-green-400 mt-6">
               Total Cost: ${calculateTotalCost().toFixed(2)}
             </h3>
-            <ConvertToOrder cartId={cart.id} onConvert={(newOrder) => {
-              console.log('Order created:', newOrder);
-            }} />
-            <button
-              onClick={handleDeleteCartClick}
-              className="w-full h-10 bg-purple-600 text-white rounded-md hover:bg-purple-500 transition duration-200"
-            >
-              Delete Entire Cart
-            </button>
-          </div>
+
+            <div className="mt-4 flex justify-center"> {/* Centering the Convert To Order button */}
+              <button
+                className="w-1/2 h-10 bg-green-600 text-white rounded-md hover:bg-green-500 transition duration-200" // Convert To Order button style
+              >
+                Convert Cart To Order
+              </button>
+            </div>
+
+            <div className="flex justify-center mt-4"> {/* Centering the Delete Entire Cart button */}
+              <button
+                onClick={handleDeleteCartClick}
+                className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200"
+              >
+                Delete Entire Cart
+              </button>
+            </div>
+          </>
         ) : (
-          <div className="text-center">No items in your cart.</div>
+          <div className="text-center text-gray-400">No items in your cart.</div>
         )}
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900">
-        <div className="flex justify-center items-center p-4">
-          <Footer />
-        </div>
-      </footer>
+      <Footer /> {/* Footer is now correctly positioned below the modal */}
     </div>
   );
 };

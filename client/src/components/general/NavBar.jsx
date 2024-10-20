@@ -22,25 +22,25 @@ export default function NavBar() {
           <div className="hidden lg:flex space-x-4">
             {isLoggedIn && (
               <Link to="/profile">
-                <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Profile</button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Profile</button>
               </Link>
             )}
             {/* Show Cart only for non-admin users */}
             {isLoggedIn && userRole !== 'ADMIN' && (
               <Link to="/cart">
-                <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
               </Link>
             )}
             {/* Render Orders button for USER role */}
             {isLoggedIn && userRole === 'USER' && (
               <Link to="/order">
-                <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Orders</button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Orders</button>
               </Link>
             )}
             {/* Render Bills button for USER role */}
             {isLoggedIn && userRole === 'USER' && (
               <Link to="/bill">
-                <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Bills</button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Bills</button>
               </Link>
             )}
             {isLoggedIn ? (
@@ -51,7 +51,7 @@ export default function NavBar() {
                   <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">Login</button>
                 </Link>
                 <Link to="/signup">
-                  <button className="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-600 transition">Register</button>
+                  <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Register</button>
                 </Link>
               </>
             )}
@@ -85,22 +85,22 @@ export default function NavBar() {
                     <>
                       {/* Show Cart only for non-admin users */}
                       {userRole !== 'ADMIN' && (
-                        <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Cart</Link>
+                        <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Cart</Link>
                       )}
                       {/* Render Orders link for USER role */}
                       {userRole === 'USER' && (
-                        <Link to="/order" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Orders</Link>
+                        <Link to="/order" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Orders</Link>
                       )}
                       {/* Render Bills link for USER role */}
                       {userRole === 'USER' && (
-                        <Link to="/bill" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Bills</Link>
+                        <Link to="/bill" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Bills</Link>
                       )}
-                      <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Logout</button>
+                      <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Logout</button>
                     </>
                   ) : (
                     <>
-                      <Link to="/login" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Login</Link>
-                      <Link to="/signup" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-purple-300 hover:bg-purple-700">Regístrate</Link>
+                      <Link to="/login" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Login</Link>
+                      <Link to="/signup" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Regístrate</Link>
                     </>
                   )}
                 </div>

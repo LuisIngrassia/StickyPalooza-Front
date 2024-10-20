@@ -1,3 +1,4 @@
+// ProfileLogic.js
 import { useState, useEffect } from 'react';
 import api from '../../api/Api'; 
 
@@ -24,8 +25,14 @@ export const useProfileLogic = () => {
       });
       setUser(response.data); 
     } catch (err) {
-      console.error('Error fetching user profile:', err);
-      setError('Failed to fetch profile');
+      // Handle error and suppress logging for user not found
+      if (err.response && err.response.status === 500) {
+        // Suppress logging for 404 Not Found
+        console.warn('User not found after email update, ignoring error.');
+      } else {
+        console.error('Error fetching user profile:', err);
+        setError('Failed to fetch profile');
+      }
     } finally {
       setLoading(false);
     }
@@ -33,7 +40,7 @@ export const useProfileLogic = () => {
 
   const updateUserProfile = async (updatedData) => {
     if (!userId) return;
-  
+
     try {
       await api.put(`/users/${userId}`, updatedData, {
         headers: {
@@ -42,14 +49,18 @@ export const useProfileLogic = () => {
         },
       });
       fetchUserProfile();  
+      return true;  // Indicate success
     } catch (err) {
       console.error('Error updating profile:', err);
       setError('Failed to update profile');
+      return false;  // Indicate failure
     }
   };  
 
   useEffect(() => {
-    fetchUserProfile();
+    if (userId) {
+      fetchUserProfile();  // Only fetch profile if userId exists
+    }
   }, [userId]);
 
   return {

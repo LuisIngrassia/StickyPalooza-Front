@@ -15,7 +15,7 @@ const Bill = () => {
     return (
         <div className="flex flex-col min-h-screen bg-gray-900 p-6">
             {/* Back to home arrow */}
-            <div className="flex items-center mb-4 mt-2 ml-2"> {/* Added margin for spacing */}
+            <div className="flex items-center mb-4 mt-2 ml-2">
                 <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
                     <ArrowLeftIcon className="h-6 w-6 mr-2" />
                     Back to home
@@ -23,7 +23,7 @@ const Bill = () => {
             </div>
 
             <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">
-                {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'} {/* Conditional heading */}
+                {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'}
             </h1>
 
             {/* Search Bar for Admins */}
@@ -45,7 +45,7 @@ const Bill = () => {
             {/* Bill List */}
             <div className="flex flex-col items-center space-y-4 flex-grow">
                 {bills.map(bill => (
-                    <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
+                    <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> {/* Adjusted width */}
                         <h2 className="font-bold text-purple-300 mb-2">
                             Bill ID: {bill.id} | Order ID: {bill.orderId} | Date: {new Date(bill.billDate).toLocaleDateString()}
                         </h2>
@@ -82,7 +82,7 @@ const Bill = () => {
                         {!bill.paid && (
                             <div className="flex justify-center mt-4">
                                 <button 
-                                    onClick={() => markBillAsPaid(bill.id)} // Use bill.id instead of bill.orderId
+                                    onClick={() => markBillAsPaid(bill.id)} 
                                     className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
                                 >
                                     Mark as Paid
@@ -92,7 +92,7 @@ const Bill = () => {
                     </div>
                 ))}
             </div>
-            <Footer />
+            <Footer /> {/* Footer will always be at the bottom of the screen */}
         </div>
     );
 };

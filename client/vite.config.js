@@ -1,3 +1,4 @@
+// vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "tailwindcss";
@@ -9,5 +10,16 @@ export default defineConfig({
     postcss: {
       plugins: [tailwindcss(), autoprefixer()],
     },
+  },
+  build: {
+    sourcemap: true,
+    rollupOptions: {
+      plugins: [
+        // Example of additional Rollup plugins if needed
+      ],
+    },
+  },
+  server: {
+    sourcemap: true,
   },
 });

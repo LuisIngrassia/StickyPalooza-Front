@@ -28,8 +28,8 @@ const Order = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 p-6">
-            <div className="max-w-4xl mx-auto">
+        <div className="flex flex-col min-h-screen bg-gray-900 p-6"> {/* Use flex and min-h-screen to fill the viewport */}
+            <div className="max-w-4xl mx-auto flex-grow"> {/* Allow this div to grow and take up available space */}
                 {/* Back to home arrow */}
                 <div className="flex items-center mb-4">
                     <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
@@ -59,7 +59,7 @@ const Order = () => {
                 {/* Order List */}
                 <div className="flex flex-col items-center space-y-4">
                     {orders.map(order => (
-                        <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-4/5">
+                        <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> {/* Adjusted width */}
                             <h2 className="font-bold text-purple-300 mb-2">Order ID: {order.id} | Date: {new Date(order.orderDate).toLocaleDateString()}</h2>
                             
                             <div className="mt-2">
