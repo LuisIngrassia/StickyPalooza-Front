@@ -3,12 +3,9 @@ import api from '../../api/Api';
 
 export const useProductLogic = () => {
 
-  const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
-  
-  // Nuevos estados para filtros
   const [selectedCategory, setSelectedCategory] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
@@ -34,10 +31,9 @@ export const useProductLogic = () => {
     fetchProducts();
   }, [token]);
 
-  // Manejar el filtro por precio
   const handlePriceFilter = async () => {
     if (minPrice === '' || maxPrice === '') {
-      return; // Evitar la búsqueda si los precios no están establecidos
+      return;
     }
     try {
       const response = await api.get(`/products/byPrice?minPrice=${minPrice}&maxPrice=${maxPrice}`, {
@@ -45,16 +41,15 @@ export const useProductLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setProducts(response.data); // Establece los productos filtrados
+      setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products by price:', error);
     }
   };
 
-  // Manejar el filtro por categoría (esto asume que tienes un endpoint para ello)
   const handleCategoryFilter = async () => {
     if (selectedCategory === '') {
-      return; // Evitar la búsqueda si no se ha seleccionado una categoría
+      return;
     }
     try {
       const response = await api.get(`/products/byCategory?categoryId=${selectedCategory}`, {
@@ -62,7 +57,7 @@ export const useProductLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setProducts(response.data); // Establece los productos filtrados
+      setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products by category:', error);
     }
@@ -110,7 +105,7 @@ export const useProductLogic = () => {
         },
       });
       setProducts(response.data);
-      setEditingProduct(null); // Close the form after saving
+      setEditingProduct(null);
     } catch (error) {
       console.error('Error reloading products:', error?.response?.data || error.message);
     }
@@ -132,8 +127,6 @@ export const useProductLogic = () => {
     } catch (err) {
       console.error('Error fetching cart:', err);
     }
-
-
 
   };
 

@@ -20,6 +20,7 @@ const Product = () => {
     handleEdit,
     handleSave,
     handleCreate,
+    addProductToCart,
     handlePriceFilter,
     handleCategoryFilter,
   } = useProductLogic();
@@ -27,6 +28,17 @@ const Product = () => {
   const placeholderImage = '/public/images/placeholder.png';
   const userRole = localStorage.getItem('role');
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+  const [quantities, setQuantities] = useState({}); 
+
+  const handleQuantityChange = (productId, value) => {
+    setQuantities((prev) => ({ ...prev, [productId]: value }));
+  };
+
+  const handleAddToCart = (productId) => {
+    const quantity = quantities[productId] || 1; 
+    addProductToCart(productId, quantity);
+    setQuantities((prev) => ({ ...prev, [productId]: 1 }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 p-6">
@@ -43,7 +55,7 @@ const Product = () => {
             className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
           />
           <button
-            onClick={handleSearch}
+            onClick={() => handleSearch(searchTerm)}
             className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
           >
             Search
@@ -66,16 +78,16 @@ const Product = () => {
               <div className="flex items-center">
                 <select
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={(e) => handleCategoryFilter(e.target.value)}
                   className="px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400"
                 >
                   <option value="">Select Category</option>
-                  {/* Add category options here */}
+                  {/* Populate categories dynamically */}
                   <option value="1">Category 1</option>
                   <option value="2">Category 2</option>
                 </select>
                 <button
-                  onClick={handleCategoryFilter}
+                  onClick={() => handleCategoryFilter(selectedCategory)}
                   className="ml-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
                 >
                   Filter by Category
@@ -98,7 +110,7 @@ const Product = () => {
                   className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 ml-2"
                 />
                 <button
-                  onClick={handlePriceFilter}
+                  onClick={() => handlePriceFilter(minPrice, maxPrice)}
                   className="ml-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
                 >
                   Filter by Price
@@ -149,34 +161,36 @@ const Product = () => {
                   <>
                     <button
                       onClick={() => handleEdit(product)}
-                      className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-400 transition"
+                      className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-400 transition"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(product.id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
+                      className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-500 transition"
                     >
                       Delete
                     </button>
                   </>
                 )}
 
-                {/* Add to Cart (User Only) */}
+                {/* Add to Cart Button (User Only) */}
                 {userRole === 'USER' && (
-                  <div className="flex items-center">
+                  <>
                     <input
                       type="number"
+                      value={quantities[product.id] || 1}
+                      onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                      className="w-16 px-2 py-1 border border-gray-300 rounded-md bg-gray-700 text-green-400"
                       min="1"
-                      placeholder="Qty"
-                      className="w-16 p-2 border border-gray-300 rounded-md shadow-sm mr-2"
                     />
                     <button
-                      className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-blue-500 transition"
+                      onClick={() => handleAddToCart(product.id)}
+                      className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
                     >
                       Add to Cart
                     </button>
-                  </div>
+                  </>
                 )}
               </div>
             </li>
