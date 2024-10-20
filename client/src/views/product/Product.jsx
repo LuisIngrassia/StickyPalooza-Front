@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Make sure to import Link
-import { ArrowLeftIcon } from '@heroicons/react/24/solid'; // Import the ArrowLeftIcon
+import { Link } from 'react-router-dom'; 
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'; 
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
 
@@ -29,7 +29,7 @@ const Product = () => {
   };
 
   const handleAddToCart = (productId) => {
-    const selectedQuantity = quantities[productId] || 1; // Default to 1 if not set
+    const selectedQuantity = quantities[productId] || 1; 
     addProductToCart(productId, selectedQuantity);
   };
 

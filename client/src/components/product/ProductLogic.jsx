@@ -1,9 +1,8 @@
-// src/hooks/useProductLogic.js
-
 import { useState, useEffect } from 'react';
 import api from '../../api/Api';
 
 export const useProductLogic = () => {
+
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,6 +25,7 @@ export const useProductLogic = () => {
         console.error('Error fetching products:', error);
       }
     };
+    
 
     fetchProducts();
   }, [token]);
@@ -79,6 +79,7 @@ export const useProductLogic = () => {
   };
 
   const fetchCart = async () => {
+
     try {
       const response = await api.get(`/carts/${userId}`, {
         headers: {
@@ -87,17 +88,23 @@ export const useProductLogic = () => {
       });
 
       const cartId = response.data.id;
+
       return cartId;
 
     } catch (err) {
       console.error('Error fetching cart:', err);
     }
+
+
+
   };
 
   const addProductToCart = async (productId, quantity) => {
-    console.log(userId);
+
+    console.log(userId)
     
     const cartId = await fetchCart();
+
     console.log('cartId = ' + cartId);
 
     try {

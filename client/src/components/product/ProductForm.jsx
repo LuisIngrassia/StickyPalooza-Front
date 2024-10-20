@@ -1,7 +1,5 @@
-// src/components/ProductForm.js
-
 import React from 'react';
-import ProductFormLogic from './ProductFormLogic'; 
+import ProductFormLogic from './ProductFormLogic'; // Adjust the import according to your file structure
 
 const ProductForm = ({ product, onSave }) => {
   const { formData, handleChange, handleSubmit, isSubmitting } = ProductFormLogic({ product, onSave });
