@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import Footer from "../../components/general/Footer";
 import { useOrderLogic } from '../../components/order/OrderLogic';
 import ConvertToBill from '../../components/bill/ConvertToBill';
 
@@ -122,6 +123,7 @@ const Order = () => {
                     ))}
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

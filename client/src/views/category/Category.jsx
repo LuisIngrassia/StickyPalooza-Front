@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import Footer from "../../components/general/Footer";
 import { useCategoryLogic } from '../../components/category/CategoryLogic';
 import CategoryForm from '../../components/category/CategoryForm';
 
@@ -102,6 +103,7 @@ const Category = () => {
           ))}
         </ul>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllUsers, deleteUser } from '../../components/users/UsersLogic';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import Footer from "../../components/general/Footer";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -43,8 +44,8 @@ const Users = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-900 flex flex-col">
+      <div className="max-w-4xl mx-auto flex-grow p-6">
         <div className="flex items-center mb-4">
           <button
             className="flex items-center text-green-400 hover:text-green-300 transition"
@@ -62,7 +63,7 @@ const Users = () => {
 
         {!loading && !error && users.length > 0 && (
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-gray-800 border border-gray-600">
+            <table className="min-w-full bg-gray-800 border border-gray-600 w-4/5">
               <thead>
                 <tr>
                   <th className="px-6 py-3 border-b-2 text-left text-green-400">Name</th>
@@ -110,6 +111,11 @@ const Users = () => {
           </div>
         )}
       </div>
+      <footer className="bg-gray-900">
+        <div className="flex justify-center items-center p-4">
+          <Footer />
+        </div>
+      </footer>
     </div>
   );
 };

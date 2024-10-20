@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'; 
+import Footer from "../../components/general/Footer";
 import { useProductLogic } from '../../components/product/ProductLogic';
 import ProductForm from '../../components/product/ProductForm';
 
@@ -141,6 +142,7 @@ const Product = () => {
           })}
         </ul>
       </div>
+      <Footer />
     </div>
   );
 };
