@@ -7,6 +7,11 @@ export const useProductLogic = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
+  
+  // Nuevos estados para filtros
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
@@ -25,10 +30,43 @@ export const useProductLogic = () => {
         console.error('Error fetching products:', error);
       }
     };
-    
 
     fetchProducts();
   }, [token]);
+
+  // Manejar el filtro por precio
+  const handlePriceFilter = async () => {
+    if (minPrice === '' || maxPrice === '') {
+      return; // Evitar la búsqueda si los precios no están establecidos
+    }
+    try {
+      const response = await api.get(`/products/byPrice?minPrice=${minPrice}&maxPrice=${maxPrice}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProducts(response.data); // Establece los productos filtrados
+    } catch (error) {
+      console.error('Error fetching products by price:', error);
+    }
+  };
+
+  // Manejar el filtro por categoría (esto asume que tienes un endpoint para ello)
+  const handleCategoryFilter = async () => {
+    if (selectedCategory === '') {
+      return; // Evitar la búsqueda si no se ha seleccionado una categoría
+    }
+    try {
+      const response = await api.get(`/products/byCategory?categoryId=${selectedCategory}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProducts(response.data); // Establece los productos filtrados
+    } catch (error) {
+      console.error('Error fetching products by category:', error);
+    }
+  };
 
   const handleSearch = async () => {
     try {
@@ -57,11 +95,11 @@ export const useProductLogic = () => {
   };
 
   const handleEdit = (product) => {
-    setEditingProduct(product); // Set product for editing
+    setEditingProduct(product);
   };
 
   const handleCreate = () => {
-    setEditingProduct({}); // Set empty product for new creation
+    setEditingProduct({});
   };
 
   const handleSave = async () => {
@@ -128,6 +166,12 @@ export const useProductLogic = () => {
     searchTerm,
     setSearchTerm,
     editingProduct,
+    selectedCategory,
+    setSelectedCategory,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
     handleDelete,
     handleSearch,
     handleEdit,
