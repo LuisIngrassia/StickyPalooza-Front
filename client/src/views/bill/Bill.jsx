@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import Footer from "../../components/general/Footer"; // Import Footer component
 import { useBillLogic } from '../../components/bill/BillLogic';
 
 const Bill = () => {
@@ -10,7 +13,15 @@ const Bill = () => {
     const userRole = localStorage.getItem('role'); // Get the user's role
 
     return (
-        <div className="min-h-screen bg-gray-900 p-6">
+        <div className="flex flex-col min-h-screen bg-gray-900 p-6">
+            {/* Back to home arrow */}
+            <div className="flex items-center mb-4 mt-2 ml-2"> {/* Added margin for spacing */}
+                <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
+                    <ArrowLeftIcon className="h-6 w-6 mr-2" />
+                    Back to home
+                </Link>
+            </div>
+
             <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">
                 {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'} {/* Conditional heading */}
             </h1>
@@ -32,7 +43,7 @@ const Bill = () => {
             )}
 
             {/* Bill List */}
-            <div className="flex flex-col items-center space-y-4">
+            <div className="flex flex-col items-center space-y-4 flex-grow">
                 {bills.map(bill => (
                     <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-3/5">
                         <h2 className="font-bold text-purple-300 mb-2">
@@ -81,6 +92,7 @@ const Bill = () => {
                     </div>
                 ))}
             </div>
+            <Footer />
         </div>
     );
 };
