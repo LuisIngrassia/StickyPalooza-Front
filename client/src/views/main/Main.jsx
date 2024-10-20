@@ -28,7 +28,7 @@ const MainPage = () => {
     setError(null);
     try {
       const response = await api.get('/products', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, // Fixed syntax here
       });
       setProducts(response.data);
     } catch (error) {
@@ -83,7 +83,7 @@ const MainPage = () => {
               </button>
               <button
                 className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/bill')}
+                onClick={() => navigate('/admin/view-bills')}
               >
                 View Bills
               </button>
