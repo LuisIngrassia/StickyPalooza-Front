@@ -6,6 +6,7 @@ export const useBillLogic = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [searchUserId, setSearchUserId] = useState('');
+    const [billMarkedAsPaid, setBillMarkedAsPaid] = useState(false); // State to track if a bill has been marked as paid
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('role');
@@ -46,9 +47,7 @@ export const useBillLogic = () => {
             await api.post(`/bills/markAsPaid/${billId}`, {}, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setBills((prevBills) => prevBills.map(bill => 
-                bill.id === billId ? { ...bill, paid: true } : bill // Update to use 'paid'
-            ));
+            setBillMarkedAsPaid(true);
         } catch (err) {
             console.error('Error marking bill as paid:', err);
             setError('Failed to mark bill as paid');
@@ -56,7 +55,6 @@ export const useBillLogic = () => {
             setLoading(false);
         }
     };
-    
 
     const handleSearchChange = (e) => {
         setSearchUserId(e.target.value);
@@ -69,8 +67,15 @@ export const useBillLogic = () => {
     };
 
     useEffect(() => {
-        fetchBills(); // Initial fetch when userId or userRole changes
+        fetchBills();
     }, [userId, userRole]);
+
+    useEffect(() => {
+        if (billMarkedAsPaid) {
+            fetchBills();
+            setBillMarkedAsPaid(false); 
+        }
+    }, [billMarkedAsPaid]);
 
     return {
         bills,

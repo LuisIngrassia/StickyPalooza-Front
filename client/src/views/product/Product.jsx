@@ -63,7 +63,7 @@ const Product = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 p-6">
-      <div className="flex items-center mb-4 mt-2 ml-2"> {/* Top left corner */}
+      <div className="flex items-center mb-4 mt-2 ml-2">
         <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
           <ArrowLeftIcon className="h-6 w-6 mr-2" />
           Back to home
@@ -73,9 +73,8 @@ const Product = () => {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-green-400 mb-8">Products</h1>
 
-        {/* Search Bar and Filter Menu */}
-        <div className="flex items-center mb-8 space-x-4 justify-between"> {/* Use justify-between to space them out */}
-          <div className="flex items-center space-x-4 flex-grow"> {/* Flex container for search and filter */}
+        <div className="flex items-center mb-8 space-x-4 justify-between">
+          <div className="flex items-center space-x-4 flex-grow">
             <input
               type="text"
               placeholder="Search products by name"
@@ -101,13 +100,12 @@ const Product = () => {
         {userRole === 'ADMIN' && (
           <button
             onClick={() => openModal()}
-            className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition" // Set width to full
+            className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition" 
           >
             Create Product
           </button>
         )}
 
-        {/* Filter Menu */}
         {filterMenuOpen && (
           <div className="bg-gray-800 p-4 rounded-md shadow-md mb-6">
             <h2 className="text-lg font-bold text-green-400 mb-2">Filter Options</h2>
@@ -159,11 +157,10 @@ const Product = () => {
 
         <ul className="space-y-6">
           {products.map((product) => {
-            const productImage = product.image ? `http://localhost:5000${product.image}` : '/images/placeholder.png'; // Updated image URL
+            const productImage = product.image ? `http://localhost:5000${product.image}` : '/images/placeholder.png';
 
             return (
               <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex p-4 relative">
-                {/* Render image */}
                 <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md mr-4" />
                 
                 <div className="flex flex-col flex-grow">
@@ -176,7 +173,7 @@ const Product = () => {
 
                 <div className="mt-4 space-x-4 flex flex-col">
                   {userRole === 'ADMIN' && (
-                    <div className="flex space-x-4"> {/* Flex container for side-by-side alignment */}
+                    <div className="flex space-x-4">
                       <button
                         onClick={() => openModal(product)}
                         className="w-20 px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
@@ -204,13 +201,12 @@ const Product = () => {
                         />
                         <button
                           onClick={() => handleAddToCart(product.id)}
-                          className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
+                          className="px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
                         >
                           Add to Cart
                         </button>
                       </div>
 
-                      {/* Popup Message */}
                       {showPopup[product.id] && (
                         <div className="mt-2 p-2 text-green-500">
                           Product added!

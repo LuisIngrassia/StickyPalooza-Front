@@ -109,7 +109,7 @@ const MainPage = () => {
           {token && role !== 'ADMIN' && (
             <div className="mb-8">
               <button
-                className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
+                className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate('/products')}
               >
                 View Products

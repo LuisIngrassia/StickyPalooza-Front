@@ -22,25 +22,25 @@ export default function NavBar() {
           <div className="hidden lg:flex space-x-4">
             {isLoggedIn && (
               <Link to="/profile">
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Profile</button>
+                <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">Profile</button>
               </Link>
             )}
             {/* Show Cart only for non-admin users */}
             {isLoggedIn && userRole !== 'ADMIN' && (
               <Link to="/cart">
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cart</button>
+                <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">Cart</button>
               </Link>
             )}
             {/* Render Orders button for USER role */}
             {isLoggedIn && userRole === 'USER' && (
               <Link to="/order">
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Orders</button>
+                <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">Orders</button>
               </Link>
             )}
             {/* Render Bills button for USER role */}
             {isLoggedIn && userRole === 'USER' && (
               <Link to="/bill">
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Bills</button>
+                <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">Bills</button>
               </Link>
             )}
             {isLoggedIn ? (
