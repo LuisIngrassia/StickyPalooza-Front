@@ -68,13 +68,13 @@ const Cart = () => {
                   return (
                     <tr key={product.productId}>
                       <td className="px-4 py-2 flex items-center">
-                        <img src={productImage} alt={product.productName} className="mt-7 mr-20 w-28 h-28 object-cover rounded-md mr-2" />
+                        <img src={productImage} alt={product.productName} className="mt-4 mr-20 w-24 h-24 object-cover rounded-md mr-2" />
                         <span className="font-bold text-green-400 text-xl">{product.productName}</span>
                       </td>
                       <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
                       <td className="px-4 py-2">{product.quantity}</td>
                       <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
-                      <td className="px-4 py-2 flex flex-col items-center ">
+                      <td className="px-4 py-2 flex-col items-center ">
                         <div className="flex space-x-2 ">
                           <button
                             onClick={() => handleAddToCart(product.productId, 1)}
