@@ -19,7 +19,7 @@ const MainPage = () => {
       setRole(userRole);
       fetchProducts();
     } else {
-      setRole(null); // Set role to null if there's no token
+      setRole(null); 
       fetchProductsWithoutToken();
     }
   }, [token, userRole]);
@@ -29,9 +29,10 @@ const MainPage = () => {
     setError(null);
     try {
       const response = await api.get('/products', {
-        headers: { Authorization: `Bearer ${token}` }, // Auth header for logged-in users
+        headers: { Authorization: `Bearer ${token}` }, 
       });
       setProducts(response.data);
+      console.log('Fetched Products:', response.data); 
     } catch (error) {
       setError('Failed to fetch products');
       console.error('Error fetching products:', error);
@@ -44,7 +45,7 @@ const MainPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get('/products'); // Fetch products without token
+      const response = await api.get('/products'); 
       setProducts(response.data);
     } catch (error) {
       setError('Failed to fetch products');
@@ -69,33 +70,33 @@ const MainPage = () => {
           {role === 'ADMIN' && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4 text-green-400">Administrator Panel</h3>
-              <div className="flex flex-wrap justify-center space-x-4"> {/* Flex container for alignment */}
+              <div className="flex flex-wrap justify-center space-x-4"> 
                 <button
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" 
                   onClick={() => navigate('/products')}
                 >
                   View Products
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" 
                   onClick={() => navigate('/users')}
                 >
                   View Users
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" 
                   onClick={() => navigate('/bill')}
                 >
                   View Bills
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" 
                   onClick={() => navigate('/order')}
                 >
                   View Orders
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" 
                   onClick={() => navigate('/categories')}
                 >
                   View Categories
@@ -104,7 +105,6 @@ const MainPage = () => {
             </div>
           )}
 
-          {/* Render User button to navigate to products if not an admin and user is logged in */}
           {token && role !== 'ADMIN' && (
             <div className="mb-8">
               <button
@@ -116,23 +116,34 @@ const MainPage = () => {
             </div>
           )}
 
-          {/* Render Available Products only for non-admin users */}
-          {role !== 'ADMIN' && (
-            <div className="mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
-              {loading && <p className="text-green-300">Loading products...</p>}
-              {error && <p className="text-red-500">{error}</p>}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {products.map((product) => (
+         {/* Default product listing for all users, even without a role */}
+         <div className="mb-8">
+            <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
+            {loading && <p className="text-green-300">Loading products...</p>}
+            {error && <p className="text-red-500">{error}</p>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {products.map((product) => {
+                // Use 'image' instead of 'productImage'
+                const productImage = product.image 
+                  ? `http://localhost:5000${product.image}` 
+                  : '/images/placeholder.png';
+
+                return (
                   <div key={product.id} className="bg-gray-800 p-4 rounded shadow-md hover:shadow-lg transition duration-200">
+                    <img 
+                      src={productImage} 
+                      alt={product.name} 
+                      className="mt-4 w-20 h-20 object-cover rounded-md"
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/images/placeholder.png'; }} // Fallback to placeholder
+                    />
                     <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
                     <p className="text-green-300">{product.description}</p>
                     <p className="font-bold text-purple-400">${product.price}</p>
                   </div>
-                ))}
+                );
+                })}
               </div>
             </div>
-          )}
         </div>
       </main>
       <Footer />
