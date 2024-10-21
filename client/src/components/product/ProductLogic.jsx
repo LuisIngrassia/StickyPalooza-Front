@@ -13,21 +13,20 @@ export const useProductLogic = () => {
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await api.get('/products', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response.data); 
-        setProducts(response.data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get('/products', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
   }, [token]);
 
@@ -131,12 +130,8 @@ export const useProductLogic = () => {
   };
 
   const addProductToCart = async (productId, quantity) => {
-
-    console.log(userId)
     
     const cartId = await fetchCart();
-
-    console.log('cartId = ' + cartId);
 
     try {
       await api.post('/carts/addProduct', {
@@ -171,5 +166,6 @@ export const useProductLogic = () => {
     handleSave,
     handleCreate,
     addProductToCart,
+    fetchProducts,
   };
 };

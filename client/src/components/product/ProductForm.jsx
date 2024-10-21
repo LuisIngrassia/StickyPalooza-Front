@@ -1,12 +1,12 @@
 import React from 'react';
-import ProductFormLogic from './ProductFormLogic'; // Adjust the import according to your file structure
+import ProductFormLogic from './ProductFormLogic';
 
-const ProductForm = ({ product, onSave }) => {
+const ProductForm = ({ product, onSave, onClose }) => {
   const { formData, handleChange, handleSubmit, isSubmitting } = ProductFormLogic({ product, onSave });
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data" className="bg-gray-800 p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-green-400 mb-4">{product ? 'Edit Product' : 'Create Product'}</h2>
+    <form onSubmit={handleSubmit} encType="multipart/form-data" className="bg-gray-800 p-6 rounded-lg">
+      <h2 className="text-2xl font-bold text-green-400 mb-4 text-center">{product ? 'Edit Product' : 'Create Product'}</h2>
       
       <input
         type="text"
@@ -63,13 +63,23 @@ const ProductForm = ({ product, onSave }) => {
         className="mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={`w-full p-2 rounded-md ${isSubmitting ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-500'} text-white`}
-      >
-        {isSubmitting ? 'Saving...' : 'Save Product'}
-      </button>
+      <div className="flex justify-between">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`w-full p-2 rounded-md ${isSubmitting ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-500'} text-white`}
+        >
+          {isSubmitting ? 'Saving...' : 'Save Product'}
+        </button>
+        
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-full ml-4 p-2 rounded-md bg-red-600 hover:bg-red-500 text-white"
+        >
+          Close
+        </button>
+      </div>
     </form>
   );
 };
