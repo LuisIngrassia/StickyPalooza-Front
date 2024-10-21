@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import api from '../../api/Api';
 
 export const useProductLogic = () => {
-
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [productAdded, setProductAdded] = useState(false); // New state to track product addition
 
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
@@ -29,6 +29,13 @@ export const useProductLogic = () => {
   useEffect(() => {
     fetchProducts();
   }, [token]);
+
+  useEffect(() => {
+    if (productAdded) {
+      fetchProducts();
+      setProductAdded(false);
+    }
+  }, [productAdded]);
 
   const handlePriceFilter = async () => {
     if (minPrice === '' || maxPrice === '') {
@@ -111,7 +118,6 @@ export const useProductLogic = () => {
   };
 
   const fetchCart = async () => {
-
     try {
       const response = await api.get(`/carts/${userId}`, {
         headers: {
@@ -122,15 +128,12 @@ export const useProductLogic = () => {
       const cartId = response.data.id;
 
       return cartId;
-
     } catch (err) {
       console.error('Error fetching cart:', err);
     }
-
   };
 
   const addProductToCart = async (productId, quantity) => {
-    
     const cartId = await fetchCart();
 
     try {
@@ -144,6 +147,8 @@ export const useProductLogic = () => {
         },
       });
       
+      setProductAdded(true);
+
     } catch (err) {
       console.error('Error adding product:', err);
     } 

@@ -40,6 +40,7 @@ const Product = () => {
   };
 
   const handleAddToCart = (productId) => {
+
     const quantity = quantities[productId] || 1;
     addProductToCart(productId, quantity);
     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
@@ -207,7 +208,7 @@ const Product = () => {
                       />
                       <button
                         onClick={() => handleAddToCart(product.id)}
-                        className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
+                        className="px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
                       >
                         Add to Cart
                       </button>
