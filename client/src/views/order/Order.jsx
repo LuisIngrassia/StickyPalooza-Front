@@ -8,7 +8,6 @@ import ConvertToBill from '../../components/bill/ConvertToBill';
 const Order = () => {
     const { orders: initialOrders, loading, error, deleteOrder, searchUserId, handleSearchChange, handleSearch } = useOrderLogic();
     const [orders, setOrders] = useState(initialOrders); // Initialize orders state
-    const [convertingOrderId, setConvertingOrderId] = useState(null);
 
     useEffect(() => {
         setOrders(initialOrders); // Update orders state when initialOrders changes
@@ -24,7 +23,6 @@ const Order = () => {
                 order.id === updatedOrder.id ? updatedOrder : order
             )
         );
-        setConvertingOrderId(null); // Reset the converting order state
     };
 
     const userRole = localStorage.getItem('role'); // Get the user's role
@@ -91,19 +89,10 @@ const Order = () => {
                             <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
                         </div>
 
-                        {/* Conditionally render Convert to Bill component */}
+                        {/* Render ConvertToBill directly if not converted */}
                         {!order.convertedToBill && (
                             <div className="flex justify-center mt-4">
-                                {convertingOrderId === order.id ? (
-                                    <ConvertToBill orderId={order.id} onConvert={handleConversion} />
-                                ) : (
-                                    <button
-                                        onClick={() => setConvertingOrderId(order.id)} // Set the order to convert
-                                        className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
-                                    >
-                                        Convert to Bill
-                                    </button>
-                                )}
+                                <ConvertToBill orderId={order.id} onConvert={handleConversion} />
                             </div>
                         )}
 

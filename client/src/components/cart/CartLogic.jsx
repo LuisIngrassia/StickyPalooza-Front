@@ -21,7 +21,6 @@ export const useCartLogic = () => {
         },
       });
       setCart(response.data);
-
     } catch (err) {
       console.error('Error fetching cart:', err);
       setError('Failed to fetch cart');
@@ -80,6 +79,33 @@ export const useCartLogic = () => {
     }
   };
 
+  const removeProductFromCart = async (productId) => {
+    const cartId = cart?.id;
+
+    if (!cartId || !productId) {
+      setError('No cart or product to remove');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await api.delete(`/carts/${cartId}/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      await fetchCart(); // Refresh the cart after the product is removed
+    } catch (err) {
+      console.error('Error removing product:', err);
+      setError('Failed to remove product: ' + (err.response?.data || err.message));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const calculateTotalCost = () => {
     if (!cart || !cart.cartProducts) return 0;
 
@@ -98,6 +124,7 @@ export const useCartLogic = () => {
     error,
     addProductToCart,
     handleDeleteCart,
+    removeProductFromCart,
     calculateTotalCost,
   };
 };

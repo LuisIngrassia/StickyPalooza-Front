@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import api from '../../api/Api';
+import { useNavigate } from 'react-router-dom';
 
 const ConvertToBill = ({ orderId, onConvert }) => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const token = localStorage.getItem('token');
+    const navigate = useNavigate();
 
     const handleConvert = async () => {
-        
-        console.log(orderId)
-
         try {
             const response = await api.post(`/bills/convertOrderToBill/${orderId}?paymentMethod=${paymentMethod}`, {}, {
                 headers: {
@@ -16,8 +15,7 @@ const ConvertToBill = ({ orderId, onConvert }) => {
                 },
             });
             onConvert(response.data);
-            console.log(response.data);
-            window.location.reload();
+            navigate('/bill');
         } catch (err) {
             console.error('Error converting order to bill:', err);
         }
@@ -25,11 +23,10 @@ const ConvertToBill = ({ orderId, onConvert }) => {
 
     return (
         <div>
-            <h3 className="text-green-300 mb-2">Converting Order ID: {orderId}</h3>
             <select 
                 value={paymentMethod} 
                 onChange={(e) => setPaymentMethod(e.target.value)} 
-                className="border rounded-md p-2 mb-4"
+                className="h-10 rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
             >
                 <option value="">Select Payment Method</option>
                 <option value="MERCADO_PAGO">Mercado Pago</option>
@@ -39,7 +36,7 @@ const ConvertToBill = ({ orderId, onConvert }) => {
             </select>
             <button 
                 onClick={handleConvert} 
-                className="w-full h-10 bg-purple-800 rounded-md hover:bg-purple-900 transition duration-200"
+                className="bg-violet-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-violet-700 ml-4"
                 disabled={!paymentMethod}
             >
                 Convert Order to Bill
@@ -47,6 +44,5 @@ const ConvertToBill = ({ orderId, onConvert }) => {
         </div>
     );
 };
-
 
 export default ConvertToBill;

@@ -13,10 +13,15 @@ const Cart = () => {
     addProductToCart,
     handleDeleteCart,
     calculateTotalCost,
+    removeProductFromCart,
   } = useCartLogic();
 
   const handleAddToCart = (productId, quantity) => {
     addProductToCart(productId, quantity);
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    removeProductFromCart(productId);
   };
 
   const handleDeleteCartClick = () => {
@@ -82,7 +87,7 @@ const Cart = () => {
                         </button>
                       </div>
                       <button
-                        onClick={() => handleDeleteCartClick(product.productId)}
+                        onClick={() => handleRemoveFromCart(product.productId)}
                         className="mt-2 bg-purple-600 text-white rounded-md p-1 hover:bg-purple-500 transition duration-200"
                       >
                         <TrashIcon className="h-6 w-16" />
@@ -97,15 +102,20 @@ const Cart = () => {
               Total Cost: ${calculateTotalCost().toFixed(2)}
             </h3>
 
-            <div className="mt-4 flex justify-center"> {/* Centering the Convert To Order button */}
-              <button
-                className="w-1/2 h-10 bg-green-600 text-white rounded-md hover:bg-green-500 transition duration-200" // Convert To Order button style
+            <div className="mt-4 flex justify-center">
+              <ConvertToOrder
+                cartId={cart.id} 
+                onConvert={(order) => {
+                  console.log('Order converted:', order);
+                }}
+                className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200" 
               >
                 Convert Cart To Order
-              </button>
+              </ConvertToOrder>
             </div>
 
-            <div className="flex justify-center mt-4"> {/* Centering the Delete Entire Cart button */}
+
+            <div className="flex justify-center mt-4">
               <button
                 onClick={handleDeleteCartClick}
                 className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200"
@@ -119,7 +129,7 @@ const Cart = () => {
         )}
       </div>
 
-      <Footer /> {/* Footer is now correctly positioned below the modal */}
+      <Footer />
     </div>
   );
 };
