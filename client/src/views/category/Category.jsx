@@ -24,17 +24,15 @@ const Category = () => {
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-4xl mx-auto">
         
-        {/* Back to home arrow */}
         <div className="flex items-center mb-4">
           <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
-            <ArrowLeftIcon className="h-6 w-6 mr-2" /> {/* Arrow icon with margin */}
+            <ArrowLeftIcon className="h-6 w-6 mr-2" /> 
             Back to home
           </Link>
         </div>
 
         <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Categories</h1>
 
-        {/* Search Bar */}
         <div className="flex items-center mb-8 space-x-4">
           <input
             type="text"
@@ -51,7 +49,6 @@ const Category = () => {
           </button>
         </div>
 
-        {/* Conditionally render Create Category button for ADMIN role */}
         {userRole === 'ADMIN' && (
           <div className="flex justify-center mb-6">
             <button
@@ -63,14 +60,12 @@ const Category = () => {
           </div>
         )}
 
-        {/* Category Form */}
         {editingCategory && (
           <div className="mb-8 p-6 bg-gray-800 rounded-lg shadow-lg">
             <CategoryForm category={editingCategory} onSave={handleSave} />
           </div>
         )}
 
-        {/* Categories List */}
         <ul className="space-y-6">
           {categories.map((category) => (
             <li key={category.id} className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
@@ -82,7 +77,6 @@ const Category = () => {
 
               </div>
 
-              {/* Edit/Delete for ADMIN role */}
               {userRole === 'ADMIN' && (
                 <div className="flex space-x-4 mt-4 md:mt-0">
                   <button

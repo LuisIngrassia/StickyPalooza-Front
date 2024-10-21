@@ -70,7 +70,6 @@ const Users = () => {
                   <th className="px-6 py-3 border-b-2 text-right text-green-400">ID</th>
                   <th className="px-6 py-3 border-b-2 text-right text-green-400">Name</th>
                   <th className="px-6 py-3 border-b-2 text-right text-green-400">Email</th>
-                  {/* <th className="px-6 py-3 border-b-2 text-right text-green-400">Actions</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -79,14 +78,6 @@ const Users = () => {
                     <td className="px-6 py-4 text-right text-gray-300">{user.id}</td>
                     <td className="px-6 py-4  text-gray-300 text-right">{user.firstName} {user.lastName}</td>
                     <td className="px-6 py-4 text-right text-gray-300">{user.email}</td>
-                    {/* <td className="px-6 py-4 text-right">
-                      <button
-                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-                        onClick={() => handleDeleteUser(user.id)}
-                      >
-                        Delete
-                      </button>
-                    </td> */}
                   </tr>
                 ))}
               </tbody>

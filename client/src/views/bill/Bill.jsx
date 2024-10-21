@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import Footer from "../../components/general/Footer"; // Import Footer component
+import Footer from "../../components/general/Footer"; 
 import { useBillLogic } from '../../components/bill/BillLogic';
 
 const Bill = () => {
@@ -10,11 +10,10 @@ const Bill = () => {
     if (loading) return <div className="text-green-300">Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
 
-    const userRole = localStorage.getItem('role'); // Get the user's role
+    const userRole = localStorage.getItem('role'); 
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-900 p-6">
-            {/* Back to home arrow */}
             <div className="flex items-center mb-4 mt-2 ml-2">
                 <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
                     <ArrowLeftIcon className="h-6 w-6 mr-2" />
@@ -26,7 +25,6 @@ const Bill = () => {
                 {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'}
             </h1>
 
-            {/* Search Bar for Admins */}
             {userRole === 'ADMIN' && (
                 <div className="mb-6 text-center">
                     <input
@@ -42,10 +40,9 @@ const Bill = () => {
                 </div>
             )}
 
-            {/* Bill List */}
             <div className="flex flex-col items-center space-y-4 flex-grow">
                 {bills.map(bill => (
-                    <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> {/* Adjusted width */}
+                    <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> 
                         <h2 className="font-bold text-purple-300 mb-2">
                             Bill ID: {bill.id} | Order ID: {bill.orderId} | Date: {new Date(bill.billDate).toLocaleDateString()}
                         </h2>
@@ -55,7 +52,6 @@ const Bill = () => {
                             Status: {bill.paid ? 'Paid' : 'Pending'}
                         </p>
 
-                        {/* Products Table */}
                         <h3 className="font-semibold text-green-300 mt-4 mb-2">Products:</h3>
                         <table className="table-auto w-full text-gray-400 mb-4">
                             <thead>
@@ -78,7 +74,6 @@ const Bill = () => {
                             </tbody>
                         </table>
 
-                        {/* Mark as Paid Button */}
                         {!bill.paid && (
                             <div className="flex justify-center mt-4">
                                 <button 
@@ -92,7 +87,7 @@ const Bill = () => {
                     </div>
                 ))}
             </div>
-            <Footer /> {/* Footer will always be at the bottom of the screen */}
+            <Footer /> 
         </div>
     );
 };

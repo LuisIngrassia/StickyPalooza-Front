@@ -7,17 +7,16 @@ import ConvertToBill from '../../components/bill/ConvertToBill';
 
 const Order = () => {
     const { orders: initialOrders, loading, error, deleteOrder, searchUserId, handleSearchChange, handleSearch } = useOrderLogic();
-    const [orders, setOrders] = useState(initialOrders); // Initialize orders state
+    const [orders, setOrders] = useState(initialOrders); 
 
     useEffect(() => {
-        setOrders(initialOrders); // Update orders state when initialOrders changes
+        setOrders(initialOrders); 
     }, [initialOrders]);
 
     if (loading) return <div className="text-green-300">Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
 
     const handleConversion = (updatedOrder) => {
-        // Update your orders state to reflect the converted order
         setOrders(prevOrders => 
             prevOrders.map(order => 
                 order.id === updatedOrder.id ? updatedOrder : order
@@ -25,12 +24,11 @@ const Order = () => {
         );
     };
 
-    const userRole = localStorage.getItem('role'); // Get the user's role
+    const userRole = localStorage.getItem('role'); 
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-900 p-6">
-            {/* Back to home arrow */}
-            <div className="flex items-center mb-4 mt-2 ml-2"> {/* Top left corner */}
+            <div className="flex items-center mb-4 mt-2 ml-2"> 
                 <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
                     <ArrowLeftIcon className="h-6 w-6 mr-2" />
                     Back to home
@@ -39,7 +37,6 @@ const Order = () => {
 
             <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">Your Orders</h1>
 
-            {/* Search Bar for Admins */}
             {userRole === 'ADMIN' && (
                 <div className="mb-6 text-center">
                     <input
@@ -55,10 +52,9 @@ const Order = () => {
                 </div>
             )}
 
-            {/* Order List */}
             <div className="flex flex-col items-center space-y-4 flex-grow">
                 {orders.map(order => (
-                    <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> {/* Adjusted width */}
+                    <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> 
                         <h2 className="font-bold text-purple-300 mb-2">Order ID: {order.id} | Date: {new Date(order.orderDate).toLocaleDateString()}</h2>
                         
                         <div className="mt-2">
@@ -89,14 +85,12 @@ const Order = () => {
                             <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
                         </div>
 
-                        {/* Render ConvertToBill directly if not converted */}
                         {!order.convertedToBill && (
                             <div className="flex justify-center mt-4">
                                 <ConvertToBill orderId={order.id} onConvert={handleConversion} />
                             </div>
                         )}
 
-                        {/* Conditional rendering for delete button */}
                         <div className="flex justify-center mt-4">
                             {order.convertedToBill ? (
                                 <p className="text-red-500">Sealed</p> 
@@ -112,7 +106,7 @@ const Order = () => {
                     </div>
                 ))}
             </div>
-            <Footer /> {/* Footer will always be at the bottom of the screen */}
+            <Footer /> 
         </div>
     );
 };

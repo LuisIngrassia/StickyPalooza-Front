@@ -1,4 +1,3 @@
-// Profile.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { useProfileLogic } from '../../components/profile/ProfileLogic';
@@ -54,12 +53,10 @@ const Profile = () => {
     const success = await updateUserProfile(updatedData); 
     setEditing(false); 
 
-    // Redirect to login if the update was successful and the user is not found anymore
     if (success) {
-      // Clear local storage or user-specific info if necessary
       localStorage.removeItem('userId'); 
       localStorage.removeItem('token');
-      navigate('/login'); // Redirect to login
+      navigate('/login'); 
     }
   };
 
