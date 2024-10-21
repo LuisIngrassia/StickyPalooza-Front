@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"; 
-import { signupUser } from "../../features/SignupSlice"; 
+import api from "../../api/Api";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -9,19 +8,34 @@ const Signup = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [role, setRole] = useState("USER");
-  
-  const dispatch = useDispatch(); 
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  
-  const { loading, error } = useSelector((state) => state.signup); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signupUser(firstname, lastname, email, password, role)); 
-    
+    try {
+      const response = await api.post("/api/v1/auth/register", {
+        firstname,
+        lastname,
+        email,
+        password,
+        role,
+      });
 
-    if (!error && !loading) {
-      navigate("/"); 
+      const { userId, access_token } = response.data;
+
+      if (!access_token || !userId) {
+        throw new Error("Missing access token, userId, or cartId.");
+      }
+
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("role", role);
+      
+      navigate("/");
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError("Failed to register. Please try again.");
     }
   };
 
@@ -98,9 +112,8 @@ const Signup = () => {
           <button 
             type="submit" 
             className="w-full h-10 bg-purple-600 hover:bg-purple-500 text-white rounded-md transition duration-200"
-            disabled={loading}
           >
-            {loading ? "Registrando..." : "Registrarse"}
+            Registrarse
           </button>
 
           <p className="text-center text-sm mt-4 text-gray-400">
