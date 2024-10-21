@@ -66,40 +66,39 @@ const MainPage = () => {
             ¡Tu tienda favorita de stickers!
           </p>
           
-          {/* Render Admin Options only for ADMIN role */}
           {role === 'ADMIN' && (
             <div className="mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-green-400">Admin Options</h3>
+              <h3 className="text-2xl font-bold mb-4 text-green-400">Administrator Panel</h3>
               <div className="flex flex-wrap justify-center space-x-4"> {/* Flex container for alignment */}
                 <button
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
                   onClick={() => navigate('/products')}
                 >
-                  Products
+                  View Products
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
                   onClick={() => navigate('/users')}
                 >
-                  View All Users
+                  View Users
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
                   onClick={() => navigate('/bill')}
                 >
                   View Bills
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
                   onClick={() => navigate('/order')}
                 >
                   View Orders
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
                   onClick={() => navigate('/categories')}
                 >
-                  Manage Categories
+                  View Categories
                 </button>
               </div>
             </div>
@@ -117,21 +116,23 @@ const MainPage = () => {
             </div>
           )}
 
-          {/* Default product listing for all users, even without a role */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
-            {loading && <p className="text-green-300">Loading products...</p>}
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <div key={product.id} className="bg-gray-800 p-4 rounded shadow-md hover:shadow-lg transition duration-200">
-                  <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
-                  <p className="text-green-300">{product.description}</p>
-                  <p className="font-bold text-purple-400">${product.price}</p>
-                </div>
-              ))}
+          {/* Render Available Products only for non-admin users */}
+          {role !== 'ADMIN' && (
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
+              {loading && <p className="text-green-300">Loading products...</p>}
+              {error && <p className="text-red-500">{error}</p>}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <div key={product.id} className="bg-gray-800 p-4 rounded shadow-md hover:shadow-lg transition duration-200">
+                    <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
+                    <p className="text-green-300">{product.description}</p>
+                    <p className="font-bold text-purple-400">${product.price}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
       <Footer />
