@@ -67,24 +67,26 @@ const Users = () => {
             <table className="min-w-full bg-gray-800 border border-gray-600 w-4/5">
               <thead>
                 <tr>
-                  <th className="px-6 py-3 border-b-2 text-left text-green-400">Name</th>
-                  <th className="px-6 py-3 border-b-2 text-center text-green-400">Email</th>
-                  <th className="px-6 py-3 border-b-2 text-right text-green-400">Actions</th>
+                  <th className="px-6 py-3 border-b-2 text-right text-green-400">ID</th>
+                  <th className="px-6 py-3 border-b-2 text-right text-green-400">Name</th>
+                  <th className="px-6 py-3 border-b-2 text-right text-green-400">Email</th>
+                  {/* <th className="px-6 py-3 border-b-2 text-right text-green-400">Actions</th> */}
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id} className="border-b border-gray-600">
-                    <td className="px-6 py-4 text-gray-300">{user.firstName} {user.lastName}</td>
-                    <td className="px-6 py-4 text-center text-gray-300">{user.email}</td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-4 text-right text-gray-300">{user.id}</td>
+                    <td className="px-6 py-4  text-gray-300 text-right">{user.firstName} {user.lastName}</td>
+                    <td className="px-6 py-4 text-right text-gray-300">{user.email}</td>
+                    {/* <td className="px-6 py-4 text-right">
                       <button
                         className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
                         onClick={() => handleDeleteUser(user.id)}
                       >
                         Delete
                       </button>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

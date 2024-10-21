@@ -70,36 +70,38 @@ const MainPage = () => {
           {role === 'ADMIN' && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4 text-green-400">Admin Options</h3>
-              <button
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/products')}
-              >
-                Products
-              </button>
-              <button
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/users')}
-              >
-                View All Users
-              </button>
-              <button
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/admin/view-bills')}
-              >
-                View Bills
-              </button>
-              <button
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/order')}
-              >
-                View Orders
-              </button>
-              <button
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
-                onClick={() => navigate('/categories')}
-              >
-                Manage Categories
-              </button>
+              <div className="flex flex-wrap justify-center space-x-4"> {/* Flex container for alignment */}
+                <button
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  onClick={() => navigate('/products')}
+                >
+                  Products
+                </button>
+                <button
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  onClick={() => navigate('/users')}
+                >
+                  View All Users
+                </button>
+                <button
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  onClick={() => navigate('/bill')}
+                >
+                  View Bills
+                </button>
+                <button
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  onClick={() => navigate('/order')}
+                >
+                  View Orders
+                </button>
+                <button
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48" // Set width
+                  onClick={() => navigate('/categories')}
+                >
+                  Manage Categories
+                </button>
+              </div>
             </div>
           )}
 
