@@ -62,39 +62,43 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody className="bg-gray-800 divide-y divide-gray-700">
-                {cart.cartProducts.map(product => (
-                  <tr key={product.productId}>
-                    <td className="px-4 py-2 flex items-center">
-                      <img src={product.productImage} alt={product.productName} className="w-16 h-16 object-cover rounded-md mr-2" />
-                      <span className="font-bold text-green-400">{product.productName}</span>
-                    </td>
-                    <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
-                    <td className="px-4 py-2">{product.quantity}</td>
-                    <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
-                    <td className="px-4 py-2 flex flex-col items-center">
-                      <div className="flex space-x-2">
+                {cart.cartProducts.map(product => {
+                  const productImage = product.productImage ? `http://localhost:5000${product.productImage}` : '/images/placeholder.png'; // Updated image logic
+
+                  return (
+                    <tr key={product.productId}>
+                      <td className="px-4 py-2 flex items-center">
+                        <img src={productImage} alt={product.productName} className="mt-7 mr-20 w-28 h-28 object-cover rounded-md mr-2" />
+                        <span className="font-bold text-green-400 text-xl">{product.productName}</span>
+                      </td>
+                      <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
+                      <td className="px-4 py-2">{product.quantity}</td>
+                      <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
+                      <td className="px-4 py-2 flex flex-col items-center ">
+                        <div className="flex space-x-2 ">
+                          <button
+                            onClick={() => handleAddToCart(product.productId, 1)}
+                            className="bg-green-600 text-white rounded-md p-1 hover:bg-green-500 transition duration-200"
+                          >
+                            <PlusIcon className="h-6 w-6" />
+                          </button>
+                          <button
+                            onClick={() => handleAddToCart(product.productId, -1)}
+                            className="bg-orange-600 text-white rounded-md p-1 hover:bg-orange-500 transition duration-200"
+                          >
+                            <MinusIcon className="h-6 w-6" />
+                          </button>
+                        </div>
                         <button
-                          onClick={() => handleAddToCart(product.productId, 1)}
-                          className="bg-green-600 text-white rounded-md p-1 hover:bg-green-500 transition duration-200"
+                          onClick={() => handleRemoveFromCart(product.productId)}
+                          className="mt-2 bg-purple-600 text-white rounded-md p-1 hover:bg-purple-500 transition duration-200"
                         >
-                          <PlusIcon className="h-6 w-6" />
+                          <TrashIcon className="h-6 w-16" />
                         </button>
-                        <button
-                          onClick={() => handleAddToCart(product.productId, -1)}
-                          className="bg-orange-600 text-white rounded-md p-1 hover:bg-orange-500 transition duration-200"
-                        >
-                          <MinusIcon className="h-6 w-6" />
-                        </button>
-                      </div>
-                      <button
-                        onClick={() => handleRemoveFromCart(product.productId)}
-                        className="mt-2 bg-purple-600 text-white rounded-md p-1 hover:bg-purple-500 transition duration-200"
-                      >
-                        <TrashIcon className="h-6 w-16" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
 
@@ -113,7 +117,6 @@ const Cart = () => {
                 Convert Cart To Order
               </ConvertToOrder>
             </div>
-
 
             <div className="flex justify-center mt-4">
               <button
