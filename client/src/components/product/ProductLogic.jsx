@@ -3,27 +3,25 @@ import api from '../../api/Api';
 
 export const useProductLogic = () => {
   const [products, setProducts] = useState([]);
-  const [allProducts, setAllProducts] = useState([]); // Store all products for sorting and filtering
+  const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
-  const [productAdded, setProductAdded] = useState(false); // Assuming this is needed for some UI feedback
-  const token = localStorage.getItem('token'); // Assuming the token is stored in local storage
-  const userId = localStorage.getItem('userId'); // Retrieve userId from local storage
+  const [productAdded, setProductAdded] = useState(false);
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
-  // Fetch products from the API
   const fetchProducts = async () => {
     try {
       const response = await api.get('/products');
       setProducts(response.data);
-      setAllProducts(response.data); // Set both all products and products state
+      setAllProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
-  // Fetch categories from the API
   const fetchCategories = async () => {
     try {
       const response = await api.get('/categories/getAll', {
@@ -31,11 +29,9 @@ export const useProductLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('Categories Response:', response.data);
       if (Array.isArray(response.data)) {
         setCategories(response.data);
       } else {
-        console.error('Expected an array for categories, but received:', response.data);
         setCategories([]);
       }
     } catch (error) {
@@ -43,13 +39,18 @@ export const useProductLogic = () => {
     }
   };
 
-  // UseEffect to fetch products and categories on component mount
   useEffect(() => {
     fetchProducts();
     fetchCategories();
   }, []);
 
-  // Handle search functionality
+  useEffect(() => {
+    if (productAdded) {
+      fetchProducts();
+      setProductAdded(false);
+    }
+  }, [productAdded]);
+
   const handleSearch = () => {
     const filteredProducts = allProducts.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -57,7 +58,6 @@ export const useProductLogic = () => {
     setProducts(filteredProducts);
   };
 
-  // Handle filtering products by category
   const handleCategoryFilter = (categoryId) => {
     if (categoryId === '') {
       setProducts(allProducts);
@@ -68,35 +68,37 @@ export const useProductLogic = () => {
     setSelectedCategory(categoryId);
   };
 
-  // Handle sorting of products
   const handleSortOrderChange = (order) => {
-    let sortedProducts = [...allProducts]; // Make a copy of the original product list
-
+    let sortedProducts = [...allProducts];
     if (order === 'asc') {
-      sortedProducts.sort((a, b) => a.price - b.price); // Sort from cheapest to expensive
+      sortedProducts.sort((a, b) => a.price - b.price);
     } else if (order === 'desc') {
-      sortedProducts.sort((a, b) => b.price - a.price); // Sort from expensive to cheapest
+      sortedProducts.sort((a, b) => b.price - a.price);
     }
-
-    setProducts(sortedProducts); // Update the displayed products
+    setProducts(sortedProducts);
   };
 
-  // Handle product deletion
   const handleDelete = async (productId) => {
+    console.log('Deleting product with ID:', productId);
+    console.log('Token:', token); 
+    console.log('User Role:', localStorage.getItem('role')); 
     try {
-      await api.delete(`/products/${productId}`);
-      fetchProducts();
+      await api.delete(`/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}` 
+        }
+      });
+      setProducts(products.filter(product => product.id !== productId));
+      setAllProducts(allProducts.filter(product => product.id !== productId));
     } catch (error) {
       console.error('Error deleting product:', error);
     }
   };
 
-  // Handle setting product for editing
   const handleEdit = (product) => {
     setEditingProduct(product);
   };
 
-  // Handle saving product (add/edit)
   const handleSave = async (product) => {
     try {
       if (product.id) {
@@ -104,13 +106,12 @@ export const useProductLogic = () => {
       } else {
         await api.post('/products', product);
       }
-      fetchProducts(); // Re-fetch products after saving
+      fetchProducts();
     } catch (error) {
       console.error('Error saving product:', error);
     }
   };
 
-  // Fetch cart details
   const fetchCart = async () => {
     try {
       const response = await api.get(`/carts/${userId}`, {
@@ -127,7 +128,6 @@ export const useProductLogic = () => {
     }
   };
   
-  // Add product to cart
   const addProductToCart = async (productId, quantity) => {
     const cartId = await fetchCart();
 
@@ -142,7 +142,7 @@ export const useProductLogic = () => {
         },
       });
       
-      setProductAdded(true); // Indicate product was added
+      setProductAdded(true);
 
     } catch (err) {
       console.error('Error adding product:', err);

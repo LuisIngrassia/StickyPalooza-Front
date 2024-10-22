@@ -8,7 +8,6 @@ export const useCategoryLogic = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Fetch all categories on initial load
     const fetchCategories = async () => {
       try {
         const response = await api.get('/categories/getAll', {
@@ -16,9 +15,8 @@ export const useCategoryLogic = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // Ensure response has the correct data structure
         if (response.data) {
-          setCategories(response.data); // Directly set the list of categories
+          setCategories(response.data); 
         } else {
           console.error('No categories found in the response');
         }
@@ -37,7 +35,7 @@ export const useCategoryLogic = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (response.data) {
         const filteredCategories = response.data.filter((category) =>
           category.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -50,7 +48,6 @@ export const useCategoryLogic = () => {
       console.error('Error searching categories:', error?.response?.data || error.message);
     }
   };
-  
 
   const handleDelete = async (id) => {
     try {
@@ -66,21 +63,19 @@ export const useCategoryLogic = () => {
   };
 
   const handleEdit = (category) => {
-    setEditingCategory(category); // Set category for editing
+    setEditingCategory(category); 
   };
 
   const handleCreate = () => {
-    setEditingCategory({}); // Set empty category for new creation
+    setEditingCategory({}); 
   };
 
   const handleSave = async (category) => {
     try {
       let response;
 
-      // If editing an existing category, update it
       if (category.id) {
-        response = await api.post('/categories', {
-          id: category.id,
+        response = await api.put(`/categories/update/${category.id}`, {
           description: category.description,
         }, {
           headers: {
@@ -88,7 +83,6 @@ export const useCategoryLogic = () => {
           },
         });
       } else {
-        // Create a new category
         response = await api.post('/categories', {
           description: category.description,
         }, {
@@ -98,18 +92,17 @@ export const useCategoryLogic = () => {
         });
       }
 
-      // Reload categories after save
       if (response.data) {
         setCategories((prevCategories) => {
-          // Update the category list
           const updatedCategories = prevCategories.filter((cat) => cat.id !== response.data.id);
-          return [...updatedCategories, response.data]; // Add the new/updated category
+          return [...updatedCategories, response.data]; 
         });
       }
-      setEditingCategory(null); // Close the form after saving
+      setEditingCategory(null); 
     } catch (error) {
       console.error('Error saving category:', error?.response?.data || error.message);
     }
+    window.location.reload();
   };
 
   return {

@@ -30,14 +30,38 @@ const Product = () => {
   const [quantities, setQuantities] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [showPopup, setShowPopup] = useState({});
+  const [outOfStockMessage, setOutOfStockMessage] = useState({}); // State for out of stock message
+  const [exceededQuantityMessage, setExceededQuantityMessage] = useState({}); // State for exceeded quantity message
 
   const handleQuantityChange = (productId, value) => {
     setQuantities((prev) => ({ ...prev, [productId]: value }));
   };
 
   const handleAddToCart = (productId) => {
-
     const quantity = quantities[productId] || 1;
+    const product = products.find((prod) => prod.id === productId); // Find the product to check stock
+
+    // Check if product is out of stock
+    if (product.stockQuantity <= 0) {
+      setOutOfStockMessage((prev) => ({ ...prev, [productId]: true })); // Set out of stock message
+      setExceededQuantityMessage((prev) => ({ ...prev, [productId]: false })); // Clear exceeded message
+      setTimeout(() => {
+        setOutOfStockMessage((prev) => ({ ...prev, [productId]: false })); // Clear message after timeout
+      }, 1000);
+      return; // Stop the function if product is out of stock
+    }
+
+    // Check if quantity exceeds stock
+    if (quantity > product.stockQuantity) {
+      setExceededQuantityMessage((prev) => ({ ...prev, [productId]: true })); // Set exceeded quantity message
+      setOutOfStockMessage((prev) => ({ ...prev, [productId]: false })); // Clear out of stock message
+      setTimeout(() => {
+        setExceededQuantityMessage((prev) => ({ ...prev, [productId]: false })); // Clear message after timeout
+      }, 1000);
+      return; // Stop the function if quantity exceeds stock
+    }
+
+    // If stock is available, proceed to add to cart
     addProductToCart(productId, quantity);
     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
 
@@ -56,7 +80,6 @@ const Product = () => {
 
   const closeModal = () => {
     setModalOpen(false);
-
     fetchProducts();
   };
 
@@ -79,7 +102,7 @@ const Product = () => {
               placeholder="Search products by name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-               className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border-purple-600 border border-gray-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
+              className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border-purple-600 border border-gray-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
             />
             <button
               onClick={handleSearch}
@@ -142,9 +165,9 @@ const Product = () => {
                   onChange={(e) => handleSortOrderChange(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="none">Sort by Price</option>
-                  <option value="asc">Ascending</option>
-                  <option value="desc">Descending</option>
+                  <option value="none">Ordenar por Precio</option>
+                  <option value="asc">Más Barato Primero</option>
+                  <option value="desc">Más Caro Primero</option>
                 </select>
               </div>
             </div>
@@ -215,6 +238,18 @@ const Product = () => {
                           Product added!
                         </div>
                       )}
+                      
+                      {outOfStockMessage[product.id] && (
+                        <div className="mt-2 p-2 text-red-500">
+                          Product out of stock
+                        </div>
+                      )}
+
+                      {exceededQuantityMessage[product.id] && (
+                        <div className="mt-2 p-2 text-red-500">
+                          Quantity exceeds available stock
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
@@ -222,7 +257,6 @@ const Product = () => {
             );
           })}
         </ul>
-
 
         <Modal isOpen={modalOpen} onClose={closeModal}>
           <ProductForm

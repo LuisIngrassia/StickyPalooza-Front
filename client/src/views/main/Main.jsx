@@ -135,8 +135,8 @@ const MainPage = () => {
                         onError={(e) => { e.target.onerror = null; e.target.src = '/images/placeholder.png'; }}
                       />
                       <h4 className="text-lg font-semibold text-purple-300">{product.name}</h4>
-                      <p className="text-green-300">{product.description}</p>
-                      <p className="font-bold text-purple-400">${product.price}</p>
+                      <p className="text-sm text-green-300">{product.description}</p>
+                      <p className="text-lg font-bold text-purple-400">${product.price}</p>
                     </div>
                   );
                 })}
