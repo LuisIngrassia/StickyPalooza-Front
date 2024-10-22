@@ -5,10 +5,10 @@ export const useCategoryLogic = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingCategory, setEditingCategory] = useState(null);
-
   const token = localStorage.getItem('token');
 
   useEffect(() => {
+    // Fetch all categories on initial load
     const fetchCategories = async () => {
       try {
         const response = await api.get('/categories/getAll', {
@@ -16,7 +16,12 @@ export const useCategoryLogic = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setCategories(response.data.content); // Adjust based on the structure of your response
+        // Ensure response has the correct data structure
+        if (response.data) {
+          setCategories(response.data); // Directly set the list of categories
+        } else {
+          console.error('No categories found in the response');
+        }
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -27,16 +32,25 @@ export const useCategoryLogic = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await api.get(`/categories/search?description=${encodeURIComponent(searchTerm)}`, {
+      const response = await api.get('/categories/getAll', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setCategories(response.data.content); // Adjust based on the structure of your response
+  
+      if (response.data) {
+        const filteredCategories = response.data.filter((category) =>
+          category.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setCategories(filteredCategories);
+      } else {
+        console.error('No categories found in the response');
+      }
     } catch (error) {
       console.error('Error searching categories:', error?.response?.data || error.message);
     }
   };
+  
 
   const handleDelete = async (id) => {
     try {
@@ -59,17 +73,42 @@ export const useCategoryLogic = () => {
     setEditingCategory({}); // Set empty category for new creation
   };
 
-  const handleSave = async () => {
+  const handleSave = async (category) => {
     try {
-      const response = await api.get('/categories/getAll', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setCategories(response.data.content); // Reload categories after save
+      let response;
+
+      // If editing an existing category, update it
+      if (category.id) {
+        response = await api.post('/categories', {
+          id: category.id,
+          description: category.description,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        // Create a new category
+        response = await api.post('/categories', {
+          description: category.description,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      // Reload categories after save
+      if (response.data) {
+        setCategories((prevCategories) => {
+          // Update the category list
+          const updatedCategories = prevCategories.filter((cat) => cat.id !== response.data.id);
+          return [...updatedCategories, response.data]; // Add the new/updated category
+        });
+      }
       setEditingCategory(null); // Close the form after saving
     } catch (error) {
-      console.error('Error reloading categories:', error?.response?.data || error.message);
+      console.error('Error saving category:', error?.response?.data || error.message);
     }
   };
 

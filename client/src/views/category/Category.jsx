@@ -67,34 +67,39 @@ const Category = () => {
         )}
 
         <ul className="space-y-6">
-          {categories.map((category) => (
-            <li key={category.id} className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-              <div className="flex-grow md:ml-6 space-y-2">
-                <h3 className="text-3xl font-bold text-green-400">{category.description}</h3>
-                <h2 className="text-sm font-bold text-gray-400 mb-2">
-                  ID:{category.id}
-                </h2>
-
-              </div>
-
-              {userRole === 'ADMIN' && (
-                <div className="flex space-x-4 mt-4 md:mt-0">
-                  <button
-                    onClick={() => handleEdit(category)}
-                    className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-500 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(category.id)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
-                  >
-                    Delete
-                  </button>
+          {categories && categories.length > 0 ? (
+            categories.map((category) => (
+              <li key={category.id} className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                <div className="flex-grow md:ml-6 space-y-2">
+                  <h3 className="text-3xl font-bold text-green-400">{category.description}</h3>
+                  <h2 className="text-sm font-bold text-gray-400 mb-2">
+                    ID: {category.id}
+                  </h2>
                 </div>
-              )}
+
+                {userRole === 'ADMIN' && (
+                  <div className="flex space-x-4 mt-4 md:mt-0">
+                    <button
+                      onClick={() => handleEdit(category)}
+                      className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-500 transition"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(category.id)}
+                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))
+          ) : (
+            <li className="p-6 rounded-lg shadow-md text-center text-gray-400">
+              No categories available.
             </li>
-          ))}
+          )}
         </ul>
       </div>
       <Footer />

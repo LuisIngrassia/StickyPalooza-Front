@@ -14,41 +14,35 @@ const Product = () => {
     setSearchTerm,
     editingProduct,
     selectedCategory,
-    minPrice,
-    setMinPrice,
-    maxPrice,
-    setMaxPrice,
+    setSelectedCategory,
+    categories,
     handleDelete,
     handleSearch,
     handleEdit,
     handleSave,
-    handleCreate,
     addProductToCart,
-    handlePriceFilter,
     handleCategoryFilter,
+    handleSortOrderChange,
   } = useProductLogic();
 
   const userRole = localStorage.getItem('role');
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [quantities, setQuantities] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
-  const [showPopup, setShowPopup] = useState({}); 
+  const [showPopup, setShowPopup] = useState({});
 
   const handleQuantityChange = (productId, value) => {
     setQuantities((prev) => ({ ...prev, [productId]: value }));
   };
 
   const handleAddToCart = (productId) => {
-
     const quantity = quantities[productId] || 1;
     addProductToCart(productId, quantity);
     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
-
     setShowPopup((prev) => ({ ...prev, [productId]: true }));
     setTimeout(() => {
       setShowPopup((prev) => ({ ...prev, [productId]: false }));
     }, 1000);
-
     fetchProducts();
   };
 
@@ -83,13 +77,13 @@ const Product = () => {
               className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
             />
             <button
-              onClick={() => handleSearch(searchTerm)}
+              onClick={handleSearch}
               className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
             >
               Search
             </button>
-            <button 
-              onClick={() => setFilterMenuOpen(!filterMenuOpen)} 
+            <button
+              onClick={() => setFilterMenuOpen(!filterMenuOpen)}
               className="flex items-center text-green-400 hover:text-green-300 transition"
             >
               <Bars3Icon className="h-6 w-6" />
@@ -99,8 +93,8 @@ const Product = () => {
 
         {userRole === 'ADMIN' && (
           <button
-            onClick={() => openModal()}
-            className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition" 
+            onClick={openModal}
+            className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
           >
             Create Product
           </button>
@@ -108,48 +102,45 @@ const Product = () => {
 
         {filterMenuOpen && (
           <div className="bg-gray-800 p-4 rounded-md shadow-md mb-6">
-            <h2 className="text-lg font-bold text-green-400 mb-2">Filter Options</h2>
+            <h2 className="text-lg font-bold text-green-400 mb-4">Filter Options</h2>
+
             <div className="flex flex-col space-y-4">
-              <div className="flex items-center">
+              {/* Sort by Category Dropdown */}
+              <div className="flex items-center w-3/5">
+                <label htmlFor="sortCategory" className="mr-2 text-gray-400 w-1/3">Filter by Category:</label>
                 <select
+                  id="sortCategory"
                   value={selectedCategory}
-                  onChange={(e) => handleCategoryFilter(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400"
+                  onChange={(e) => handleCategoryFilter(e.target.value)} 
+                  className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
                   <option value="">Select Category</option>
-                  {/* Populate categories dynamically */}
-                  <option value="1">Category 1</option>
-                  <option value="2">Category 2</option>
+                  {Array.isArray(categories) && categories.length > 0 ? (
+                    categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.description}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No categories available</option>
+                  )}
                 </select>
-                <button
-                  onClick={() => handleCategoryFilter(selectedCategory)}
-                  className="ml-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
-                >
-                  Filter by Category
-                </button>
               </div>
 
-              <div className="flex items-center">
-                <input
-                  type="number"
-                  placeholder="Min Price"
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(e.target.value)}
-                  className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400"
-                />
-                <input
-                  type="number"
-                  placeholder="Max Price"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                  className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 ml-2"
-                />
-                <button
-                  onClick={() => handlePriceFilter(minPrice, maxPrice)}
-                  className="ml-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
+              {/* Sort by Price Dropdown */}
+              <div className="flex items-center w-3/5">
+                <label htmlFor="sortPrice" className="mr-2 text-gray-400 w-1/3">
+                  Sort by Price:
+                </label>
+                <select
+                  id="sortPrice"
+                  onChange={(e) => handleSortOrderChange(e.target.value)}
+                  className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  Filter by Price
-                </button>
+                  <option value="none">Sort by Price</option>
+                  <option value="asc">Lowest Price</option>
+                  <option value="desc">Highest Price</option>
+                </select>
               </div>
             </div>
           </div>
@@ -162,7 +153,7 @@ const Product = () => {
             return (
               <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex p-4 relative">
                 <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md mr-4" />
-                
+
                 <div className="flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold text-green-400">{product.name}</h3>
                   <p className="text-gray-300">{product.description}</p>
@@ -209,7 +200,7 @@ const Product = () => {
 
                       {showPopup[product.id] && (
                         <div className="mt-2 p-2 text-green-500">
-                          Product added!
+                          Product added to cart!
                         </div>
                       )}
                     </>
@@ -227,7 +218,7 @@ const Product = () => {
               handleSave(product);
               closeModal();
             }}
-            onClose={closeModal}
+            onCancel={closeModal}
           />
         </Modal>
       </div>

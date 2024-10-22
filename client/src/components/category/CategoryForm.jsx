@@ -9,7 +9,6 @@ const CategoryForm = ({ category, onSave }) => {
 
   const token = localStorage.getItem('token');
 
-  // Set form data if category prop is provided
   useEffect(() => {
     if (category) {
       setFormData({
@@ -34,7 +33,6 @@ const CategoryForm = ({ category, onSave }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Basic validation
     if (!formData.description) {
       alert('Please fill in the description field.');
       setIsSubmitting(false);
@@ -48,14 +46,12 @@ const CategoryForm = ({ category, onSave }) => {
 
       let response;
       if (category && category.id) {
-        // Update existing category
         response = await api.put(`/categories/update/${category.id}`, categoryFormData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
       } else {
-        // Create new category
         response = await api.post('/categories', categoryFormData, {
           headers: {
             Authorization: `Bearer ${token}`,

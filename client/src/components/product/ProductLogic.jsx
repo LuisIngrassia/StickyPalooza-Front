@@ -1,176 +1,137 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../../api/Api';
 
 export const useProductLogic = () => {
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]); // Store all products for sorting and filtering
+  const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingProduct, setEditingProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [productAdded, setProductAdded] = useState(false); // New state to track product addition
+  const [editingProduct, setEditingProduct] = useState(null);
+  const token = localStorage.getItem('token'); // Assuming the token is stored in local storage
 
-  const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId');
-
+  // Fetch products from the API
   const fetchProducts = async () => {
     try {
-      const response = await api.get('/products', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get('/products');
       setProducts(response.data);
+      setAllProducts(response.data); // Set both all products and products state
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
+  // Fetch categories from the API
+  const fetchCategories = async () => {
+    try {
+      const response = await api.get('/categories/getAll', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Categories Response:', response.data);
+      if (Array.isArray(response.data)) {
+        setCategories(response.data);
+      } else {
+        console.error('Expected an array for categories, but received:', response.data);
+        setCategories([]);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
+  // UseEffect to fetch products and categories on component mount
   useEffect(() => {
     fetchProducts();
-  }, [token]);
+    fetchCategories();
+  }, []);
 
-  useEffect(() => {
-    if (productAdded) {
-      fetchProducts();
-      setProductAdded(false);
-    }
-  }, [productAdded]);
+  // Handle search functionality
+  const handleSearch = () => {
+    const filteredProducts = allProducts.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setProducts(filteredProducts);
+  };
 
-  const handlePriceFilter = async () => {
-    if (minPrice === '' || maxPrice === '') {
-      return;
+  // Handle filtering products by category
+  const handleCategoryFilter = (categoryId) => {
+    if (categoryId === '') {
+      setProducts(allProducts);
+    } else {
+      const filteredProducts = allProducts.filter((product) => product.categoryId === parseInt(categoryId));
+      setProducts(filteredProducts);
     }
+    setSelectedCategory(categoryId);
+  };
+
+  // Handle sorting of products
+  const handleSortOrderChange = (order) => {
+    let sortedProducts = [...allProducts]; // Make a copy of the original product list
+
+    if (order === 'asc') {
+      sortedProducts.sort((a, b) => a.price - b.price); // Sort from cheapest to expensive
+    } else if (order === 'desc') {
+      sortedProducts.sort((a, b) => b.price - a.price); // Sort from expensive to cheapest
+    }
+
+    setProducts(sortedProducts); // Update the displayed products
+  };
+
+  // Handle product deletion
+  const handleDelete = async (productId) => {
     try {
-      const response = await api.get(`/products/byPrice?minPrice=${minPrice}&maxPrice=${maxPrice}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts(response.data);
+      await api.delete(`/products/${productId}`);
+      fetchProducts(); // Re-fetch products after deletion
     } catch (error) {
-      console.error('Error fetching products by price:', error);
+      console.error('Error deleting product:', error);
     }
   };
 
-  const handleCategoryFilter = async () => {
-    if (selectedCategory === '') {
-      return;
-    }
-    try {
-      const response = await api.get(`/products/byCategory?categoryId=${selectedCategory}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching products by category:', error);
-    }
-  };
-
-  const handleSearch = async () => {
-    try {
-      const response = await api.get(`/products/search?name=${encodeURIComponent(searchTerm)}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error searching products:', error?.response?.data || error.message);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(`/products/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
-    } catch (error) {
-      console.error('Error deleting product:', error?.response?.data || error.message);
-    }
-  };
-
+  // Handle setting product for editing
   const handleEdit = (product) => {
     setEditingProduct(product);
   };
 
-  const handleCreate = () => {
-    setEditingProduct({});
-  };
-
-  const handleSave = async () => {
+  // Handle saving product (add/edit)
+  const handleSave = async (product) => {
     try {
-      const response = await api.get('/products', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts(response.data);
-      setEditingProduct(null);
+      if (product.id) {
+        await api.put(`/products/${product.id}`, product);
+      } else {
+        await api.post('/products', product);
+      }
+      fetchProducts(); // Re-fetch products after saving
     } catch (error) {
-      console.error('Error reloading products:', error?.response?.data || error.message);
+      console.error('Error saving product:', error);
     }
   };
 
-  const fetchCart = async () => {
-    try {
-      const response = await api.get(`/carts/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-
-      const cartId = response.data.id;
-
-      return cartId;
-    } catch (err) {
-      console.error('Error fetching cart:', err);
-    }
-  };
-
+  // Handle adding product to cart
   const addProductToCart = async (productId, quantity) => {
-    const cartId = await fetchCart();
-
     try {
-      await api.post('/carts/addProduct', {
-        cartId,
-        productId,
-        quantity,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      
-      setProductAdded(true);
-
-    } catch (err) {
-      console.error('Error adding product:', err);
-    } 
+      await api.post('/cart', { productId, quantity });
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+    }
   };
 
   return {
     products,
+    fetchProducts,
     searchTerm,
     setSearchTerm,
     editingProduct,
     selectedCategory,
     setSelectedCategory,
-    minPrice,
-    setMinPrice,
-    maxPrice,
-    setMaxPrice,
+    categories,
     handleDelete,
     handleSearch,
     handleEdit,
     handleSave,
-    handleCreate,
     addProductToCart,
-    fetchProducts,
+    handleCategoryFilter,
+    handleSortOrderChange,
   };
 };
