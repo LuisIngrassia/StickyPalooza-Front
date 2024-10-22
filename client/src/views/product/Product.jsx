@@ -36,13 +36,16 @@ const Product = () => {
   };
 
   const handleAddToCart = (productId) => {
+
     const quantity = quantities[productId] || 1;
     addProductToCart(productId, quantity);
     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
+
     setShowPopup((prev) => ({ ...prev, [productId]: true }));
     setTimeout(() => {
       setShowPopup((prev) => ({ ...prev, [productId]: false }));
     }, 1000);
+
     fetchProducts();
   };
 
@@ -200,7 +203,7 @@ const Product = () => {
 
                       {showPopup[product.id] && (
                         <div className="mt-2 p-2 text-green-500">
-                          Product added to cart!
+                          Product added!
                         </div>
                       )}
                     </>

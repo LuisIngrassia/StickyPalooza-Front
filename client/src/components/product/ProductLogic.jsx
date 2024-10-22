@@ -8,7 +8,9 @@ export const useProductLogic = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
+  const [productAdded, setProductAdded] = useState(false); // Assuming this is needed for some UI feedback
   const token = localStorage.getItem('token'); // Assuming the token is stored in local storage
+  const userId = localStorage.getItem('userId'); // Retrieve userId from local storage
 
   // Fetch products from the API
   const fetchProducts = async () => {
@@ -108,13 +110,43 @@ export const useProductLogic = () => {
     }
   };
 
-  // Handle adding product to cart
-  const addProductToCart = async (productId, quantity) => {
+  // Fetch cart details
+  const fetchCart = async () => {
     try {
-      await api.post('/cart', { productId, quantity });
-    } catch (error) {
-      console.error('Error adding product to cart:', error);
+      const response = await api.get(`/carts/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      const cartId = response.data.id;
+
+      return cartId;
+    } catch (err) {
+      console.error('Error fetching cart:', err);
     }
+  };
+  
+  // Add product to cart
+  const addProductToCart = async (productId, quantity) => {
+    const cartId = await fetchCart();
+
+    try {
+      await api.post('/carts/addProduct', {
+        cartId,
+        productId,
+        quantity,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      setProductAdded(true); // Indicate product was added
+
+    } catch (err) {
+      console.error('Error adding product:', err);
+    } 
   };
 
   return {
