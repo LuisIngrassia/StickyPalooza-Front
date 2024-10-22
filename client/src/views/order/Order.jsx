@@ -35,7 +35,9 @@ const Order = () => {
                 </Link>
             </div>
 
-            <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">Your Orders</h1>
+            <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
+                {userRole === 'ADMIN' ? 'Orders' : 'Your Orders'}
+            </h1>
 
             {userRole === 'ADMIN' && (
                 <div className="mb-6 text-center">
@@ -85,7 +87,7 @@ const Order = () => {
                             <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
                         </div>
 
-                        {!order.convertedToBill && (
+                        {!order.convertedToBill && user.role === 'USER' && (
                             <div className="flex justify-center mt-4">
                                 <ConvertToBill orderId={order.id} onConvert={handleConversion} />
                             </div>

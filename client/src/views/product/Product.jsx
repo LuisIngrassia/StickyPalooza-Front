@@ -77,7 +77,7 @@ const Product = () => {
               placeholder="Search products by name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
+               className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border border-gray-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
             />
             <button
               onClick={handleSearch}
@@ -141,31 +141,38 @@ const Product = () => {
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
                   <option value="none">Sort by Price</option>
-                  <option value="asc">Lowest Price</option>
-                  <option value="desc">Highest Price</option>
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
                 </select>
               </div>
             </div>
           </div>
         )}
 
-        <ul className="space-y-6">
+        <ul className="space-y-6 mt-6">
           {products.map((product) => {
             const productImage = product.image ? `http://localhost:5000${product.image}` : '/images/placeholder.png';
 
             return (
-              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex p-4 relative">
-                <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md mr-4" />
+              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex items-center justify-between p-4 space-x-4">
+                <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md" />
 
-                <div className="flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold text-green-400">{product.name}</h3>
-                  <p className="text-gray-300">{product.description}</p>
-                  <p className="text-gray-400 font-semibold">Price: ${product.price}</p>
-                  <p className="text-gray-400">Stock: {product.stockQuantity}</p>
-                  <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
+                <div className="flex flex-col flex-grow gap-5">
+                  
+                  <div>
+                    <h3 className="text-2xl font-bold text-green-400">{product.name}</h3>
+                    <p className="text-gray-300">{product.description}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-gray-400 font-semibold">Price: ${product.price}</p>
+                    <p className="text-gray-400">Stock: {product.stockQuantity}</p>
+                  </div>
+                  
+                  <p className="text-gray-500 text-sm">Category: {product.categoryDescription}</p>
                 </div>
 
-                <div className="mt-4 space-x-4 flex flex-col">
+                <div className="space-y-4 flex flex-col items-center">
                   {userRole === 'ADMIN' && (
                     <div className="flex space-x-4">
                       <button
@@ -213,6 +220,7 @@ const Product = () => {
             );
           })}
         </ul>
+
 
         <Modal isOpen={modalOpen} onClose={closeModal}>
           <ProductForm

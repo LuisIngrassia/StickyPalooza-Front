@@ -21,7 +21,7 @@ const Bill = () => {
                 </Link>
             </div>
 
-            <h1 className="text-3xl font-bold mb-6 text-green-400 text-center">
+            <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
                 {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'}
             </h1>
 
@@ -74,7 +74,7 @@ const Bill = () => {
                             </tbody>
                         </table>
 
-                        {!bill.paid && (
+                        {!bill.paid && userRole === 'USER' && (
                             <div className="flex justify-center mt-4">
                                 <button 
                                     onClick={() => markBillAsPaid(bill.id)} 

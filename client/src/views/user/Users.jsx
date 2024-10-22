@@ -44,45 +44,52 @@ const Users = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
-        <div className="flex items-center mb-4">
-          <button
-            className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
-            onClick={() => navigate('/')}
-          >
-            <ArrowLeftIcon className="h-6 w-6 mr-2" />
-            Back to Home
-          </button>
-        </div>
-      <div className="max-w-4xl mx-auto flex-grow p-6">
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center">
+
+      <div className="flex items-center mb-4">
+        <button
+          className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
+          onClick={() => navigate('/')}
+        >
+          <ArrowLeftIcon className="h-6 w-6 mr-2" />
+          Back to Home
+        </button>
+      </div>
+
+      <div className="w-3/5 flex-grow p-6">
 
         
-        <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Users</h1>
+        <h1 className="text-4xl font-bold text-center text-green-400 mb-8">Users</h1>
 
         {loading && <p className="text-green-300">Loading users...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
         {!loading && !error && users.length > 0 && (
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-gray-800 border border-gray-600 w-4/5">
-              <thead>
-                <tr>
-                  <th className="px-6 py-3 border-b-2 text-right text-green-400">ID</th>
-                  <th className="px-6 py-3 border-b-2 text-right text-green-400">Name</th>
-                  <th className="px-6 py-3 border-b-2 text-right text-green-400">Email</th>
+        <div className="overflow-x-auto pt-6">
+          <table className="min-w-full bg-gray-800 border border-gray-600" style={{ borderSpacing: 0 }}>
+            <thead>
+              <tr>
+                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">ID</th>
+                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Name</th>
+                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Email</th>
+                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id} className="border-b border-gray-600">
+                  <td className="px-1 py-4 border-r border-gray-600 text-center text-gray-300">{user.id}</td>
+                  <td className="px-1 py-4 border-r border-gray-600 text-center text-gray-300">
+                    {user.firstName} {user.lastName}
+                  </td>
+                  <td className="px-1 py-4 border-r border-gray-600 text-center text-gray-300">{user.email}</td>
+                  <td className="px-1 py-4 text-center text-gray-300">{user.role}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-600">
-                    <td className="px-6 py-4 text-right text-gray-300">{user.id}</td>
-                    <td className="px-6 py-4  text-gray-300 text-right">{user.firstName} {user.lastName}</td>
-                    <td className="px-6 py-4 text-right text-gray-300">{user.email}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         )}
 
         {!loading && totalPages > 1 && (

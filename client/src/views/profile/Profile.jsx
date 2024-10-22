@@ -74,7 +74,7 @@ const Profile = () => {
   if (error) return <div className="text-center text-red-500 py-4">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center pt-14">
       <button
         className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
         onClick={() => navigate('/')}
@@ -82,13 +82,15 @@ const Profile = () => {
         <ArrowLeftIcon className="h-6 w-6 mr-2" />
         Back to Home
       </button>
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl"> 
-        <h1 className="text-3xl font-bold text-green-400 mb-6 text-center">User Profile</h1>
+
+      <h1 className="text-4xl font-bold text-green-400 mb-6 text-center">User Profile</h1>
+
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl">
 
         {user ? (
           <>
             {!editing ? (
-              <>
+              <div className="flex flex-col justify-center items-center">
                 <div className="mb-4">
                   <p className="text-lg text-purple-300">
                     <strong className="font-semibold text-green-400">First Name:</strong> {user.firstName}
@@ -99,23 +101,24 @@ const Profile = () => {
                     <strong className="font-semibold text-green-400">Last Name:</strong> {user.lastName}
                   </p>
                 </div>
-                <div className="mb-6">
+                <div className="mb-4">  {/* Change mb-6 to mb-4 for consistency */}
                   <p className="text-lg text-purple-300">
                     <strong className="font-semibold text-green-400">Email:</strong> {user.email}
                   </p>
                 </div>
-                <div className="mb-6">
+                <div className="mb-4">  {/* Change mb-6 to mb-4 for consistency */}
                   <p className="text-lg text-purple-300">
                     <strong className="font-semibold text-green-400">Password:</strong> ********
                   </p>
                 </div>
                 <button
                   onClick={() => setEditing(true)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-full"
+                  className="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                 >
                   Edit Profile
                 </button>
-              </>
+              </div>
+
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div>
@@ -171,21 +174,23 @@ const Profile = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex justify-between mt-4">
+                
+                <div className="flex justify-center gap-6 mt-4">
                   <button
                     type="submit"
-                    className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300"
+                    className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                   >
-                    Save Changes
+                    Save
                   </button>
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-300"
+                    className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                   >
                     Cancel
                   </button>
                 </div>
+
               </form>
             )}
           </>

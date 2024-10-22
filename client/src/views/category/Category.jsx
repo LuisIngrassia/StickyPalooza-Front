@@ -31,7 +31,7 @@ const Category = () => {
           </Link>
         </div>
 
-        <h1 className="text-5xl font-bold text-center text-green-400 mb-8">Categories</h1>
+        <h1 className="text-4xl font-bold text-center text-green-400 mb-8">Categories</h1>
 
         <div className="flex items-center mb-8 space-x-4">
           <input
@@ -53,7 +53,7 @@ const Category = () => {
           <div className="flex justify-center mb-6">
             <button
               onClick={handleCreate}
-              className="px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-500 transition"
+              className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
             >
               Create Category
             </button>
@@ -81,13 +81,13 @@ const Category = () => {
                   <div className="flex space-x-4 mt-4 md:mt-0">
                     <button
                       onClick={() => handleEdit(category)}
-                      className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-500 transition"
+                      className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition w-32"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(category.id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
+                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition w-32"
                     >
                       Delete
                     </button>
