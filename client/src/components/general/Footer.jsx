@@ -9,7 +9,7 @@ export default function Footer() {
           <span className="sr-only">StickyPalooza</span>
         </a>
         <div className="flex flex-col md:flex-row items-center gap-4 text-sm justify-center">
-          <p>© 2024 StickyPalooza. Todos los derechos reservados.</p>
+          <p>© 2024 StickyPalooza.</p>
           <div className="flex gap-2">
             <a className="hover:underline text-green-300" href="#">
               Privacy Policy

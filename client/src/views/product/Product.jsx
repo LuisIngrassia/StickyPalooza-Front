@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { useProductLogic } from '../../components/product/ProductLogic';
-import ProductForm from '../../components/product/ProductForm';
-import { Bars3Icon } from '@heroicons/react/24/outline';
-import Modal from '../../components/product/Modal';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { useProductLogic } from "../../components/product/ProductLogic";
+import ProductForm from "../../components/product/ProductForm";
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import Modal from "../../components/product/Modal";
 
 const Product = () => {
   const {
@@ -25,7 +25,7 @@ const Product = () => {
     handleSortOrderChange,
   } = useProductLogic();
 
-  const userRole = localStorage.getItem('role');
+  const userRole = localStorage.getItem("role");
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [quantities, setQuantities] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
@@ -86,14 +86,19 @@ const Product = () => {
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="flex items-center mb-4 mt-2 ml-2">
-        <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
+        <Link
+          to="/"
+          className="flex items-center text-green-400 hover:text-green-300 transition"
+        >
           <ArrowLeftIcon className="h-6 w-6 mr-2" />
           Back to home
         </Link>
       </div>
 
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-green-400 mb-8">Products</h1>
+        <h1 className="text-4xl font-bold text-center text-green-400 mb-8">
+          Products
+        </h1>
 
         <div className="flex items-center mb-8 space-x-4 justify-between">
           <div className="flex items-center space-x-4 flex-grow">
@@ -119,7 +124,7 @@ const Product = () => {
           </div>
         </div>
 
-        {userRole === 'ADMIN' && (
+        {userRole === "ADMIN" && (
           <button
             onClick={openModal}
             className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
@@ -130,16 +135,23 @@ const Product = () => {
 
         {filterMenuOpen && (
           <div className="bg-gray-800 p-4 rounded-md shadow-md mb-6">
-            <h2 className="text-lg font-bold text-green-400 mb-4">Filter Options</h2>
+            <h2 className="text-lg font-bold text-green-400 mb-4">
+              Filter Options
+            </h2>
 
             <div className="flex flex-col space-y-4">
               {/* Sort by Category Dropdown */}
               <div className="flex items-center w-3/5">
-                <label htmlFor="sortCategory" className="mr-2 text-gray-400 w-1/3">Filter by Category:</label>
+                <label
+                  htmlFor="sortCategory"
+                  className="mr-2 text-gray-400 w-1/3"
+                >
+                  Filter by Category:
+                </label>
                 <select
                   id="sortCategory"
                   value={selectedCategory}
-                  onChange={(e) => handleCategoryFilter(e.target.value)} 
+                  onChange={(e) => handleCategoryFilter(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
                   <option value="">Select Category</option>
@@ -165,9 +177,9 @@ const Product = () => {
                   onChange={(e) => handleSortOrderChange(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="none">Ordenar por Precio</option>
-                  <option value="asc">Más Barato Primero</option>
-                  <option value="desc">Más Caro Primero</option>
+                  <option value="none">Order by price</option>
+                  <option value="asc">Cehaper first</option>
+                  <option value="desc">Expensive first</option>
                 </select>
               </div>
             </div>
@@ -176,29 +188,45 @@ const Product = () => {
 
         <ul className="space-y-6 mt-6">
           {products.map((product) => {
-            const productImage = product.image ? `http://localhost:5000${product.image}` : '/images/placeholder.png';
+            const productImage = product.image
+              ? `http://localhost:5000${product.image}`
+              : "/images/placeholder.png";
 
             return (
-              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex items-center justify-between p-4 space-x-4">
-                <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md" />
+              <li
+                key={product.id}
+                className="bg-gray-800 rounded-lg shadow-md flex items-center justify-between p-4 space-x-4"
+              >
+                <img
+                  src={productImage}
+                  alt={product.name}
+                  className="w-32 h-32 object-cover rounded-md"
+                />
 
                 <div className="flex flex-col flex-grow gap-5">
-                  
                   <div>
-                    <h3 className="text-2xl font-bold text-green-400">{product.name}</h3>
+                    <h3 className="text-2xl font-bold text-green-400">
+                      {product.name}
+                    </h3>
                     <p className="text-gray-300">{product.description}</p>
                   </div>
 
                   <div>
-                    <p className="text-gray-400 font-semibold">Price: ${product.price}</p>
-                    <p className="text-gray-400">Stock: {product.stockQuantity}</p>
+                    <p className="text-gray-400 font-semibold">
+                      Price: ${product.price}
+                    </p>
+                    <p className="text-gray-400">
+                      Stock: {product.stockQuantity}
+                    </p>
                   </div>
-                  
-                  <p className="text-gray-500 text-sm">Category: {product.categoryDescription}</p>
+
+                  <p className="text-gray-500 text-sm">
+                    Category: {product.categoryDescription}
+                  </p>
                 </div>
 
                 <div className="space-y-4 flex flex-col items-center">
-                  {userRole === 'ADMIN' && (
+                  {userRole === "ADMIN" && (
                     <div className="flex space-x-4">
                       <button
                         onClick={() => openModal(product)}
@@ -215,13 +243,15 @@ const Product = () => {
                     </div>
                   )}
 
-                  {userRole === 'USER' && (
+                  {userRole === "USER" && (
                     <>
                       <div className="flex items-center space-x-2">
                         <input
                           type="number"
                           value={quantities[product.id] || 1}
-                          onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                          onChange={(e) =>
+                            handleQuantityChange(product.id, e.target.value)
+                          }
                           className="w-16 px-2 py-1 border border-gray-300 rounded-md bg-gray-700 text-green-400"
                           min="1"
                         />
@@ -238,7 +268,7 @@ const Product = () => {
                           Product added!
                         </div>
                       )}
-                      
+
                       {outOfStockMessage[product.id] && (
                         <div className="mt-2 p-2 text-red-500">
                           Product out of stock
