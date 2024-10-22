@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Bars3Icon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline'; // Adjust the import path accordingly
+
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,7 +62,7 @@ export default function NavBar() {
         </div>
         <div className="lg:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
-            {isMenuOpen ? "Close" : "Menu"}
+            {isMenuOpen ? "Close" : <Bars3Icon className="h-6 w-6 text-violet-500 hover:text-violet-600" />}
           </button>
         </div>
       </nav>
@@ -68,35 +71,31 @@ export default function NavBar() {
           <div className="fixed inset-0 z-10"></div>
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-start justify-between">
-              <Link to="/" className="-m-1.5 p-1.5">
-                <span className="sr-only">Tu Empresa</span>
-              </Link>
-              <button onClick={() => setIsMenuOpen(false)} type="button" className="-m-2.5 rounded-md p-2.5 text-gray-300">
-                <span className="sr-only">Cerrar menú</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+
+            <button onClick={() => setIsMenuOpen(false)} type="button" className="-m-2.5 rounded-md p-2.5 text-gray-300">
+              <XMarkIcon  className="h-6 w-6 text-violet-500 hover:text-violet-600" aria-hidden="true" />
+            </button>
+
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {isLoggedIn ? (
-                    <>
+                    <div className="flex flex-col items-center">
                       {/* Show Cart only for non-admin users */}
                       {userRole !== 'ADMIN' && (
-                        <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Cart</Link>
+                        <Link to="/cart" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600">Cart</Link>
                       )}
                       {/* Render Orders link for USER role */}
                       {userRole === 'USER' && (
-                        <Link to="/order" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Orders</Link>
+                        <Link to="/order" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600">Orders</Link>
                       )}
                       {/* Render Bills link for USER role */}
                       {userRole === 'USER' && (
-                        <Link to="/bill" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Bills</Link>
+                        <Link to="/bill" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600">Bills</Link>
                       )}
-                      <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Logout</button>
-                    </>
+                      <button onClick={handleLogout} className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600">Logout</button>
+                    </div>
                   ) : (
                     <>
                       <Link to="/login" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700">Login</Link>

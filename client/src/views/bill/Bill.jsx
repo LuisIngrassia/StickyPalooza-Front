@@ -34,7 +34,7 @@ const Bill = () => {
                         placeholder="Enter User ID"
                         className="border rounded-md p-2 border-purple-600 bg-gray-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
                     />
-                    <button onClick={handleSearch} className="bg-purple-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
+                    <button onClick={handleSearch} className="bg-green-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
                         Search Bills
                     </button>
                 </div>
@@ -78,7 +78,7 @@ const Bill = () => {
                             <div className="flex justify-center mt-4">
                                 <button 
                                     onClick={() => markBillAsPaid(bill.id)} 
-                                    className="bg-green-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-green-500"
+                                    className="bg-violet-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-violet-700"
                                 >
                                     Mark as Paid
                                 </button>

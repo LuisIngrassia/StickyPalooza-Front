@@ -39,7 +39,7 @@ const Category = () => {
             placeholder="Search categories by name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border border-gray-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
+            className="flex-grow px-4 py-2 bg-gray-700 text-green-300 border border-purple-600 rounded-md shadow-sm focus:ring focus:ring-green-500 focus:border-green-500"
           />
           <button
             onClick={handleSearch}

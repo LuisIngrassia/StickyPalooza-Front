@@ -48,7 +48,7 @@ const Order = () => {
                         placeholder="Enter User ID"
                         className="border rounded-md p-2 border-purple-600 bg-gray-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
                     />
-                    <button onClick={handleSearch} className="bg-purple-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
+                    <button onClick={handleSearch} className="bg-green-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
                         Search Orders
                     </button>
                 </div>
@@ -87,7 +87,7 @@ const Order = () => {
                             <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
                         </div>
 
-                        {!order.convertedToBill && user.role === 'USER' && (
+                        {!order.convertedToBill && userRole === 'USER' && (
                             <div className="flex justify-center mt-4">
                                 <ConvertToBill orderId={order.id} onConvert={handleConversion} />
                             </div>

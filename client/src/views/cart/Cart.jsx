@@ -45,8 +45,10 @@ const Cart = () => {
         Back to Home
       </button>
       
+      <h2 className="text-3xl font-bold text-center text-green-400 mb-6">Your Cart</h2>
+
       <div className="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-6 mb-6"> 
-        <h2 className="text-3xl font-bold text-center text-green-400 mb-6">Your Cart</h2>
+        
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
         
         {cart && cart.cartProducts && cart.cartProducts.length > 0 ? (

@@ -120,7 +120,7 @@ const MainPage = () => {
               <h3 className="text-2xl font-bold mb-4 text-green-400">Available Products</h3>
               {loading && <p className="text-green-300">Loading products...</p>}
               {error && <p className="text-red-500">{error}</p>}
-              <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+              <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
                 {products.map((product) => {
                   const productImage = product.image 
                     ? `http://localhost:5000${product.image}` 

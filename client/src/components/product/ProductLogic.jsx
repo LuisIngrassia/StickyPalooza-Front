@@ -85,7 +85,7 @@ export const useProductLogic = () => {
   const handleDelete = async (productId) => {
     try {
       await api.delete(`/products/${productId}`);
-      fetchProducts(); // Re-fetch products after deletion
+      fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
     }
