@@ -3,7 +3,6 @@ import React from 'react';
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
-  // Close the modal when clicking outside of it
   const handleOutsideClick = (e) => {
     if (e.target.className.includes('modal-background')) {
       onClose();

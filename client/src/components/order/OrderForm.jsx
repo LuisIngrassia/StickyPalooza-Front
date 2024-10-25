@@ -33,9 +33,9 @@ const OrderForm = ({ order, onSave }) => {
 
     return (
         <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-green-400">{order ? 'Update' : 'Create'} Order</h2>
+            <h2 className="text-2xl font-bold mb-4 text-green-400">{order ? 'Actualizar' : 'Crear'} Orden</h2>
             <div className="mb-4">
-                <label className="block text-white mb-1">Cart ID:</label>
+                <label className="block text-white mb-1">Carrito ID:</label>
                 <input
                     type="text"
                     name="cartId"
@@ -46,7 +46,7 @@ const OrderForm = ({ order, onSave }) => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-white mb-1">Total Amount:</label>
+                <label className="block text-white mb-1">Cantidad Total:</label>
                 <input
                     type="number"
                     name="totalAmount"
@@ -57,7 +57,7 @@ const OrderForm = ({ order, onSave }) => {
                 />
             </div>
             <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500 transition duration-200">
-                {order ? 'Update' : 'Create'} Order
+                {order ? 'Actualizar' : 'Crear'} Orden
             </button>
         </form>
     );

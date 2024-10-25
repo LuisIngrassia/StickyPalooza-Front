@@ -24,9 +24,7 @@ export const useProfileLogic = () => {
       });
       setUser(response.data); 
     } catch (err) {
-      // Handle error and suppress logging for user not found
       if (err.response && err.response.status === 500) {
-        // Suppress logging for 404 Not Found
         console.warn('User not found after email update, ignoring error.');
       } else {
         console.error('Error fetching user profile:', err);
@@ -48,17 +46,17 @@ export const useProfileLogic = () => {
         },
       });
       fetchUserProfile();  
-      return true;  // Indicate success
+      return true; 
     } catch (err) {
       console.error('Error updating profile:', err);
       setError('Failed to update profile');
-      return false;  // Indicate failure
+      return false; 
     }
   };  
 
   useEffect(() => {
     if (userId) {
-      fetchUserProfile();  // Only fetch profile if userId exists
+      fetchUserProfile();  
     }
   }, [userId]);
 

@@ -5,6 +5,7 @@ import { useProductLogic } from "../../components/product/ProductLogic";
 import ProductForm from "../../components/product/ProductForm";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Modal from "../../components/product/Modal";
+import ProductDetailModal from '../../components/product/ProductDetailModal';
 
 const Product = () => {
   const {
@@ -14,7 +15,6 @@ const Product = () => {
     setSearchTerm,
     editingProduct,
     selectedCategory,
-    setSelectedCategory,
     categories,
     handleDelete,
     handleSearch,
@@ -29,6 +29,8 @@ const Product = () => {
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [quantities, setQuantities] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [showPopup, setShowPopup] = useState({});
   const [outOfStockMessage, setOutOfStockMessage] = useState({}); 
   const [exceededQuantityMessage, setExceededQuantityMessage] = useState({}); 
@@ -71,13 +73,27 @@ const Product = () => {
   };
 
   const openModal = (product = null) => {
-    handleEdit(product);
+    if (product) {
+      handleEdit(product);
+    } else {
+      handleEdit(null);
+    }
     setModalOpen(true);
   };
-
+  
   const closeModal = () => {
     setModalOpen(false);
     fetchProducts();
+  };
+
+  const openDetailModal = (product) => {
+    setSelectedProduct(product);
+    setDetailModalOpen(true);
+  };
+
+  const closeDetailModal = () => {
+    setDetailModalOpen(false);
+    setSelectedProduct(null);
   };
 
   return (
@@ -195,7 +211,8 @@ const Product = () => {
                 <img
                   src={productImage}
                   alt={product.name}
-                  className="w-32 h-32 object-cover rounded-md"
+                  className="w-32 h-32 object-cover rounded-md cursor-pointer" 
+                  onClick={() => openDetailModal(product)} 
                 />
 
                 <div className="flex flex-col flex-grow gap-5">
@@ -290,9 +307,17 @@ const Product = () => {
               handleSave(product);
               closeModal();
             }}
-            onCancel={closeModal}
+            onCancel={closeModal} 
+            categories={categories}
           />
         </Modal>
+
+
+        <ProductDetailModal 
+          isOpen={detailModalOpen} 
+          onClose={closeDetailModal} 
+          product={selectedProduct} 
+        /> 
       </div>
     </div>
   );

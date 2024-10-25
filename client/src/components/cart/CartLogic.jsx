@@ -97,7 +97,7 @@ export const useCartLogic = () => {
         },
       });
 
-      await fetchCart(); // Refresh the cart after the product is removed
+      await fetchCart(); 
     } catch (err) {
       console.error('Error removing product:', err);
       setError('Failed to remove product: ' + (err.response?.data || err.message));

@@ -22,7 +22,7 @@ const Bill = () => {
             </div>
 
             <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
-                {userRole === 'ADMIN' ? 'Bills' : 'Your Bills'}
+                {userRole === 'ADMIN' ? 'Bills' : 'Tus Facturas'}
             </h1>
 
             {userRole === 'ADMIN' && (
@@ -35,7 +35,7 @@ const Bill = () => {
                         className="border rounded-md p-2 border-purple-600 bg-gray-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
                     />
                     <button onClick={handleSearch} className="bg-green-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
-                        Buscar Bills
+                        Buscar Factura
                     </button>
                 </div>
             )}
@@ -44,12 +44,12 @@ const Bill = () => {
                 {bills.map(bill => (
                     <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> 
                         <h2 className="font-bold text-purple-300 mb-2">
-                            Bill ID: {bill.id} | Orden ID: {bill.orderId} | Fecha: {new Date(bill.billDate).toLocaleDateString()}
+                            Factura ID: {bill.id} | Orden ID: {bill.orderId} | Fecha: {new Date(bill.billDate).toLocaleDateString()}
                         </h2>
                         <p className="text-green-300 mb-2">TCantidad Total: ${bill.totalAmount.toFixed(2)}</p>
                         <p className="text-green-300 mb-2">Método de pago: {bill.paymentMethod}</p>
                         <p className={`font-bold ${bill.paid ? 'text-green-400' : 'text-red-400'}`}>
-                            Status: {bill.paid ? 'Paid' : 'Pending'}
+                            Status: {bill.paid ? 'Pagado' : 'Pendiente'}
                         </p>
 
                         <h3 className="font-semibold text-green-300 mt-4 mb-2">Productos:</h3>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from '../../api/Api';
 
-const ProductFormLogic = ({ product, onSave }) => {
+const ProductFormLogic = ({ product, onSave, onCancel }) => { 
   const [formData, setFormData] = useState({
     name: product?.name || '',
     description: product?.description || '',
@@ -16,7 +16,7 @@ const ProductFormLogic = ({ product, onSave }) => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'image') {
-      setFormData((prevData) => ({ ...prevData, image: files[0] })); // Update image file
+      setFormData((prevData) => ({ ...prevData, image: files[0] })); 
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
@@ -46,7 +46,6 @@ const ProductFormLogic = ({ product, onSave }) => {
   
       let response;
       if (product && product.id) {
-        // Update existing product
         response = await api.put(`/products/update/${product.id}`, productFormData, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,7 +71,7 @@ const ProductFormLogic = ({ product, onSave }) => {
     }
   };
 
-  return { formData, handleChange, handleSubmit, isSubmitting };
+  return { formData, handleChange, handleSubmit, isSubmitting, onCancel }; 
 };
 
 export default ProductFormLogic;

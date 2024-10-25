@@ -36,7 +36,7 @@ const Order = () => {
             </div>
 
             <h1 className="text-4xl font-bold mb-8 text-green-400 text-center">
-                {userRole === 'ADMIN' ? 'Orders' : 'Your Orders'}
+                {userRole === 'ADMIN' ? 'Orders' : 'Tus Ordenes'}
             </h1>
 
             {userRole === 'ADMIN' && (
