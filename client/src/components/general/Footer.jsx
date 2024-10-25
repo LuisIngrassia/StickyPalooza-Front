@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -12,11 +11,11 @@ export default function Footer() {
           <p>© 2024 StickyPalooza.</p>
           <div className="flex gap-2">
             <a className="hover:underline text-green-300" href="#">
-              Privacy Policy
+              Politicas de Privacidad
             </a>
             <span>|</span>
             <a className="hover:underline text-green-300" href="#">
-              Terms of Service
+              Terminos de Servicio
             </a>
           </div>
         </div>

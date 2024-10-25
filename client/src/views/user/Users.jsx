@@ -52,16 +52,16 @@ const Users = () => {
           onClick={() => navigate('/')}
         >
           <ArrowLeftIcon className="h-6 w-6 mr-2" />
-          Back to Home
+          Volver al Menú
         </button>
       </div>
 
       <div className="w-3/5 flex-grow p-6">
 
         
-        <h1 className="text-4xl font-bold text-center text-green-400 mb-8">Users</h1>
+        <h1 className="text-4xl font-bold text-center text-green-400 mb-8">Usuarios</h1>
 
-        {loading && <p className="text-green-300">Loading users...</p>}
+        {loading && <p className="text-green-300">Cargando usuarios...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
         {!loading && !error && users.length > 0 && (
@@ -70,9 +70,9 @@ const Users = () => {
             <thead>
               <tr>
                 <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">ID</th>
-                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Name</th>
+                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Nombre</th>
                 <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Email</th>
-                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Role</th>
+                <th className="px-1 py-3 border-b-2 border-r border-gray-600 text-center text-violet-500">Rol</th>
               </tr>
             </thead>
             <tbody>
@@ -99,7 +99,7 @@ const Users = () => {
               disabled={page === 0}
               onClick={() => setPage((prevPage) => Math.max(prevPage - 1, 0))}
             >
-              Previous
+              Anterior
             </button>
             <span className="mx-4 text-gray-300">Page {page + 1} of {totalPages}</span>
             <button
@@ -107,7 +107,7 @@ const Users = () => {
               disabled={page === totalPages - 1}
               onClick={() => setPage((prevPage) => Math.min(prevPage + 1, totalPages - 1))}
             >
-              Next
+              Siguiente
             </button>
           </div>
         )}

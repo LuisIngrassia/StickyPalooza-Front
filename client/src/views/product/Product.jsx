@@ -30,8 +30,8 @@ const Product = () => {
   const [quantities, setQuantities] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [showPopup, setShowPopup] = useState({});
-  const [outOfStockMessage, setOutOfStockMessage] = useState({}); // State for out of stock message
-  const [exceededQuantityMessage, setExceededQuantityMessage] = useState({}); // State for exceeded quantity message
+  const [outOfStockMessage, setOutOfStockMessage] = useState({}); 
+  const [exceededQuantityMessage, setExceededQuantityMessage] = useState({}); 
 
   const handleQuantityChange = (productId, value) => {
     setQuantities((prev) => ({ ...prev, [productId]: value }));
@@ -39,29 +39,26 @@ const Product = () => {
 
   const handleAddToCart = (productId) => {
     const quantity = quantities[productId] || 1;
-    const product = products.find((prod) => prod.id === productId); // Find the product to check stock
+    const product = products.find((prod) => prod.id === productId); 
 
-    // Check if product is out of stock
     if (product.stockQuantity <= 0) {
-      setOutOfStockMessage((prev) => ({ ...prev, [productId]: true })); // Set out of stock message
-      setExceededQuantityMessage((prev) => ({ ...prev, [productId]: false })); // Clear exceeded message
+      setOutOfStockMessage((prev) => ({ ...prev, [productId]: true })); 
+      setExceededQuantityMessage((prev) => ({ ...prev, [productId]: false }));
       setTimeout(() => {
-        setOutOfStockMessage((prev) => ({ ...prev, [productId]: false })); // Clear message after timeout
+        setOutOfStockMessage((prev) => ({ ...prev, [productId]: false })); 
       }, 1000);
-      return; // Stop the function if product is out of stock
+      return; 
     }
 
-    // Check if quantity exceeds stock
     if (quantity > product.stockQuantity) {
-      setExceededQuantityMessage((prev) => ({ ...prev, [productId]: true })); // Set exceeded quantity message
-      setOutOfStockMessage((prev) => ({ ...prev, [productId]: false })); // Clear out of stock message
+      setExceededQuantityMessage((prev) => ({ ...prev, [productId]: true })); 
+      setOutOfStockMessage((prev) => ({ ...prev, [productId]: false })); 
       setTimeout(() => {
-        setExceededQuantityMessage((prev) => ({ ...prev, [productId]: false })); // Clear message after timeout
+        setExceededQuantityMessage((prev) => ({ ...prev, [productId]: false })); 
       }, 1000);
-      return; // Stop the function if quantity exceeds stock
+      return; 
     }
 
-    // If stock is available, proceed to add to cart
     addProductToCart(productId, quantity);
     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
 
@@ -91,13 +88,13 @@ const Product = () => {
           className="flex items-center text-green-400 hover:text-green-300 transition"
         >
           <ArrowLeftIcon className="h-6 w-6 mr-2" />
-          Back to home
+          Volver al Menú
         </Link>
       </div>
 
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-green-400 mb-8">
-          Products
+          Productos
         </h1>
 
         <div className="flex items-center mb-8 space-x-4 justify-between">
@@ -113,7 +110,7 @@ const Product = () => {
               onClick={handleSearch}
               className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
             >
-              Search
+              Buscar
             </button>
             <button
               onClick={() => setFilterMenuOpen(!filterMenuOpen)}
@@ -129,24 +126,23 @@ const Product = () => {
             onClick={openModal}
             className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
           >
-            Create Product
+            Crear Producto
           </button>
         )}
 
         {filterMenuOpen && (
           <div className="bg-gray-800 p-4 rounded-md shadow-md mb-6">
             <h2 className="text-lg font-bold text-green-400 mb-4">
-              Filter Options
+              Opciones de Filtrado
             </h2>
 
             <div className="flex flex-col space-y-4">
-              {/* Sort by Category Dropdown */}
               <div className="flex items-center w-3/5">
                 <label
                   htmlFor="sortCategory"
                   className="mr-2 text-gray-400 w-1/3"
                 >
-                  Filter by Category:
+                  Filtrar por Categoria:
                 </label>
                 <select
                   id="sortCategory"
@@ -154,7 +150,7 @@ const Product = () => {
                   onChange={(e) => handleCategoryFilter(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="">Select Category</option>
+                  <option value="">Seleccionar Categoria</option>
                   {Array.isArray(categories) && categories.length > 0 ? (
                     categories.map((category) => (
                       <option key={category.id} value={category.id}>
@@ -162,24 +158,23 @@ const Product = () => {
                       </option>
                     ))
                   ) : (
-                    <option disabled>No categories available</option>
+                    <option disabled>No hay categorias disponibles</option>
                   )}
                 </select>
               </div>
 
-              {/* Sort by Price Dropdown */}
               <div className="flex items-center w-3/5">
                 <label htmlFor="sortPrice" className="mr-2 text-gray-400 w-1/3">
-                  Sort by Price:
+                  Ordenar por Precio:
                 </label>
                 <select
                   id="sortPrice"
                   onChange={(e) => handleSortOrderChange(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="none">Order by price</option>
-                  <option value="asc">Cehaper first</option>
-                  <option value="desc">Expensive first</option>
+                  <option value="none">Ordenar por Precio</option>
+                  <option value="asc">Menor Precio primero</option>
+                  <option value="desc">Mayor precio primero</option>
                 </select>
               </div>
             </div>
@@ -213,7 +208,7 @@ const Product = () => {
 
                   <div>
                     <p className="text-gray-400 font-semibold">
-                      Price: ${product.price}
+                      Precio: ${product.price}
                     </p>
                     <p className="text-gray-400">
                       Stock: {product.stockQuantity}
@@ -221,7 +216,7 @@ const Product = () => {
                   </div>
 
                   <p className="text-gray-500 text-sm">
-                    Category: {product.categoryDescription}
+                    Categoria: {product.categoryDescription}
                   </p>
                 </div>
 
@@ -232,13 +227,13 @@ const Product = () => {
                         onClick={() => openModal(product)}
                         className="w-20 px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
                       >
-                        Edit
+                        Editar
                       </button>
                       <button
                         onClick={() => handleDelete(product.id)}
                         className="w-20 px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition"
                       >
-                        Delete
+                        Borrar
                       </button>
                     </div>
                   )}
@@ -259,25 +254,25 @@ const Product = () => {
                           onClick={() => handleAddToCart(product.id)}
                           className="px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
                         >
-                          Add to Cart
+                          Agregar al Carrito
                         </button>
                       </div>
 
                       {showPopup[product.id] && (
                         <div className="mt-2 p-2 text-green-500">
-                          Product added!
+                          Producto agregado!
                         </div>
                       )}
 
                       {outOfStockMessage[product.id] && (
                         <div className="mt-2 p-2 text-red-500">
-                          Product out of stock
+                          Producto sin stock
                         </div>
                       )}
 
                       {exceededQuantityMessage[product.id] && (
                         <div className="mt-2 p-2 text-red-500">
-                          Quantity exceeds available stock
+                          Cantidad excede stock disponible
                         </div>
                       )}
                     </>

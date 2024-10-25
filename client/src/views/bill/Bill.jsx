@@ -7,7 +7,7 @@ import { useBillLogic } from '../../components/bill/BillLogic';
 const Bill = () => {
     const { bills, loading, error, markBillAsPaid, searchUserId, handleSearchChange, handleSearch } = useBillLogic();
 
-    if (loading) return <div className="text-green-300">Loading...</div>;
+    if (loading) return <div className="text-green-300">Cargando...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
 
     const userRole = localStorage.getItem('role'); 
@@ -17,7 +17,7 @@ const Bill = () => {
             <div className="flex items-center mb-4 mt-2 ml-2">
                 <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
                     <ArrowLeftIcon className="h-6 w-6 mr-2" />
-                    Back to home
+                    Volver al Menú
                 </Link>
             </div>
 
@@ -35,7 +35,7 @@ const Bill = () => {
                         className="border rounded-md p-2 border-purple-600 bg-gray-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
                     />
                     <button onClick={handleSearch} className="bg-green-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
-                        Search Bills
+                        Buscar Bills
                     </button>
                 </div>
             )}
@@ -44,22 +44,22 @@ const Bill = () => {
                 {bills.map(bill => (
                     <div key={bill.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> 
                         <h2 className="font-bold text-purple-300 mb-2">
-                            Bill ID: {bill.id} | Order ID: {bill.orderId} | Date: {new Date(bill.billDate).toLocaleDateString()}
+                            Bill ID: {bill.id} | Orden ID: {bill.orderId} | Fecha: {new Date(bill.billDate).toLocaleDateString()}
                         </h2>
-                        <p className="text-green-300 mb-2">Total Amount: ${bill.totalAmount.toFixed(2)}</p>
-                        <p className="text-green-300 mb-2">Payment Method: {bill.paymentMethod}</p>
+                        <p className="text-green-300 mb-2">TCantidad Total: ${bill.totalAmount.toFixed(2)}</p>
+                        <p className="text-green-300 mb-2">Método de pago: {bill.paymentMethod}</p>
                         <p className={`font-bold ${bill.paid ? 'text-green-400' : 'text-red-400'}`}>
                             Status: {bill.paid ? 'Paid' : 'Pending'}
                         </p>
 
-                        <h3 className="font-semibold text-green-300 mt-4 mb-2">Products:</h3>
+                        <h3 className="font-semibold text-green-300 mt-4 mb-2">Productos:</h3>
                         <table className="table-auto w-full text-gray-400 mb-4">
                             <thead>
                                 <tr className="border-b border-gray-600">
-                                    <th className="px-4 py-2 text-left">Product Name</th>
-                                    <th className="px-4 py-2 text-left">Quantity</th>
-                                    <th className="px-4 py-2 text-left">Unit Price</th>
-                                    <th className="px-4 py-2 text-left">Total Price</th>
+                                    <th className="px-4 py-2 text-left">Nombre:</th>
+                                    <th className="px-4 py-2 text-left">Cantidad</th>
+                                    <th className="px-4 py-2 text-left">Precio por Unidad</th>
+                                    <th className="px-4 py-2 text-left">Precio Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,7 +80,7 @@ const Bill = () => {
                                     onClick={() => markBillAsPaid(bill.id)} 
                                     className="bg-violet-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-violet-700"
                                 >
-                                    Mark as Paid
+                                    Marcar como pagado
                                 </button>
                             </div>
                         )}

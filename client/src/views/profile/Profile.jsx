@@ -69,7 +69,7 @@ const Profile = () => {
   };
 
   if (loading)
-    return <div className="text-center text-green-300 py-4">Loading...</div>;
+    return <div className="text-center text-green-300 py-4">Cargando...</div>;
   if (error)
     return <div className="text-center text-red-500 py-4">Error: {error}</div>;
 
@@ -80,13 +80,13 @@ const Profile = () => {
         onClick={() => navigate("/")}
       >
         <ArrowLeftIcon className="h-6 w-6 mr-2" />
-        Back to Home
+        Volver al Menú
       </button>
 
       <main className="flex-grow flex items-center justify-center px-4 py-12">
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl">
           <h1 className="text-3xl font-bold text-green-400 mb-6 text-center">
-            User Profile
+            Perfil del Usuario
           </h1>
 
           {user ? (
@@ -96,7 +96,7 @@ const Profile = () => {
                   <div className="mb-4">
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
-                        First Name:
+                        Nombre:
                       </strong>{" "}
                       {user.firstName}
                     </p>
@@ -104,14 +104,13 @@ const Profile = () => {
                   <div className="mb-4">
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
-                        Last Name:
+                        Appelido:
                       </strong>{" "}
                       {user.lastName}
                     </p>
                   </div>
                   <div className="mb-4">
                     {" "}
-                    {/* Change mb-6 to mb-4 for consistency */}
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
                         Email:
@@ -121,10 +120,9 @@ const Profile = () => {
                   </div>
                   <div className="mb-4">
                     {" "}
-                    {/* Change mb-6 to mb-4 for consistency */}
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
-                        Password:
+                        Contraseña:
                       </strong>{" "}
                       ********
                     </p>
@@ -133,14 +131,14 @@ const Profile = () => {
                     onClick={() => setEditing(true)}
                     className="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                   >
-                    Edit Profile
+                    Editar Perfil
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                   <div>
                     <label className="block text-lg font-semibold mb-2 text-green-400">
-                      First Name:
+                      Nombre:
                     </label>
                     <input
                       type="text"
@@ -153,7 +151,7 @@ const Profile = () => {
                   </div>
                   <div>
                     <label className="block text-lg font-semibold mb-2 text-green-400">
-                      Last Name:
+                      Apellido:
                     </label>
                     <input
                       type="text"
@@ -179,7 +177,7 @@ const Profile = () => {
                   </div>
                   <div className="relative">
                     <label className="block text-lg font-semibold mb-2 text-green-400">
-                      New Password (Optional):
+                      Nueva contraseña (opcional):
                     </label>
                     <div className="flex items-center border border-gray-700 rounded-md bg-gray-700">
                       <input
@@ -188,7 +186,7 @@ const Profile = () => {
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Leave blank to keep current password"
-                        className="w-full p-3 text-green-300 bg-transparent focus:outline-none" // Make bg transparent to match container
+                        className="w-full p-3 text-green-300 bg-transparent focus:outline-none" 
                       />
                       <button
                         type="button"
@@ -209,21 +207,21 @@ const Profile = () => {
                       type="submit"
                       className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                     >
-                      Save
+                      Guardar
                     </button>
                     <button
                       type="button"
                       onClick={handleCancel}
                       className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                     >
-                      Cancel
+                      Cancelar
                     </button>
                   </div>
                 </form>
               )}
             </>
           ) : (
-            <div className="text-red-500">User not found.</div>
+            <div className="text-red-500">Usuario no encontrado.</div>
           )}
         </div>
       </main>

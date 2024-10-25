@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { XMarkIcon } from "@heroicons/react/24/outline"; // Adjust the import path accordingly
+import { XMarkIcon } from "@heroicons/react/24/outline"; 
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,7 +49,6 @@ export default function NavBar() {
                 </button>
               </Link>
             )}
-            {/* Show Cart only for non-admin users */}
             {isLoggedIn && userRole !== "ADMIN" && (
               <Link to="/cart">
                 <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">
@@ -70,7 +69,6 @@ export default function NavBar() {
                 </button>
               </Link>
             )}
-            {/* Render Orders button for USER role */}
             {isLoggedIn && userRole === "USER" && (
               <Link to="/order">
                 <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">
@@ -91,7 +89,6 @@ export default function NavBar() {
                 </button>
               </Link>
             )}
-            {/* Render Bills button for USER role */}
             {isLoggedIn && userRole === "USER" && (
               <Link to="/bill">
                 <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700 transition">
@@ -136,12 +133,12 @@ export default function NavBar() {
               <>
                 <Link to="/login">
                   <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
-                    Login
+                    Ingresar
                   </button>
                 </Link>
                 <Link to="/signup">
                   <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                    Register
+                    Registrarse
                   </button>
                 </Link>
               </>
@@ -182,25 +179,22 @@ export default function NavBar() {
                 <div className="space-y-2 py-6">
                   {isLoggedIn ? (
                     <div className="flex flex-col items-center">
-                      {/* Show Cart only for non-admin users */}
                       {userRole !== "ADMIN" && (
                         <Link
                           to="/cart"
                           className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600"
                         >
-                          Cart
+                          Carrito
                         </Link>
                       )}
-                      {/* Render Orders link for USER role */}
                       {userRole === "USER" && (
                         <Link
                           to="/order"
                           className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600"
                         >
-                          Orders
+                          Ordenes
                         </Link>
                       )}
-                      {/* Render Bills link for USER role */}
                       {userRole === "USER" && (
                         <Link
                           to="/bill"
@@ -213,7 +207,7 @@ export default function NavBar() {
                         onClick={handleLogout}
                         className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600"
                       >
-                        Logout
+                        Cerrar Sesión
                       </button>
                     </div>
                   ) : (

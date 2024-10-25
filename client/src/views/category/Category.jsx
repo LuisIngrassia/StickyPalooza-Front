@@ -30,12 +30,12 @@ const Category = () => {
               className="flex items-center text-green-400 hover:text-green-300 transition"
             >
               <ArrowLeftIcon className="h-6 w-6 mr-2" />
-              Back to home
+              Volver al Menú
             </Link>
           </div>
 
           <h1 className="text-4xl font-bold text-center text-green-400 mb-8">
-            Categories
+            Categorias
           </h1>
 
           <div className="flex items-center mb-8 space-x-4">
@@ -50,7 +50,7 @@ const Category = () => {
               onClick={handleSearch}
               className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
             >
-              Search
+              Buscar
             </button>
           </div>
 
@@ -60,7 +60,7 @@ const Category = () => {
                 onClick={handleCreate}
                 className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
               >
-                Create Category
+                Crear Categoria
               </button>
             </div>
           )}
@@ -93,13 +93,13 @@ const Category = () => {
                         onClick={() => handleEdit(category)}
                         className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition w-32"
                       >
-                        Edit
+                        Editar
                       </button>
                       <button
                         onClick={() => handleDelete(category.id)}
                         className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition w-32"
                       >
-                        Delete
+                        Borrar
                       </button>
                     </div>
                   )}
@@ -107,7 +107,7 @@ const Category = () => {
               ))
             ) : (
               <li className="p-6 rounded-lg shadow-md text-center text-gray-400">
-                No categories available.
+                Sin Categorias Disponibles
               </li>
             )}
           </ul>

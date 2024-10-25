@@ -13,7 +13,7 @@ const Order = () => {
         setOrders(initialOrders); 
     }, [initialOrders]);
 
-    if (loading) return <div className="text-green-300">Loading...</div>;
+    if (loading) return <div className="text-green-300">Cargando...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
 
     const handleConversion = (updatedOrder) => {
@@ -31,7 +31,7 @@ const Order = () => {
             <div className="flex items-center mb-4 mt-2 ml-2"> 
                 <Link to="/" className="flex items-center text-green-400 hover:text-green-300 transition">
                     <ArrowLeftIcon className="h-6 w-6 mr-2" />
-                    Back to home
+                    Volver al Menú
                 </Link>
             </div>
 
@@ -49,7 +49,7 @@ const Order = () => {
                         className="border rounded-md p-2 border-purple-600 bg-gray-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200"
                     />
                     <button onClick={handleSearch} className="bg-green-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500">
-                        Search Orders
+                        Buscar Ordenes
                     </button>
                 </div>
             )}
@@ -57,17 +57,17 @@ const Order = () => {
             <div className="flex flex-col items-center space-y-4 flex-grow">
                 {orders.map(order => (
                     <div key={order.id} className="border border-gray-700 p-6 rounded-lg bg-gray-800 shadow-md transition duration-200 hover:shadow-lg w-full max-w-2xl"> 
-                        <h2 className="font-bold text-purple-300 mb-2">Order ID: {order.id} | Date: {new Date(order.orderDate).toLocaleDateString()}</h2>
+                        <h2 className="font-bold text-purple-300 mb-2">Orden ID: {order.id} | Fecha: {new Date(order.orderDate).toLocaleDateString()}</h2>
                         
                         <div className="mt-2">
-                            <h3 className="font-semibold text-green-300 mb-2">Products:</h3>
+                            <h3 className="font-semibold text-green-300 mb-2">Productos:</h3>
                             <table className="table-auto w-full text-gray-400">
                                 <thead>
                                     <tr className="border-b border-gray-600">
-                                        <th className="px-4 py-2 text-left">Product Name</th>
-                                        <th className="px-4 py-2 text-left">Quantity</th>
-                                        <th className="px-4 py-2 text-left">Unit Price</th>
-                                        <th className="px-4 py-2 text-left">Total Price</th>
+                                        <th className="px-4 py-2 text-left">Nombre Producto</th>
+                                        <th className="px-4 py-2 text-left">Cantidad</th>
+                                        <th className="px-4 py-2 text-left">Precio Unitario</th>
+                                        <th className="px-4 py-2 text-left">Precio Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,7 +84,7 @@ const Order = () => {
                         </div>
 
                         <div className="flex justify-center mt-4">
-                            <p className="font-bold text-purple-400 mb-4">Total Amount: ${order.totalAmount.toFixed(2)}</p>
+                            <p className="font-bold text-purple-400 mb-4">Cantidad Total: ${order.totalAmount.toFixed(2)}</p>
                         </div>
 
                         {!order.convertedToBill && userRole === 'USER' && (
@@ -95,13 +95,13 @@ const Order = () => {
 
                         <div className="flex justify-center mt-4">
                             {order.convertedToBill ? (
-                                <p className="text-red-500">Sealed</p> 
+                                <p className="text-red-500">Sellado</p> 
                             ) : (
                                 <button
                                     onClick={() => deleteOrder(order.id)}
                                     className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
                                 >
-                                    Delete Order
+                                    Borrar Orden
                                 </button>
                             )}
                         </div>

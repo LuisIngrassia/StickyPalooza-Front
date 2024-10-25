@@ -66,44 +66,44 @@ const MainPage = () => {
           />
 
           <p className="text-lg text-green-300 mb-12">
-            Your Favorite Sticker Shop!
+            ¡Bienvenido a Tu Tienda de Stickers Favorita!
           </p>
 
           {role === "ADMIN" && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4 text-green-400">
-                Admin Options
+                Opciones de Administrador
               </h3>
               <div className="flex flex-wrap justify-center space-x-4 pt-6">
                 <button
                   className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48"
                   onClick={() => navigate("/categories")}
                 >
-                  View Categories
+                  Ver Categorias
                 </button>
                 <button
                   className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48"
                   onClick={() => navigate("/products")}
                 >
-                  View Products
+                  Ver productos
                 </button>
                 <button
                   className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48"
                   onClick={() => navigate("/order")}
                 >
-                  View Orders
+                  Ver Ordenes
                 </button>
                 <button
                   className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48"
                   onClick={() => navigate("/bill")}
                 >
-                  View Bills
+                  Ver Bills
                 </button>
                 <button
                   className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded m-2 transition duration-200 w-48"
                   onClick={() => navigate("/users")}
                 >
-                  View Users
+                  Ver Usuarios
                 </button>
               </div>
             </div>
@@ -115,7 +115,7 @@ const MainPage = () => {
                 className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-2 transition duration-200"
                 onClick={() => navigate("/products")}
               >
-                View Products
+                Ver Productos
               </button>
             </div>
           )}
@@ -123,9 +123,9 @@ const MainPage = () => {
           {role !== "ADMIN" && (
             <div className="mb-8  flex flex-col items-center">
               <h3 className="text-2xl font-bold mb-4 text-green-400">
-                Available Products
+                Productos Disponibles
               </h3>
-              {loading && <p className="text-green-300">Loading products...</p>}
+              {loading && <p className="text-green-300">Cargando productos...</p>}
               {error && <p className="text-red-500">{error}</p>}
               <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
                 {products.map((product) => {

@@ -31,7 +31,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   if (loading) {
-    return <div className="text-center text-white">Loading...</div>;
+    return <div className="text-center text-white">Cargando...</div>;
   }
 
   return (
@@ -42,10 +42,10 @@ const Cart = () => {
         onClick={() => navigate('/')}
       >
         <ArrowLeftIcon className="h-6 w-6 mr-2" />
-        Back to Home
+        Volver al Menú
       </button>
       
-      <h2 className="text-3xl font-bold text-center text-green-400 mb-6">Your Cart</h2>
+      <h2 className="text-3xl font-bold text-center text-green-400 mb-6">Tu Carrito:</h2>
 
       <div className="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-6 mb-6"> 
         
@@ -56,11 +56,11 @@ const Cart = () => {
             <table className="min-w-full divide-y divide-gray-600">
               <thead className="bg-gray-700">
                 <tr>
-                  <th className="px-4 py-2 text-left">Product</th>
-                  <th className="px-4 py-2 text-left">Price</th>
-                  <th className="px-4 py-2 text-left">Quantity</th>
+                  <th className="px-4 py-2 text-left">Producto</th>
+                  <th className="px-4 py-2 text-left">Precio</th>
+                  <th className="px-4 py-2 text-left">Cantidad</th>
                   <th className="px-4 py-2 text-left">Total</th>
-                  <th className="px-4 py-2 text-left">Actions</th>
+                  <th className="px-4 py-2 text-left">Opciones</th>
                 </tr>
               </thead>
               <tbody className="bg-gray-800 divide-y divide-gray-700">
@@ -105,7 +105,7 @@ const Cart = () => {
             </table>
 
             <h3 className="text-xl font-bold text-center text-green-400 mt-6">
-              Total Cost: ${calculateTotalCost().toFixed(2)}
+              Costo Total: ${calculateTotalCost().toFixed(2)}
             </h3>
 
             <div className="mt-4 flex justify-center">
@@ -116,7 +116,7 @@ const Cart = () => {
                 }}
                 className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200" 
               >
-                Convert Cart To Order
+                Convertir Carrito a Orden
               </ConvertToOrder>
             </div>
 
@@ -125,12 +125,12 @@ const Cart = () => {
                 onClick={handleDeleteCartClick}
                 className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200"
               >
-                Delete Entire Cart
+                Borrar Carrito Entero
               </button>
             </div>
           </>
         ) : (
-          <div className="text-center text-gray-400">No items in your cart.</div>
+          <div className="text-center text-gray-400">No hay items en tu Carrito.</div>
         )}
       </div>
 
