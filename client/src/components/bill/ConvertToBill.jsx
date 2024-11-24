@@ -28,18 +28,18 @@ const ConvertToBill = ({ orderId, onConvert }) => {
                 onChange={(e) => setPaymentMethod(e.target.value)} 
                 className="h-10 rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
             >
-                <option value="">Seleccionar Método de Pago</option>
+                <option value="">Select Payment Method</option>
                 <option value="MERCADO_PAGO">Mercado Pago</option>
-                <option value="TRANSFERENCIA">Transferencia</option>
-                <option value="TARJETA_DEBITO">Tarjeta de Débito</option>
-                <option value="TARJETA_CREDITO">Tarjeta de Crédito</option>
+                <option value="TRANSFERENCIA">Transference</option>
+                <option value="TARJETA_DEBITO">Debit card</option>
+                <option value="TARJETA_CREDITO">Credit card</option>
             </select>
             <button 
                 onClick={handleConvert} 
                 className="bg-violet-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-violet-700 ml-4"
                 disabled={!paymentMethod}
             >
-                Convertir Orden a Factura
+                Convert to bill
             </button>
         </div>
     );

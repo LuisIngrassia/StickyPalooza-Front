@@ -69,14 +69,18 @@ export const useProductLogic = () => {
   };
 
   const handleSortOrderChange = (order) => {
-    let sortedProducts = [...allProducts];
-    if (order === 'asc') {
-      sortedProducts.sort((a, b) => a.price - b.price);
-    } else if (order === 'desc') {
-      sortedProducts.sort((a, b) => b.price - a.price);
+    if (!['asc', 'desc'].includes(order)) {
+      console.error("Invalid sort order. Use 'asc' or 'desc'.");
+      return;
     }
+  
+    const sortedProducts = [...allProducts].sort((a, b) => {
+      return order === 'asc' ? a.price - b.price : b.price - a.price;
+    });
+  
     setProducts(sortedProducts);
   };
+  
 
   const handleDelete = async (productId) => {
     console.log('Deleting product with ID:', productId);

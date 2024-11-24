@@ -6,9 +6,11 @@ const ProductFormLogic = ({ product, onSave, onCancel }) => {
     name: product?.name || '',
     description: product?.description || '',
     price: product?.price || '',
+    originalPrice: product?.originalPrice || '',
     stockQuantity: product?.stockQuantity || '',
     categoryId: product?.categoryId || '',
-    image: null,
+    image: product?.image || null,
+    discountPercentage: product?.discountPercentage || 0,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const token = localStorage.getItem('token');
@@ -23,27 +25,28 @@ const ProductFormLogic = ({ product, onSave, onCancel }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setIsSubmitting(true);
-  
-    if (!formData.name || !formData.price || !formData.stockQuantity || !formData.categoryId) {
+
+    if (!formData.name || !formData.originalPrice || !formData.stockQuantity || !formData.categoryId) {
       alert('Please fill all the required fields.');
       setIsSubmitting(false);
       return;
     }
-  
+
     try {
       const productFormData = new FormData();
       productFormData.append('name', formData.name);
       productFormData.append('description', formData.description || '');
-      productFormData.append('price', parseFloat(formData.price));
+      productFormData.append('originalPrice', parseFloat(formData.originalPrice) || 0);
       productFormData.append('stockQuantity', parseInt(formData.stockQuantity, 10));
       productFormData.append('categoryId', Number(formData.categoryId));
-  
+      productFormData.append('discountPercentage', parseInt(formData.discountPercentage));
+
       if (formData.image) {
         productFormData.append('image', formData.image);
       }
-  
+
       let response;
       if (product && product.id) {
         response = await api.put(`/products/update/${product.id}`, productFormData, {
@@ -60,7 +63,7 @@ const ProductFormLogic = ({ product, onSave, onCancel }) => {
           },
         });
       }
-  
+
       console.log('Product saved successfully:', response.data);
       onSave();
     } catch (error) {

@@ -104,13 +104,13 @@ const Product = () => {
           className="flex items-center text-green-400 hover:text-green-300 transition"
         >
           <ArrowLeftIcon className="h-6 w-6 mr-2" />
-          Volver al Menú
+          Back to Homepage
         </Link>
       </div>
 
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-green-400 mb-8">
-          Productos
+          Products
         </h1>
 
         <div className="flex items-center mb-8 space-x-4 justify-between">
@@ -126,7 +126,7 @@ const Product = () => {
               onClick={handleSearch}
               className="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500 transition"
             >
-              Buscar
+              Search...
             </button>
             <button
               onClick={() => setFilterMenuOpen(!filterMenuOpen)}
@@ -142,14 +142,14 @@ const Product = () => {
             onClick={openModal}
             className="mb-6 w-full px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
           >
-            Crear Producto
+            Create Product
           </button>
         )}
 
         {filterMenuOpen && (
           <div className="bg-gray-800 p-4 rounded-md shadow-md mb-6">
             <h2 className="text-lg font-bold text-green-400 mb-4">
-              Opciones de Filtrado
+              Filter Options
             </h2>
 
             <div className="flex flex-col space-y-4">
@@ -158,7 +158,7 @@ const Product = () => {
                   htmlFor="sortCategory"
                   className="mr-2 text-gray-400 w-1/3"
                 >
-                  Filtrar por Categoria:
+                  Filter by Category:
                 </label>
                 <select
                   id="sortCategory"
@@ -166,7 +166,7 @@ const Product = () => {
                   onChange={(e) => handleCategoryFilter(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="">Seleccionar Categoria</option>
+                  <option value="">Choose a category...</option>
                   {Array.isArray(categories) && categories.length > 0 ? (
                     categories.map((category) => (
                       <option key={category.id} value={category.id}>
@@ -174,23 +174,23 @@ const Product = () => {
                       </option>
                     ))
                   ) : (
-                    <option disabled>No hay categorias disponibles</option>
+                    <option disabled>No categories available</option>
                   )}
                 </select>
               </div>
 
               <div className="flex items-center w-3/5">
                 <label htmlFor="sortPrice" className="mr-2 text-gray-400 w-1/3">
-                  Ordenar por Precio:
+                  Order by price:
                 </label>
                 <select
                   id="sortPrice"
                   onChange={(e) => handleSortOrderChange(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="none">Ordenar por Precio</option>
-                  <option value="asc">Menor Precio primero</option>
-                  <option value="desc">Mayor precio primero</option>
+                  <option value="none">select an option...</option>
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
                 </select>
               </div>
             </div>
@@ -204,37 +204,17 @@ const Product = () => {
               : "/images/placeholder.png";
 
             return (
-              <li
-                key={product.id}
-                className="bg-gray-800 rounded-lg shadow-md flex items-center justify-between p-4 space-x-4"
-              >
-                <img
-                  src={productImage}
-                  alt={product.name}
-                  className="w-32 h-32 object-cover rounded-md cursor-pointer" 
-                  onClick={() => openDetailModal(product)} 
-                />
-
-                <div className="flex flex-col flex-grow gap-5">
-                  <div>
-                    <h3 className="text-2xl font-bold text-green-400">
-                      {product.name}
-                    </h3>
-                    <p className="text-gray-300">{product.description}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-gray-400 font-semibold">
-                      Precio: ${product.price}
-                    </p>
-                    <p className="text-gray-400">
-                      Stock: {product.stockQuantity}
-                    </p>
-                  </div>
-
-                  <p className="text-gray-500 text-sm">
-                    Categoria: {product.categoryDescription}
-                  </p>
+              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex p-4 relative">
+                <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md mr-4" />
+                
+                <div className="flex flex-col flex-grow">
+                  <h3 className="text-2xl font-bold text-green-400">{product.name}</h3>
+                  <p className="text-gray-300">{product.description}</p>
+                  <p className="text-gray-400 font-semibold">Original Price: ${product.originalPrice}</p>
+                  <p className="text-gray-400 font-semibold">Price: ${product.price}</p>
+                  <p className="text-gray-400 font-semibold">Discount: {product.discountPercentage || 0}%</p>
+                  <p className="text-gray-400 font-semibold">Stock: {product.stockQuantity}</p>
+                  <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
                 </div>
 
                 <div className="space-y-4 flex flex-col items-center">
@@ -244,13 +224,13 @@ const Product = () => {
                         onClick={() => openModal(product)}
                         className="w-20 px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
                       >
-                        Editar
+                        Edit
                       </button>
                       <button
                         onClick={() => handleDelete(product.id)}
                         className="w-20 px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition"
                       >
-                        Borrar
+                        Delete
                       </button>
                     </div>
                   )}
@@ -271,25 +251,25 @@ const Product = () => {
                           onClick={() => handleAddToCart(product.id)}
                           className="px-4 py-2 bg-violet-600 text-white font-semibold rounded-md hover:bg-violet-700 transition"
                         >
-                          Agregar al Carrito
+                          Add to cart
                         </button>
                       </div>
 
                       {showPopup[product.id] && (
                         <div className="mt-2 p-2 text-green-500">
-                          Producto agregado!
+                          Product added!
                         </div>
                       )}
 
                       {outOfStockMessage[product.id] && (
                         <div className="mt-2 p-2 text-red-500">
-                          Producto sin stock
+                          No stock left.
                         </div>
                       )}
 
                       {exceededQuantityMessage[product.id] && (
                         <div className="mt-2 p-2 text-red-500">
-                          Cantidad excede stock disponible
+                          Exeeding available stock.
                         </div>
                       )}
                     </>

@@ -10,57 +10,58 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         {product && product.id ? 'Editar Producto' : 'Crear Producto'}
       </h2>
       
-      <label className="text-purple-300 mb-1 block text-sm">Nombre Producto</label>
+      <label className="text-purple-300 mb-1 block text-sm">Product Name</label>
       <input
         type="text"
         name="name"
         value={formData.name}
         onChange={handleChange}
-        placeholder="Nombre Producto"
-        className="w-full mb-4 p-1 rounded-md bg-gray-700 text-green-300 border border-gray-600"  
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
         required
       />
-      
-      <label className="text-purple-300 mb-1 block text-sm">Descripción</label>
+
+      {/* Description */}
+      <label className="text-gray-300 font-semibold mb-2 block">Description</label>
       <textarea
         name="description"
         value={formData.description}
         onChange={handleChange}
-        placeholder="Descripción"
-        className="w-full mb-4 p-1 rounded-md bg-gray-700 text-green-300 border border-gray-600"  
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
-      
-      <label className="text-purple-300 mb-1 block text-sm">Precio</label>
+
+      {/* Price */}
+      <label className="text-gray-300 font-semibold mb-2 block">Price (w/o discount)</label>
       <input
         type="number"
-        name="price"
-        value={formData.price}
+        name="originalPrice"
+        value={formData.originalPrice || 0}
         onChange={handleChange}
-        placeholder="Precio"
-        className="w-full mb-4 p-1 rounded-md bg-gray-700 text-green-300 border border-gray-600"  
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none" // Removes increment/decrement buttons
         required
       />
-      
-      <label className="text-purple-300 mb-1 block text-sm">Cantidad de Stock</label>
+
+      {/* Stock Quantity */}
+      <label className="text-gray-300 font-semibold mb-2 block">Stock Quantity</label>
       <input
         type="number"
         name="stockQuantity"
         value={formData.stockQuantity}
         onChange={handleChange}
-        placeholder="Cantidad de Stock"
-        className="w-full mb-4 p-1 rounded-md bg-gray-700 text-green-300 border border-gray-600"  
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
         required
       />
 
-      <label className="text-purple-300 mb-1 block text-sm">Categoría</label>
+      {/* Category ID */}
+      <label className="text-gray-300 font-semibold mb-2 block">Category ID</label>
       <select
+        type="number"
         name="categoryId"
         value={formData.categoryId}
         onChange={handleChange}
-        className="w-full mb-4 p-1 rounded-md bg-gray-700 text-green-300 border border-gray-600"  
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
         required
       >
-        <option value="">Seleccionar Categoria</option>
+        <option value="">Select Category</option>
         {Array.isArray(categories) && categories.length > 0 ? (
           categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -68,18 +69,30 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
             </option>
           ))
         ) : (
-          <option disabled>No hay categorias disponibles</option>
+          <option disabled>No available categories.</option>
         )}
       </select>
 
-      <label className="text-purple-300 mb-1 block text-sm">Imagen</label>
+      {/* Discount */}
+      <label className="text-gray-300 font-semibold mb-2 block">Discount (%)</label>
+      <input
+        type="number"
+        name="discountPercentage"
+        value={formData.discountPercentage || 0}
+        onChange={handleChange}
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
+      />
+
+      {/* Image */}
+      <label className="text-gray-300 font-semibold mb-2 block">Product Image</label>
       <input
         type="file"
         name="Imagen"
         onChange={handleChange}
-        className="mb-4 p-1 rounded-md bg-gray-700 text-green-300 border border-gray-600"  
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
 
+      {/* Buttons */}
       <div className="flex justify-between">
         <button
           type="submit"
@@ -94,7 +107,7 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
           onClick={onCancel} 
           className="w-full ml-4 p-2 rounded-md bg-red-600 text-white"
         >
-          Cerrar
+          Close
         </button>
       </div>
     </form>
