@@ -204,20 +204,44 @@ const Product = () => {
               : "/images/placeholder.png";
 
             return (
-              <li key={product.id} className="bg-gray-800 rounded-lg shadow-md flex p-4 relative">
-                <img src={productImage} alt={product.name} className="w-32 h-32 object-cover rounded-md mr-4" />
+              <li
+                key={product.id}
+                className="bg-gray-800 rounded-lg shadow-md flex p-4 relative overflow-visible" 
+              >
                 
+                {product.discountPercentage > 0 && (
+                  <div
+                    className="absolute bottom-2 right-5 transform translate-y-1/2 translate-x-1/2 bg-green-500 text-white font-bold text-sm py-1 px-3 rounded-full shadow-lg z-10"
+                  >
+                    {product.discountPercentage}% OFF
+                  </div>
+                )}
+
+                <img
+                  src={productImage}
+                  alt={product.name}
+                  className="w-32 h-32 object-cover rounded-md mr-4"
+                />
+
                 <div className="flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold text-green-400">{product.name}</h3>
                   <p className="text-gray-300">{product.description}</p>
-                  <p className="text-gray-400 font-semibold">Original Price: ${product.originalPrice}</p>
-                  <p className="text-gray-400 font-semibold">Price: ${product.price}</p>
-                  <p className="text-gray-400 font-semibold">Discount: {product.discountPercentage || 0}%</p>
+
+                  {product.originalPrice !== product.price ? (
+                    <>
+                      <p className="text-gray-400 font-semibold">
+                        Original Price: ${product.originalPrice}
+                      </p>
+                      <p className="text-gray-400 font-semibold">Discounted Price: ${product.price}</p>
+                    </>
+                  ) : (
+                    <p className="text-gray-400 font-semibold">Price: ${product.price}</p>
+                  )}
+
                   <p className="text-gray-400 font-semibold">Stock: {product.stockQuantity}</p>
                   <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
                 </div>
-
-                <div className="space-y-4 flex flex-col items-center">
+                <div className="flex flex-col items-center justify-center space-y-4">
                   {userRole === "ADMIN" && (
                     <div className="flex space-x-4">
                       <button
@@ -236,14 +260,12 @@ const Product = () => {
                   )}
 
                   {userRole === "USER" && (
-                    <>
+                    <div>
                       <div className="flex items-center space-x-2">
                         <input
                           type="number"
                           value={quantities[product.id] || 1}
-                          onChange={(e) =>
-                            handleQuantityChange(product.id, e.target.value)
-                          }
+                          onChange={(e) => handleQuantityChange(product.id, e.target.value)}
                           className="w-16 px-2 py-1 border border-gray-300 rounded-md bg-gray-700 text-green-400"
                           min="1"
                         />
@@ -256,29 +278,25 @@ const Product = () => {
                       </div>
 
                       {showPopup[product.id] && (
-                        <div className="mt-2 p-2 text-green-500">
-                          Product added!
-                        </div>
+                        <div className="mt-2 p-2 text-green-500">Product added!</div>
                       )}
 
                       {outOfStockMessage[product.id] && (
-                        <div className="mt-2 p-2 text-red-500">
-                          No stock left.
-                        </div>
+                        <div className="mt-2 p-2 text-red-500">No stock left.</div>
                       )}
 
                       {exceededQuantityMessage[product.id] && (
-                        <div className="mt-2 p-2 text-red-500">
-                          Exeeding available stock.
-                        </div>
+                        <div className="mt-2 p-2 text-red-500">Exceeding available stock.</div>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
+
               </li>
             );
           })}
         </ul>
+
 
         <Modal isOpen={modalOpen} onClose={closeModal}>
           <ProductForm

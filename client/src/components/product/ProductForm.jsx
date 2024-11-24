@@ -10,7 +10,8 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         {product && product.id ? 'Editar Producto' : 'Crear Producto'}
       </h2>
       
-      <label className="text-purple-300 mb-1 block text-sm">Product Name</label>
+      {/* Product Name */}
+      <label className="text-gray-300 font-semibold mb-2 block">Product Name</label>
       <input
         type="text"
         name="name"
