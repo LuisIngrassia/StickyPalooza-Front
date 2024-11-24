@@ -203,12 +203,16 @@ const Product = () => {
               ? `http://localhost:5000${product.image}`
               : "/images/placeholder.png";
 
+            // Find the category description by matching categoryId with categories array
+            const categoryDescription = categories.find(
+              (category) => category.id === product.categoryId
+            )?.description;
+
             return (
               <li
                 key={product.id}
-                className="bg-gray-800 rounded-lg shadow-md flex p-4 relative overflow-visible" 
+                className="bg-gray-800 rounded-lg shadow-md flex p-4 relative overflow-visible"
               >
-                
                 {product.discountPercentage > 0 && (
                   <div
                     className="absolute bottom-2 right-5 transform translate-y-1/2 translate-x-1/2 bg-green-500 text-white font-bold text-sm py-1 px-3 rounded-full shadow-lg z-10"
@@ -239,8 +243,12 @@ const Product = () => {
                   )}
 
                   <p className="text-gray-400 font-semibold">Stock: {product.stockQuantity}</p>
-                  <p className="text-gray-500 text-sm">Category ID: {product.categoryId}</p>
+                  {/* Display Category Description instead of Category ID */}
+                  <p className="text-gray-500 text-sm">
+                    Category: {categoryDescription || "Unknown"}
+                  </p>
                 </div>
+
                 <div className="flex flex-col items-center justify-center space-y-4">
                   {userRole === "ADMIN" && (
                     <div className="flex space-x-4">
@@ -291,11 +299,11 @@ const Product = () => {
                     </div>
                   )}
                 </div>
-
               </li>
             );
           })}
         </ul>
+
 
 
         <Modal isOpen={modalOpen} onClose={closeModal}>
