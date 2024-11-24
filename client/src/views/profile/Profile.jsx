@@ -67,11 +67,19 @@ const Profile = () => {
       password: "",
     });
   };
-
-  if (loading)
-    return <div className="text-center text-green-300 py-4">Cargando...</div>;
-  if (error)
-    return <div className="text-center text-red-500 py-4">Error: {error}</div>;
+  
+  // if (loading)
+  //   return (
+  //     <div className="text-center text-green-300 py-4 bg-red-500">
+  //       Cargando...
+  //     </div>
+  //   );
+  // if (error)
+  //   return (
+  //     <div className="text-center text-red-500 py-4 bg-blue-500">
+  //       Error: {error}
+  //     </div>
+  //   );
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col">
@@ -186,7 +194,7 @@ const Profile = () => {
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Leave blank to keep current password"
-                        className="w-full p-3 text-green-300 bg-transparent focus:outline-none" 
+                        className="w-full p-3 text-green-300 bg-transparent focus:outline-none"
                       />
                       <button
                         type="button"

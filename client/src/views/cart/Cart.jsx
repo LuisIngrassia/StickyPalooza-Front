@@ -1,8 +1,13 @@
-import React from 'react';
-import { useCartLogic } from '../../components/cart/CartLogic';
-import ConvertToOrder from '../../components/order/ConvertToOrder';
-import { useNavigate } from 'react-router-dom'; 
-import { ArrowLeftIcon, PlusIcon, MinusIcon, TrashIcon } from '@heroicons/react/24/solid'; // Importing the icons
+import React from "react";
+import { useCartLogic } from "../../components/cart/CartLogic";
+import ConvertToOrder from "../../components/order/ConvertToOrder";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowLeftIcon,
+  PlusIcon,
+  MinusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/solid"; // Importing the icons
 import Footer from "../../components/general/Footer";
 
 const Cart = () => {
@@ -30,27 +35,27 @@ const Cart = () => {
 
   const navigate = useNavigate();
 
-  if (loading) {
-    return <div className="text-center text-white">Cargando...</div>;
-  }
+  // if (loading) {
+  //   return <div className="text-center text-white">Cargando...</div>;
+  // }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6 text-white flex flex-col items-center justify-center"> 
-
+    <div className="min-h-screen bg-gray-900 p-6 text-white flex flex-col items-center justify-center">
       <button
         className="absolute top-4 left-4 flex items-center text-green-400 hover:text-green-300 transition"
-        onClick={() => navigate('/')}
+        onClick={() => navigate("/")}
       >
         <ArrowLeftIcon className="h-6 w-6 mr-2" />
         Volver al Menú
       </button>
-      
-      <h2 className="text-3xl font-bold text-center text-green-400 mb-6">Tu Carrito:</h2>
 
-      <div className="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-6 mb-6"> 
-        
+      <h2 className="text-3xl font-bold text-center text-green-400 mb-6">
+        Tu Carrito:
+      </h2>
+
+      <div className="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-        
+
         {cart && cart.cartProducts && cart.cartProducts.length > 0 ? (
           <>
             <table className="min-w-full divide-y divide-gray-600">
@@ -64,35 +69,53 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody className="bg-gray-800 divide-y divide-gray-700">
-                {cart.cartProducts.map(product => {
-                  const productImage = product.productImage ? `http://localhost:5000${product.productImage}` : '/images/placeholder.png'; // Updated image logic
+                {cart.cartProducts.map((product) => {
+                  const productImage = product.productImage
+                    ? `http://localhost:5000${product.productImage}`
+                    : "/images/placeholder.png"; // Updated image logic
 
                   return (
                     <tr key={product.productId}>
                       <td className="px-4 py-2 flex items-center">
-                        <img src={productImage} alt={product.productName} className="mt-4 mr-20 w-24 h-24 object-cover rounded-md mr-2" />
-                        <span className="font-bold text-green-400 text-xl">{product.productName}</span>
+                        <img
+                          src={productImage}
+                          alt={product.productName}
+                          className="mt-4 mr-20 w-24 h-24 object-cover rounded-md mr-2"
+                        />
+                        <span className="font-bold text-green-400 text-xl">
+                          {product.productName}
+                        </span>
                       </td>
-                      <td className="px-4 py-2">${product.productPrice.toFixed(2)}</td>
+                      <td className="px-4 py-2">
+                        ${product.productPrice.toFixed(2)}
+                      </td>
                       <td className="px-4 py-2">{product.quantity}</td>
-                      <td className="px-4 py-2">${(product.productPrice * product.quantity).toFixed(2)}</td>
+                      <td className="px-4 py-2">
+                        ${(product.productPrice * product.quantity).toFixed(2)}
+                      </td>
                       <td className="px-4 py-2 flex-col items-center ">
                         <div className="flex space-x-2 ">
                           <button
-                            onClick={() => handleAddToCart(product.productId, 1)}
+                            onClick={() =>
+                              handleAddToCart(product.productId, 1)
+                            }
                             className="bg-green-600 text-white rounded-md p-1 hover:bg-green-500 transition duration-200"
                           >
                             <PlusIcon className="h-6 w-6" />
                           </button>
                           <button
-                            onClick={() => handleAddToCart(product.productId, -1)}
+                            onClick={() =>
+                              handleAddToCart(product.productId, -1)
+                            }
                             className="bg-orange-600 text-white rounded-md p-1 hover:bg-orange-500 transition duration-200"
                           >
                             <MinusIcon className="h-6 w-6" />
                           </button>
                         </div>
                         <button
-                          onClick={() => handleRemoveFromCart(product.productId)}
+                          onClick={() =>
+                            handleRemoveFromCart(product.productId)
+                          }
                           className="mt-2 bg-purple-600 text-white rounded-md p-1 hover:bg-purple-500 transition duration-200"
                         >
                           <TrashIcon className="h-6 w-16" />
@@ -110,11 +133,11 @@ const Cart = () => {
 
             <div className="mt-4 flex justify-center">
               <ConvertToOrder
-                cartId={cart.id} 
+                cartId={cart.id}
                 onConvert={(order) => {
-                  console.log('Order converted:', order);
+                  console.log("Order converted:", order);
                 }}
-                className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200" 
+                className="w-1/2 h-10 bg-red-600 text-white rounded-md hover:bg-red-500 transition duration-200"
               >
                 Convertir Carrito a Orden
               </ConvertToOrder>
@@ -130,7 +153,9 @@ const Cart = () => {
             </div>
           </>
         ) : (
-          <div className="text-center text-gray-400">No hay items en tu Carrito.</div>
+          <div className="text-center text-gray-400">
+            No hay items en tu Carrito.
+          </div>
         )}
       </div>
 
