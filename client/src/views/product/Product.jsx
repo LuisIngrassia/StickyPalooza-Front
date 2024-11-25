@@ -188,7 +188,7 @@ const Product = () => {
                   onChange={(e) => handleSortOrderChange(e.target.value)}
                   className="px-5 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-700 text-green-400 flex-grow"
                 >
-                  <option value="none">select an option...</option>
+                  <option value="none">Select an option...</option>
                   <option value="asc">Ascending</option>
                   <option value="desc">Descending</option>
                 </select>
@@ -203,7 +203,6 @@ const Product = () => {
               ? `http://localhost:5000${product.image}`
               : "/images/placeholder.png";
 
-            // Find the category description by matching categoryId with categories array
             const categoryDescription = categories.find(
               (category) => category.id === product.categoryId
             )?.description;
@@ -243,7 +242,6 @@ const Product = () => {
                   )}
 
                   <p className="text-gray-400 font-semibold">Stock: {product.stockQuantity}</p>
-                  {/* Display Category Description instead of Category ID */}
                   <p className="text-gray-500 text-sm">
                     Category: {categoryDescription || "Unknown"}
                   </p>

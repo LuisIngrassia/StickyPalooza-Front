@@ -10,7 +10,6 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         {product && product.id ? 'Editar Producto' : 'Crear Producto'}
       </h2>
       
-      {/* Product Name */}
       <label className="text-gray-300 font-semibold mb-2 block">Product Name</label>
       <input
         type="text"
@@ -21,7 +20,6 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         required
       />
 
-      {/* Description */}
       <label className="text-gray-300 font-semibold mb-2 block">Description</label>
       <textarea
         name="description"
@@ -30,18 +28,16 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
 
-      {/* Price */}
       <label className="text-gray-300 font-semibold mb-2 block">Price (w/o discount)</label>
       <input
         type="number"
         name="originalPrice"
         value={formData.originalPrice || 0}
         onChange={handleChange}
-        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none" // Removes increment/decrement buttons
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none" 
         required
       />
 
-      {/* Stock Quantity */}
       <label className="text-gray-300 font-semibold mb-2 block">Stock Quantity</label>
       <input
         type="number"
@@ -52,7 +48,6 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         required
       />
 
-      {/* Category ID */}
       <label className="text-gray-300 font-semibold mb-2 block">Category ID</label>
       <select
         type="number"
@@ -74,7 +69,6 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         )}
       </select>
 
-      {/* Discount */}
       <label className="text-gray-300 font-semibold mb-2 block">Discount (%)</label>
       <input
         type="number"
@@ -84,7 +78,6 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
       />
 
-      {/* Image */}
       <label className="text-gray-300 font-semibold mb-2 block">Product Image</label>
       <input
         type="file"
@@ -93,14 +86,13 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
 
-      {/* Buttons */}
       <div className="flex justify-between">
         <button
           type="submit"
           disabled={isSubmitting}
           className={`w-full p-2 rounded-md ${isSubmitting ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-500'} text-white`}
         >
-          {isSubmitting ? 'Guardando...' : 'Guardar Producto'}
+          {isSubmitting ? 'Saving...' : 'Save Product'}
         </button>
 
         <button

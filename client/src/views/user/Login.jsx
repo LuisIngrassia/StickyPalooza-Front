@@ -33,8 +33,8 @@ const Login = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <div className="mx-auto max-w-md space-y-6 mt-12">
-        <h1 className="text-3xl font-bold text-center text-green-400">Iniciar Sesión</h1>
-        <p className="text-center text-gray-400">Inicia sesión para empezar</p>
+        <h1 className="text-3xl font-bold text-center text-green-400">Sign in</h1>
+        <p className="text-center text-gray-400">Log in to get started</p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
@@ -50,7 +50,7 @@ const Login = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">Contraseña</label>
+            <label className="text-sm font-medium" htmlFor="password">Password</label>
             <input
               className="w-full h-10 rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
               type="password"
@@ -67,12 +67,12 @@ const Login = () => {
             type="submit" 
             className="w-full h-10 bg-purple-600 hover:bg-purple-500 text-white rounded-md transition duration-200"
           >
-            Iniciar Sesión
+            Sign in
           </button>
 
           <p className="text-center text-sm mt-4 text-gray-400">
-            ¿Aún no tienes una cuenta?{" "}
-            <Link className="underline text-green-300" to="/signup">Regístrate</Link>
+            Don't have an account yet?{" "}
+            <Link className="underline text-green-300" to="/signup">Register</Link>
           </p>
         </form>
       </div>

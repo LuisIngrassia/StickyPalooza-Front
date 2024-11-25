@@ -36,7 +36,7 @@ const BillForm = ({ bill, onSave }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Orden ID:</label>
+        <label>Order ID:</label>
         <input
           type="text"
           name="orderId"
@@ -46,7 +46,7 @@ const BillForm = ({ bill, onSave }) => {
         />
       </div>
       <div>
-        <label>Cantidad Total:</label>
+        <label>Total Quantity:</label>
         <input
           type="number"
           name="totalAmount"
@@ -56,7 +56,7 @@ const BillForm = ({ bill, onSave }) => {
         />
       </div>
       <div>
-        <label>Metodo de Pago:</label>
+        <label>Payment Method:</label>
         <input
           type="text"
           name="paymentMethod"

@@ -34,7 +34,7 @@ const CategoryForm = ({ category, onSave }) => {
     setIsSubmitting(true);
 
     if (!formData.description) {
-      alert('Por favor, rellene el campo.');
+      alert('Please fill in the field.');
       setIsSubmitting(false);
       return;
     }
@@ -59,7 +59,7 @@ const CategoryForm = ({ category, onSave }) => {
         });
       }
 
-      console.log('Categoria guardada con exito:', response.data);
+      console.log('Successfully saved category:', response.data);
       onSave();
     } catch (error) {
       console.error('Error saving category:', error?.response?.data || error.message);
@@ -72,7 +72,7 @@ const CategoryForm = ({ category, onSave }) => {
   return (
     <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-md">
       <div className="mb-4">
-        <label className="text-green-300 font-semibold">Descripción:</label>
+        <label className="text-green-300 font-semibold">Description:</label>
         <textarea
           name="description"
           value={formData.description}
@@ -88,7 +88,7 @@ const CategoryForm = ({ category, onSave }) => {
           disabled={isSubmitting}
           className={`bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md ${isSubmitting ? 'opacity-50' : ''}`}
         >
-          {isSubmitting ? 'Guardando...' : 'Guardar Categoría'}
+          {isSubmitting ? 'Saving...' : 'Category Saved'}
         </button>
       </div>
     </form>

@@ -42,8 +42,8 @@ const Signup = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <div className="mx-auto max-w-md space-y-6 mt-12">
-        <h1 className="text-3xl font-bold text-center text-green-400">Registrarse</h1>
-        <p className="text-center text-gray-400">Crea tu cuenta para empezar</p>
+        <h1 className="text-3xl font-bold text-center text-green-400">Register</h1>
+        <p className="text-center text-gray-400">Create your account to get started</p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
@@ -59,7 +59,7 @@ const Signup = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">Contraseña</label>
+            <label className="text-sm font-medium" htmlFor="password">Password</label>
             <input
               className="w-full h-10 rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
               type="password"
@@ -71,7 +71,7 @@ const Signup = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="firstname">Nombre</label>
+            <label className="text-sm font-medium" htmlFor="firstname">Name</label>
             <input
               className="w-full h-10 rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
               type="text"
@@ -83,7 +83,7 @@ const Signup = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="lastname">Apellido</label>
+            <label className="text-sm font-medium" htmlFor="lastname">Surname</label>
             <input
               className="w-full h-10 rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
               type="text"
@@ -102,8 +102,8 @@ const Signup = () => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="USER">Usuario</option>
-              <option value="ADMIN">Administrador</option>
+              <option value="USER">User</option>
+              <option value="ADMIN">Administrator</option>
             </select>
           </div>
 
@@ -113,12 +113,12 @@ const Signup = () => {
             type="submit" 
             className="w-full h-10 bg-purple-600 hover:bg-purple-500 text-white rounded-md transition duration-200"
           >
-            Registrarse
+            Register
           </button>
 
           <p className="text-center text-sm mt-4 text-gray-400">
-            ¿Ya tienes una cuenta?{" "}
-            <Link className="underline text-green-300" to="/login">Iniciar Sesión</Link>
+            Already have an account?{" "}
+            <Link className="underline text-green-300" to="/login">Sign in</Link>
           </p>
         </form>
       </div>

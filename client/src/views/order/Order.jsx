@@ -21,8 +21,8 @@ const Order = () => {
     setOrders(initialOrders);
   }, [initialOrders]);
 
-  // if (loading) return <div className="text-green-300">Cargando...</div>;
-  // if (error) return <div className="text-red-500">{error}</div>;
+  if (loading) return <div className="text-green-300">Loading...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   const handleConversion = (updatedOrder) => {
     setOrders((prevOrders) =>
@@ -42,7 +42,7 @@ const Order = () => {
           className="flex items-center text-green-400 hover:text-green-300 transition"
         >
           <ArrowLeftIcon className="h-6 w-6 mr-2" />
-          Volver al Menú
+          Return Home
         </Link>
       </div>
 
@@ -63,7 +63,7 @@ const Order = () => {
             onClick={handleSearch}
             className="bg-green-600 text-white px-4 py-2 rounded-md ml-2 transition duration-200 hover:bg-purple-500"
           >
-            Buscar Ordenes
+            Search Orders
           </button>
         </div>
       )}
@@ -80,14 +80,14 @@ const Order = () => {
             </h2>
 
             <div className="mt-2">
-              <h3 className="font-semibold text-green-300 mb-2">Productos:</h3>
+              <h3 className="font-semibold text-green-300 mb-2">Products:</h3>
               <table className="table-auto w-full text-gray-400">
                 <thead>
                   <tr className="border-b border-gray-600">
-                    <th className="px-4 py-2 text-left">Nombre Producto</th>
-                    <th className="px-4 py-2 text-left">Cantidad</th>
-                    <th className="px-4 py-2 text-left">Precio Unitario</th>
-                    <th className="px-4 py-2 text-left">Precio Total</th>
+                    <th className="px-4 py-2 text-left">Product name</th>
+                    <th className="px-4 py-2 text-left">Quantity</th>
+                    <th className="px-4 py-2 text-left">Unit Price</th>
+                    <th className="px-4 py-2 text-left">Total Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -112,7 +112,7 @@ const Order = () => {
 
             <div className="flex justify-center mt-4">
               <p className="font-bold text-purple-400 mb-4">
-                Cantidad Total: ${order.totalAmount.toFixed(2)}
+                Total Quantity: ${order.totalAmount.toFixed(2)}
               </p>
             </div>
 
@@ -127,13 +127,13 @@ const Order = () => {
 
             <div className="flex justify-center mt-4">
               {order.convertedToBill ? (
-                <p className="text-red-500">Sellado</p>
+                <p className="text-red-500">Sealed</p>
               ) : (
                 <button
                   onClick={() => deleteOrder(order.id)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md transition duration-200 hover:bg-red-500"
                 >
-                  Borrar Orden
+                  Delete Order
                 </button>
               )}
             </div>

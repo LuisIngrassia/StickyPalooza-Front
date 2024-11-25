@@ -14,16 +14,16 @@ const ProductDetailModal = ({ isOpen, onClose, product }) => {
 
       <div className="text-center"> 
         <p className="text-purple-400 mt-2">{product.description}</p> 
-        <p className="text-gray-400">Precio: ${product.price}</p>
-        <p className="text-gray-400">Stock: {product.stockQuantity}</p>
-        <p className="text-gray-400">Categoria: {product.categoryDescription}</p>
+        <p className="text-gray-400">Price: ${product.price}</p>
+        <p className="text-gray-400">Stock Quantity: {product.stockQuantity}</p>
+        <p className="text-gray-400">Category: {product.categoryDescription}</p>
       </div>
       
       <div className="flex justify-center mt-4"> 
         <button 
           onClick={onClose} 
           className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
-          Cerrar
+          Close
         </button>
       </div>
     </Modal>

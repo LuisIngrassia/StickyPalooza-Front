@@ -132,12 +132,12 @@ export default function NavBar() {
               <>
                 <Link to="/login">
                   <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
-                    Ingresar
+                    Login
                   </button>
                 </Link>
                 <Link to="/signup">
                   <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                    Registrarse
+                    Register
                   </button>
                 </Link>
               </>
@@ -183,7 +183,7 @@ export default function NavBar() {
                           to="/cart"
                           className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600"
                         >
-                          Carrito
+                          Cart
                         </Link>
                       )}
                       {userRole === "USER" && (
@@ -191,7 +191,7 @@ export default function NavBar() {
                           to="/order"
                           className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600"
                         >
-                          Ordenes
+                          Orders
                         </Link>
                       )}
                       {userRole === "USER" && (
@@ -206,7 +206,7 @@ export default function NavBar() {
                         onClick={handleLogout}
                         className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:text-purple-600"
                       >
-                        Cerrar Sesión
+                        Logout
                       </button>
                     </div>
                   ) : (
@@ -221,7 +221,7 @@ export default function NavBar() {
                         to="/signup"
                         className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-purple-700"
                       >
-                        Regístrate
+                        Register
                       </Link>
                     </>
                   )}

@@ -68,18 +68,18 @@ const Profile = () => {
     });
   };
   
-  // if (loading)
-  //   return (
-  //     <div className="text-center text-green-300 py-4 bg-red-500">
-  //       Cargando...
-  //     </div>
-  //   );
-  // if (error)
-  //   return (
-  //     <div className="text-center text-red-500 py-4 bg-blue-500">
-  //       Error: {error}
-  //     </div>
-  //   );
+  if (loading)
+    return (
+      <div className="text-center text-green-300 py-4 bg-red-500">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-center text-red-500 py-4 bg-blue-500">
+        Error: {error}
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col">
@@ -88,13 +88,13 @@ const Profile = () => {
         onClick={() => navigate("/")}
       >
         <ArrowLeftIcon className="h-6 w-6 mr-2" />
-        Volver al Menú
+        Return Home
       </button>
 
       <main className="flex-grow flex items-center justify-center px-4 py-12">
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl">
           <h1 className="text-3xl font-bold text-green-400 mb-6 text-center">
-            Perfil del Usuario
+            User Profile
           </h1>
 
           {user ? (
@@ -104,7 +104,7 @@ const Profile = () => {
                   <div className="mb-4">
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
-                        Nombre:
+                        Name:
                       </strong>{" "}
                       {user.firstName}
                     </p>
@@ -112,7 +112,7 @@ const Profile = () => {
                   <div className="mb-4">
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
-                        Appelido:
+                        Username:
                       </strong>{" "}
                       {user.lastName}
                     </p>
@@ -130,7 +130,7 @@ const Profile = () => {
                     {" "}
                     <p className="text-lg text-purple-300">
                       <strong className="font-semibold text-green-400">
-                        Contraseña:
+                        Password:
                       </strong>{" "}
                       ********
                     </p>
@@ -139,14 +139,14 @@ const Profile = () => {
                     onClick={() => setEditing(true)}
                     className="mx-auto block bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                   >
-                    Editar Perfil
+                    Edit Profile
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                   <div>
                     <label className="block text-lg font-semibold mb-2 text-green-400">
-                      Nombre:
+                      Name:
                     </label>
                     <input
                       type="text"
@@ -159,7 +159,7 @@ const Profile = () => {
                   </div>
                   <div>
                     <label className="block text-lg font-semibold mb-2 text-green-400">
-                      Apellido:
+                      Surname:
                     </label>
                     <input
                       type="text"
@@ -185,7 +185,7 @@ const Profile = () => {
                   </div>
                   <div className="relative">
                     <label className="block text-lg font-semibold mb-2 text-green-400">
-                      Nueva contraseña (opcional):
+                      New Password (Optional):
                     </label>
                     <div className="flex items-center border border-gray-700 rounded-md bg-gray-700">
                       <input
@@ -215,21 +215,21 @@ const Profile = () => {
                       type="submit"
                       className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                     >
-                      Guardar
+                      Save
                     </button>
                     <button
                       type="button"
                       onClick={handleCancel}
                       className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 w-32"
                     >
-                      Cancelar
+                      Cancel
                     </button>
                   </div>
                 </form>
               )}
             </>
           ) : (
-            <div className="text-red-500">Usuario no encontrado.</div>
+            <div className="text-red-500">User not found</div>
           )}
         </div>
       </main>
