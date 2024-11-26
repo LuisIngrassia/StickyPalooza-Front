@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../../components/general/NavBar";
 import Footer from "../../components/general/Footer";
+
 import api from "../../api/Api";
 import { useNavigate } from "react-router-dom";
+import ContactForm from "../../components/general/ContactForm";
 
 const MainPage = () => {
   const [products, setProducts] = useState([]);
@@ -121,7 +123,7 @@ const MainPage = () => {
           )}
 
           {role !== "ADMIN" && (
-            <div className="mb-8  flex flex-col items-center">
+            <div className="mb-8 flex flex-col items-center">
               <h3 className="text-2xl font-bold mb-4 text-green-400">
                 Available Products
               </h3>
@@ -165,6 +167,11 @@ const MainPage = () => {
         </div>
       </main>
       <Footer />
+      <div className="bg-gray-800 py-8">
+        <div className="container mx-auto px-2">
+          <ContactForm />
+        </div>
+      </div>
     </div>
   );
 };
