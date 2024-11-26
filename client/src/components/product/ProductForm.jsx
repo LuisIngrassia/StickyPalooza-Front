@@ -1,16 +1,23 @@
-import React from 'react';
-import ProductFormLogic from './ProductFormLogic';
+import React from "react";
+import ProductFormLogic from "./ProductFormLogic";
 
 const ProductForm = ({ product, onSave, onCancel, categories }) => {
-  const { formData, handleChange, handleSubmit, isSubmitting } = ProductFormLogic({ product, onSave });
+  const { formData, handleChange, handleSubmit, isSubmitting } =
+    ProductFormLogic({ product, onSave });
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data" className="bg-gray-800 p-6 rounded-lg">
+    <form
+      onSubmit={handleSubmit}
+      encType="multipart/form-data"
+      className="bg-gray-800 p-6 rounded-lg"
+    >
       <h2 className="text-xl font-bold text-green-400 mb-4 text-center">
-        {product && product.id ? 'Editar Producto' : 'Crear Producto'}
+        {product && product.id ? "Editar Producto" : "Crear Producto"}
       </h2>
-      
-      <label className="text-gray-300 font-semibold mb-2 block">Product Name</label>
+      {/* Product Name */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Product Name
+      </label>
       <input
         type="text"
         name="name"
@@ -19,26 +26,32 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
         required
       />
-
-      <label className="text-gray-300 font-semibold mb-2 block">Description</label>
+      {/* Description */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Description
+      </label>
       <textarea
         name="description"
         value={formData.description}
         onChange={handleChange}
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
-
-      <label className="text-gray-300 font-semibold mb-2 block">Price (w/o discount)</label>
+      {/* Price */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Price (w/o discount)
+      </label>
       <input
         type="number"
         name="originalPrice"
         value={formData.originalPrice || 0}
         onChange={handleChange}
-        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none" 
+        className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
         required
       />
-
-      <label className="text-gray-300 font-semibold mb-2 block">Stock Quantity</label>
+      {/* Stock Quantity */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Stock Quantity
+      </label>
       <input
         type="number"
         name="stockQuantity"
@@ -47,8 +60,10 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
         required
       />
-
-      <label className="text-gray-300 font-semibold mb-2 block">Category ID</label>
+      {/* Category ID */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Category ID
+      </label>
       <select
         type="number"
         name="categoryId"
@@ -68,8 +83,10 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
           <option disabled>No available categories.</option>
         )}
       </select>
-
-      <label className="text-gray-300 font-semibold mb-2 block">Discount (%)</label>
+      z{/* Discount */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Discount (%)
+      </label>
       <input
         type="number"
         name="discountPercentage"
@@ -77,27 +94,30 @@ const ProductForm = ({ product, onSave, onCancel, categories }) => {
         onChange={handleChange}
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600 appearance-none"
       />
-
-      <label className="text-gray-300 font-semibold mb-2 block">Product Image</label>
+      {/* Image */}
+      <label className="text-gray-300 font-semibold mb-2 block">
+        Product Image
+      </label>
       <input
         type="file"
         name="Imagen"
         onChange={handleChange}
         className="w-full mb-4 p-2 rounded-md bg-gray-700 text-green-300 border border-gray-600"
       />
-
       <div className="flex justify-between">
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full p-2 rounded-md ${isSubmitting ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-500'} text-white`}
+          className={`w-full p-2 rounded-md ${
+            isSubmitting ? "bg-gray-500" : "bg-green-600 hover:bg-green-500"
+          } text-white`}
         >
-          {isSubmitting ? 'Saving...' : 'Save Product'}
+          {isSubmitting ? "Guardando..." : "Guardar Producto"}
         </button>
 
         <button
           type="button"
-          onClick={onCancel} 
+          onClick={onCancel}
           className="w-full ml-4 p-2 rounded-md bg-red-600 text-white"
         >
           Close

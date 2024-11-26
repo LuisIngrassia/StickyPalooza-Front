@@ -21,9 +21,6 @@ const Order = () => {
     setOrders(initialOrders);
   }, [initialOrders]);
 
-  if (loading) return <div className="text-green-300">Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-
   const handleConversion = (updatedOrder) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>

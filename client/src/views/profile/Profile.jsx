@@ -67,17 +67,27 @@ const Profile = () => {
       password: "",
     });
   };
-  
+
   if (loading)
     return (
-      <div className="text-center text-green-300 py-4 bg-red-500">
-        Loading...
+      <div className="min-h-screen bg-gray-900 flex flex-col">
+        <div className="flex-grow flex items-center justify-center px-4 py-12">
+          <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl">
+            <div className="text-center text-green-300 py-4">Loading...</div>
+          </div>
+        </div>
       </div>
     );
   if (error)
     return (
-      <div className="text-center text-red-500 py-4 bg-blue-500">
-        Error: {error}
+      <div className="min-h-screen bg-gray-900 flex flex-col">
+        <div className="flex-grow flex items-center justify-center px-4 py-12">
+          <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl">
+            <div className="text-center text-red-500 py-4 bg-blue-500">
+              Error: {error}
+            </div>
+          </div>
+        </div>
       </div>
     );
 

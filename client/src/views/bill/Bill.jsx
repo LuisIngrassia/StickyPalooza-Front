@@ -15,9 +15,6 @@ const Bill = () => {
     handleSearch,
   } = useBillLogic();
 
-  if (loading) return <div className="text-green-300">Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-
   const userRole = localStorage.getItem("role");
 
   return (

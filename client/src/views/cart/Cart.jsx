@@ -7,7 +7,7 @@ import {
   PlusIcon,
   MinusIcon,
   TrashIcon,
-} from "@heroicons/react/24/solid"; 
+} from "@heroicons/react/24/solid";
 import Footer from "../../components/general/Footer";
 
 const Cart = () => {
@@ -34,10 +34,6 @@ const Cart = () => {
   };
 
   const navigate = useNavigate();
-
-  if (loading) {
-    return <div className="text-center text-white">Loading...</div>;
-  }
 
   return (
     <div className="min-h-screen bg-gray-900 p-6 text-white flex flex-col items-center justify-center">
